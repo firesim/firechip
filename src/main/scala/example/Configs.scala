@@ -6,6 +6,7 @@ import freechips.rocketchip.config.{Parameters, Config}
 import freechips.rocketchip.coreplex.WithRoccExample
 import freechips.rocketchip.diplomacy.LazyModule
 import testchipip._
+import icenet._
 
 class WithExampleTop extends Config((site, here, up) => {
   case BuildTop => (p: Parameters) =>

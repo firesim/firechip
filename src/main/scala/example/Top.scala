@@ -4,6 +4,7 @@ import chisel3._
 import freechips.rocketchip.config.Parameters
 import freechips.rocketchip.chip._
 import testchipip._
+import icenet._
 
 class ExampleTop(implicit p: Parameters) extends BaseSystem
     with HasPeripheryMasterAXI4MemPort

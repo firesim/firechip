@@ -18,26 +18,26 @@ include $(base_dir)/Makefrag
 
 sim_vsrcs = \
 	$(build_dir)/$(PROJECT).$(MODEL).$(CONFIG).v \
+	$(base_dir)/icenet/vsrc/SimNetwork.v \
 	$(base_dir)/rocket-chip/vsrc/TestDriver.v \
 	$(base_dir)/rocket-chip/vsrc/AsyncResetReg.v \
 	$(base_dir)/rocket-chip/vsrc/plusarg_reader.v \
 	$(base_dir)/testchipip/vsrc/SimSerial.v \
 	$(base_dir)/testchipip/vsrc/SimBlockDevice.v \
-	$(base_dir)/testchipip/vsrc/SimNetwork.v \
 
 sim_csrcs = \
+	$(base_dir)/icenet/csrc/SimNetwork.cc \
+	$(base_dir)/icenet/csrc/network.cc \
 	$(base_dir)/testchipip/csrc/SimSerial.cc \
 	$(base_dir)/testchipip/csrc/SimBlockDevice.cc \
-	$(base_dir)/testchipip/csrc/SimNetwork.cc \
 	$(base_dir)/testchipip/csrc/blkdev.cc \
-	$(base_dir)/testchipip/csrc/network.cc \
 
 VCS = vcs -full64
 
 VCS_OPTS = -notice -line +lint=all,noVCDE,noONGS,noUI -error=PCWM-L -timescale=1ns/10ps -quiet \
 	+rad +v2k +vcs+lic+wait \
 	+vc+list -CC "-I$(VCS_HOME)/include" \
-	-CC "-I$(RISCV)/include -I$(base_dir)/testchipip/csrc" \
+	-CC "-I$(RISCV)/include -I$(base_dir)/testchipip/csrc -I$(base_dir)/icenet/csrc" \
 	-CC "-std=c++11" \
 	-CC "-Wl,-rpath,$(RISCV)/lib" \
 	$(RISCV)/lib/libfesvr.so \
