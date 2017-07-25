@@ -14,8 +14,10 @@ default: $(sim)
 
 debug: $(sim_debug)
 
+LIBDIRS := $(RISCV)/lib $(base_dir)/icenet/build
 CXXFLAGS := $(CXXFLAGS) -O1 -std=c++11 -I$(RISCV)/include -D__STDC_FORMAT_MACROS
-LDFLAGS := $(LDFLAGS) -L$(RISCV)/lib -Wl,-rpath,$(RISCV)/lib -L$(sim_dir) -lfesvr -lpthread
+LDFLAGS := $(LDFLAGS) $(foreach libdir,$(LIBDIRS),-L$(libdir) -Wl,-rpath,$(libdir)) \
+	   -lfesvr -licenet -lpthread
 
 include $(base_dir)/Makefrag
 include $(sim_dir)/Makefrag-verilator
@@ -31,7 +33,6 @@ sim_vsrcs = \
 
 sim_csrcs = \
 	$(base_dir)/icenet/csrc/SimNetwork.cc \
-	$(base_dir)/icenet/csrc/network.cc \
 	$(base_dir)/testchipip/csrc/SimSerial.cc \
 	$(base_dir)/testchipip/csrc/SimBlockDevice.cc \
 	$(base_dir)/testchipip/csrc/blkdev.cc \

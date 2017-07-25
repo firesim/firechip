@@ -27,7 +27,6 @@ sim_vsrcs = \
 
 sim_csrcs = \
 	$(base_dir)/icenet/csrc/SimNetwork.cc \
-	$(base_dir)/icenet/csrc/network.cc \
 	$(base_dir)/testchipip/csrc/SimSerial.cc \
 	$(base_dir)/testchipip/csrc/SimBlockDevice.cc \
 	$(base_dir)/testchipip/csrc/blkdev.cc \
@@ -39,8 +38,8 @@ VCS_OPTS = -notice -line +lint=all,noVCDE,noONGS,noUI -error=PCWM-L -timescale=1
 	+vc+list -CC "-I$(VCS_HOME)/include" \
 	-CC "-I$(RISCV)/include -I$(base_dir)/testchipip/csrc -I$(base_dir)/icenet/csrc" \
 	-CC "-std=c++11" \
-	-CC "-Wl,-rpath,$(RISCV)/lib" \
-	$(RISCV)/lib/libfesvr.so \
+	-CC "-Wl,-rpath,$(RISCV)/lib -Wl,-rpath,$(base_dir)/icenet/build" \
+	$(RISCV)/lib/libfesvr.so $(base_dir)/icenet/build/libicenet.so \
 	-sverilog \
 	+incdir+$(generated_dir) \
 	+define+CLOCK_PERIOD=1.0 $(sim_vsrcs) $(sim_csrcs) \
