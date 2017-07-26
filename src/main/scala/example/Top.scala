@@ -43,11 +43,11 @@ class ExampleTopWithBlockDeviceModule(l: ExampleTopWithBlockDevice)
   extends ExampleTopModule(l)
   with HasPeripheryBlockDeviceModuleImp
 
-class ExampleTopWithSimpleNIC(implicit p: Parameters) extends ExampleTop
-    with HasPeripherySimpleNIC {
-  override lazy val module = new ExampleTopWithSimpleNICModule(this)
+class ExampleTopWithIceNIC(implicit p: Parameters) extends ExampleTop
+    with HasPeripheryIceNIC {
+  override lazy val module = new ExampleTopWithIceNICModule(this)
 }
 
-class ExampleTopWithSimpleNICModule(outer: ExampleTopWithSimpleNIC)
+class ExampleTopWithIceNICModule(outer: ExampleTopWithIceNIC)
   extends ExampleTopModule(outer)
-  with HasPeripherySimpleNICModuleImp
+  with HasPeripheryIceNICModuleImp
