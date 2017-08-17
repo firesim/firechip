@@ -34,6 +34,7 @@ class WithSimBlockDevice extends Config((site, here, up) => {
 })
 
 class WithLoopbackNIC extends Config((site, here, up) => {
+  case NICKey => NICConfig()
   case BuildTop => (p: Parameters) => {
     val top = Module(LazyModule(new ExampleTopWithIceNIC()(p)).module)
     top.connectNicLoopback()
@@ -42,6 +43,7 @@ class WithLoopbackNIC extends Config((site, here, up) => {
 })
 
 class WithSimNetwork extends Config((site, here, up) => {
+  case NICKey => NICConfig(inBufPackets = 10)
   case BuildTop => (p: Parameters) => {
     val top = Module(LazyModule(new ExampleTopWithIceNIC()(p)).module)
     top.connectSimNetwork()
