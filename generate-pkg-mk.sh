@@ -9,7 +9,7 @@ do
 ${base_dir}/lib/${pkg}.stamp: \$(call lookup_scala_srcs, ${pkg_dir}) \$(rocketchip_stamp)
 	rm -f ${pkg_dir}/lib
 	ln -s ${base_dir}/lib ${pkg_dir}/lib
-	cd ${pkg_dir} && \$(SBT) package
+	cd ${pkg_dir} && \$(SBT) ++\$(SCALA_VERSION) package
 	cp ${pkg_dir}/target/scala-2.11/*.jar ${base_dir}/lib
 	touch \$@
 MAKE

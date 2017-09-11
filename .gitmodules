@@ -7,3 +7,6 @@
 [submodule "icenet"]
 	path = icenet
 	url = git@github.com:firesim/icenet.git
+[submodule "sifive-blocks"]
+	path = sifive-blocks
+	url = https://github.com/sifive/sifive-blocks.git
