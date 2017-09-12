@@ -4,6 +4,8 @@ SECTIONS
 
     . = ROM_BASE;
     .text.start : { *(.text.start) }
-    . = ROM_BASE + 0x40;
+    . = ROM_BASE + 0x80;
     .text.hang : { *(.text.hang) }
+    . = ROM_BASE + 0x100;
+    .data : { *(.data) }
 }

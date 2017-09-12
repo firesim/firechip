@@ -2,8 +2,10 @@ package example
 
 import chisel3._
 import freechips.rocketchip.config.{Parameters, Config}
-import freechips.rocketchip.coreplex.{WithRoccExample, WithNMemoryChannels}
+import freechips.rocketchip.coreplex.{WithRoccExample, WithNMemoryChannels, RocketTilesKey, WithNBigCores}
 import freechips.rocketchip.diplomacy.LazyModule
+import freechips.rocketchip.devices.tilelink.BootROMParams
+import java.nio.{ByteOrder, ByteBuffer}
 import testchipip._
 import icenet._
 
@@ -51,7 +53,27 @@ class WithSimNetwork extends Config((site, here, up) => {
   }
 })
 
+class WithExampleBootROMParams extends Config((site, here, up) => {
+  case BootROMParams => BootROMParams(
+    hang = 0x10080,
+    contentFileName = "./bootrom/bootrom.img",
+    patchFunction = (buffer: ByteBuffer) => {
+      var replaced = true
+      buffer.order(ByteOrder.LITTLE_ENDIAN)
+      while (buffer.hasRemaining()) {
+        val pos = buffer.position()
+        if (buffer.getInt() == 0x0eadbe3f) {
+          buffer.putInt(pos, site(RocketTilesKey).size)
+          replaced = true
+        }
+      }
+      if (!replaced)
+        throw new Exception("Could not find placeholder for NCores")
+    })
+})
+
 class BaseExampleConfig extends Config(
+  new WithExampleBootROMParams ++
   new freechips.rocketchip.system.DefaultConfig)
 
 class DefaultExampleConfig extends Config(
@@ -79,3 +101,7 @@ class WithFourTrackers extends WithNBlockDeviceTrackers(4)
 
 class WithTwoMemChannels extends WithNMemoryChannels(2)
 class WithFourMemChannels extends WithNMemoryChannels(4)
+
+class DualCoreConfig extends Config(
+  // Core is tacked onto the end
+  new WithNBigCores(1) ++ new DefaultExampleConfig)
