@@ -8,17 +8,17 @@ import testchipip._
 import icenet._
 
 class WithExampleTop extends Config((site, here, up) => {
-  case BuildTop => (p: Parameters) =>
+  case BuildTop => (clock: Clock, reset: Bool, p: Parameters) =>
     Module(LazyModule(new ExampleTop()(p)).module)
 })
 
 class WithPWM extends Config((site, here, up) => {
-  case BuildTop => (p: Parameters) =>
+  case BuildTop => (clock: Clock, reset: Bool, p: Parameters) =>
     Module(LazyModule(new ExampleTopWithPWM()(p)).module)
 })
 
 class WithBlockDeviceModel extends Config((site, here, up) => {
-  case BuildTop => (p: Parameters) => {
+  case BuildTop => (clock: Clock, reset: Bool, p: Parameters) => {
     val top = Module(LazyModule(new ExampleTopWithBlockDevice()(p)).module)
     top.connectBlockDeviceModel()
     top
@@ -26,16 +26,16 @@ class WithBlockDeviceModel extends Config((site, here, up) => {
 })
 
 class WithSimBlockDevice extends Config((site, here, up) => {
-  case BuildTop => (p: Parameters) => {
+  case BuildTop => (clock: Clock, reset: Bool, p: Parameters) => {
     val top = Module(LazyModule(new ExampleTopWithBlockDevice()(p)).module)
-    top.connectSimBlockDevice()
+    top.connectSimBlockDevice(clock, reset)
     top
   }
 })
 
 class WithLoopbackNIC extends Config((site, here, up) => {
   case NICKey => NICConfig()
-  case BuildTop => (p: Parameters) => {
+  case BuildTop => (clock: Clock, reset: Bool, p: Parameters) => {
     val top = Module(LazyModule(new ExampleTopWithIceNIC()(p)).module)
     top.connectNicLoopback()
     top
@@ -44,9 +44,9 @@ class WithLoopbackNIC extends Config((site, here, up) => {
 
 class WithSimNetwork extends Config((site, here, up) => {
   case NICKey => NICConfig(inBufPackets = 10)
-  case BuildTop => (p: Parameters) => {
+  case BuildTop => (clock: Clock, reset: Bool, p: Parameters) => {
     val top = Module(LazyModule(new ExampleTopWithIceNIC()(p)).module)
-    top.connectSimNetwork()
+    top.connectSimNetwork(clock, reset)
     top
   }
 })
