@@ -48,3 +48,12 @@ class ExampleTopWithIceNIC(implicit p: Parameters) extends ExampleTop
 class ExampleTopWithIceNICModule(outer: ExampleTopWithIceNIC)
   extends ExampleTopModule(outer)
   with HasPeripheryIceNICModuleImp
+
+class ExampleTopWithFSimManager(implicit p:Parameters) extends ExampleTop
+  with HasPeripheryFSimManager {
+    override lazy val module = new ExampleTopWithFSimManagerModule(this)
+  }
+
+class ExampleTopWithFSimManagerModule(outer: ExampleTopWithFSimManager)
+  extends ExampleTopModule(outer)
+  with HasPeripheryFSimManagerModuleImp

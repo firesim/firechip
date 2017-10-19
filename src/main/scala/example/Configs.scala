@@ -51,6 +51,15 @@ class WithSimNetwork extends Config((site, here, up) => {
   }
 })
 
+class WithSimFSimManager extends Config((site, here, up) => {
+  case BuildTop => (clock: Clock, reset: Bool, p:Parameters) => {
+    val top = Module(LazyModule(new ExampleTopWithFSimManager()(p)).module)
+    top.connectSimFSimManager(clock, reset)
+    top
+  }
+})
+
+
 class BaseExampleConfig extends Config(
   new freechips.rocketchip.system.DefaultConfig)
 
@@ -73,6 +82,9 @@ class LoopbackNICConfig extends Config(
 
 class SimNetworkConfig extends Config(
   new WithSimNetwork ++ new BaseExampleConfig)
+
+class SimFSimManagerConfig extends Config(
+  new WithSimFSimManager ++ new BaseExampleConfig)
 
 class WithTwoTrackers extends WithNBlockDeviceTrackers(2)
 class WithFourTrackers extends WithNBlockDeviceTrackers(4)

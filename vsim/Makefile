@@ -24,19 +24,22 @@ sim_vsrcs = \
 	$(base_dir)/rocket-chip/vsrc/plusarg_reader.v \
 	$(base_dir)/testchipip/vsrc/SimSerial.v \
 	$(base_dir)/testchipip/vsrc/SimBlockDevice.v \
+	$(base_dir)/vsrc/SimFSimManager.v \
 
 sim_csrcs = \
 	$(base_dir)/icenet/csrc/SimNetwork.cc \
 	$(base_dir)/testchipip/csrc/SimSerial.cc \
 	$(base_dir)/testchipip/csrc/SimBlockDevice.cc \
 	$(base_dir)/testchipip/csrc/blkdev.cc \
+	$(base_dir)/csrc/fsim-manager.cc \
+	$(base_dir)/csrc/SimFSimManager.cc
 
 VCS = vcs -full64
 
 VCS_OPTS = -notice -line +lint=all,noVCDE,noONGS,noUI -error=PCWM-L -timescale=1ns/10ps -quiet \
 	+rad +v2k +vcs+lic+wait \
 	+vc+list -CC "-I$(VCS_HOME)/include" \
-	-CC "-I$(RISCV)/include -I$(base_dir)/testchipip/csrc -I$(base_dir)/icenet/csrc" \
+	-CC "-I$(RISCV)/include -I$(base_dir)/testchipip/csrc -I$(base_dir)/icenet/csrc" -I$(base_dir)/csrc \
 	-CC "-std=c++11" \
 	-CC "-Wl,-rpath,$(RISCV)/lib -Wl,-rpath,$(base_dir)/icenet/build" \
 	$(RISCV)/lib/libfesvr.so $(base_dir)/icenet/build/libicenet.so \
