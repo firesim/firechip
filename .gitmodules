@@ -3,8 +3,7 @@
 	url = https://github.com/ucb-bar/rocket-chip.git
 [submodule "testchipip"]
 	path = testchipip
-	url = https://github.com/dayeol/testchipip.git
-	branch = fsim-manager
+	url = https://github.com/ucb-bar/testchipip.git
 [submodule "icenet"]
 	path = icenet
 	url = git@github.com:firesim/icenet.git
