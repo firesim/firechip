@@ -12,26 +12,17 @@ int main(void)
 {
 	int resp;
 	int i;
-	printf("hell yeah\n");
+	reg_write32(WALLCLK_REQ, 10);
+	printf("wrote request\n");
+	resp = reg_read32(WALLCLK_RESP);
+	printf("resp: %d\n", resp);
+
 	reg_write32(WALLCLK_REQ, 1);
 	printf("wrote request\n");
 	resp = reg_read32(WALLCLK_RESP);
 	printf("resp: %d\n", resp);
 
-	/*for(i=0; i<1000; i++)
-	{
-		resp = reg_read32(WALLCLK_RESP);
-	}*/
-	reg_write32(WALLCLK_REQ, 1);
-	printf("wrote request\n");
-	resp = reg_read32(WALLCLK_RESP);
-	printf("resp: %d\n", resp);
 
-
-	/*for(i=0; i<1000; i++)
-	{
-		resp = reg_read32(WALLCLK_RESP);
-	}*/
 	reg_write32(WALLCLK_REQ, 1);
 	printf("wrote request\n");
 	resp = reg_read32(WALLCLK_RESP);
