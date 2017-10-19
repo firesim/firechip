@@ -4,7 +4,7 @@
 [submodule "testchipip"]
 	path = testchipip
 	url = https://github.com/dayeol/testchipip.git
-	branch = wallclock
+	branch = fsim-manager
 [submodule "icenet"]
 	path = icenet
 	url = git@github.com:firesim/icenet.git
