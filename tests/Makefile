@@ -1,4 +1,4 @@
-GCC=$(RISCV)/bin/riscv64-unknown-elf-gcc
+GCC=riscv64-unknown-elf-gcc
 OBJDUMP=riscv64-unknown-elf-objdump
 CFLAGS=-mcmodel=medany -std=gnu99 -O2 -fno-common -fno-builtin-printf -Wall
 LDFLAGS=-static -nostdlib -nostartfiles -lgcc
