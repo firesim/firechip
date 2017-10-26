@@ -23,13 +23,13 @@ trait FSimManagerControllerBundle extends Bundle {
   val ext = new FSimManagerIO
 }
 
-class FSimResponserIO extends Bundle {
+class FSimResponderIO extends Bundle {
   val respOut = Decoupled(UInt(32.W))
   val respIn = Flipped(Decoupled(UInt(32.W)))
 }
 
-class FSimResponser extends Module {
-  val io = IO(new FSimResponserIO)
+class FSimResponder extends Module {
+  val io = IO(new FSimResponderIO)
 
   io.respOut.valid := true.B
   io.respOut.bits := Mux(io.respIn.valid, io.respIn.bits, 0.U)
@@ -45,7 +45,7 @@ trait FSimManagerControllerModule extends HasRegMap {
   val requestQueue = Module(new Queue(UInt(32.W),10))
   val responseQueue = Module(new Queue(UInt(32.W),10))
 
-  val responser = Module(new FSimResponser)
+  val responser = Module(new FSimResponder)
   //val data = Reg(UInt(32.W))
 
   io.ext.req <> requestQueue.io.deq
