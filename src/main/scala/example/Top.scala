@@ -1,5 +1,6 @@
 package example
 
+import fsimman._
 import chisel3._
 import freechips.rocketchip.coreplex._
 import freechips.rocketchip.config.Parameters

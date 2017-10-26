@@ -5,6 +5,7 @@ import freechips.rocketchip.config.{Parameters, Config}
 import freechips.rocketchip.coreplex.{WithRoccExample, WithNMemoryChannels, WithNBigCores}
 import freechips.rocketchip.diplomacy.LazyModule
 import testchipip._
+import fsimman._
 import icenet._
 
 class WithExampleTop extends Config((site, here, up) => {
