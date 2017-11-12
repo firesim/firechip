@@ -1,0 +1,49 @@
+package hls_adder
+import freechips.rocketchip.system._
+import freechips.rocketchip.config.Config
+import testchipip.GeneratorApp
+import chisel3._
+import freechips.rocketchip.diplomacy.LazyModule
+import freechips.rocketchip.config.{Field, Parameters}
+import testchipip.GeneratorApp
+
+// case object BuildTop extends Field[(Clock, Bool, Parameters) => HLSTopModule[HLSTop]]
+class WithHLSRoccExample1 extends Config((site, here, up) => {
+   case RocketTilesKey => up(RocketTilesKey, site) map { r =>
+    r.copy(rocc =
+      Seq(
+        RoCCParams(
+          opcodes = OpcodeSet.custom0,
+          generator = (p: Parameters) => {
+            val hls= LazyModule(new HLSAddControl()(p))
+            hls
+          })
+        //RoCCParams(
+        //  opcodes = OpcodeSet.custom1,
+        //  generator = (p: Parameters) => {
+        //    val translator = LazyModule(new TranslatorExample()(p))
+        //    translator},
+        //  nPTWPorts = 1),
+        ))
+    }
+})
+
+
+case object RocketTilesKey extends Field[(Clock, Bool, Parameters) => HLSTopModule[HLSTop]]
+
+class TestHarness(implicit val p: Parameters) extends Module {
+  val io = IO(new Bundle {
+    val success = Output(Bool())
+  })
+
+  val dut = p(RocketTilesKey)(clock, reset.toBool, p)
+  dut.connectSimAXIMem()
+  io.success := dut.connectSimSerial()
+}
+
+//import freechips.rocketchip.system.DefaultConfig
+class HLSAdderConfig1 extends Config(new WithHLSRoccExample1 ++ new DefaultConfig)
+
+object Generator extends GeneratorApp {
+  generateFirrtl
+}

@@ -1,0 +1,715 @@
+@I [HLS-0] Workspace /scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1 opened at Sun Nov 05 12:40:11 PST 2017
+@I [HLS-100] Command 'open_solution' returned 0; elapsed 0.007559Total elapsed time: 0.825 sec.
+@I [HLS-100] Command "set_part xc7k160tfbg484-2 "
+@I [HLS-100] Command "add_library xilinx/kintex7/kintex7:xc7k160t:fbg484:-2 "
+@I [HLS-100] Command "get_default_platform "
+@I [HLS-100] Command 'get_default_platform' returned 0; elapsed 1e-05Total elapsed time: 0.831 sec.
+@I [HLS-100] Command "license_exists VIVADO_HLS "
+@I [HLS-100] Command 'license_exists' returned 1; elapsed 0.009711Total elapsed time: 0.960 sec.
+@I [HLS-100] Command "license_exists ap_opencl "
+@I [HLS-100] Command 'license_exists' returned 0; elapsed 1.3e-05Total elapsed time: 0.960 sec.
+@I [HLS-100] Command "open_platform DefaultPlatform "
+@I [HLS-100] Command 'open_platform' returned 0; elapsed 8.1e-05Total elapsed time: 0.962 sec.
+@I [HLS-100] Command "import_lib /ecad/tools/xilinx/Vivado_HLS/2015.2/common/technology/xilinx/kintex7/kintex7 "
+@I [HLS-100] Command "source /ecad/tools/xilinx/Vivado_HLS/2015.2/common/technology/xilinx/common/xilinx.lib "
+@I [HLS-100] Command "source /ecad/tools/xilinx/Vivado_HLS/2015.2/common/technology/xilinx/interface/xilinx_interface.lib "
+@I [HLS-100] Command "source /ecad/tools/xilinx/Vivado_HLS/2015.2/common/technology/xilinx/interface/plb46.lib "
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.000905Total elapsed time: 0.971 sec.
+@I [HLS-100] Command "source /ecad/tools/xilinx/Vivado_HLS/2015.2/common/technology/xilinx/interface/fsl.lib "
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.000692Total elapsed time: 0.972 sec.
+@I [HLS-100] Command "source /ecad/tools/xilinx/Vivado_HLS/2015.2/common/technology/xilinx/interface/axi4.lib "
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.000771Total elapsed time: 0.974 sec.
+@I [HLS-100] Command "source /ecad/tools/xilinx/Vivado_HLS/2015.2/common/technology/xilinx/interface/maxi.lib "
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.00067Total elapsed time: 0.976 sec.
+@I [HLS-100] Command "source /ecad/tools/xilinx/Vivado_HLS/2015.2/common/technology/xilinx/interface/saxilite.lib "
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.000463Total elapsed time: 0.978 sec.
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.004897Total elapsed time: 0.978 sec.
+@I [HLS-100] Command "source /ecad/tools/xilinx/Vivado_HLS/2015.2/common/technology/xilinx/common/dsp48.lib "
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.000633Total elapsed time: 0.980 sec.
+@I [HLS-100] Command "source /ecad/tools/xilinx/Vivado_HLS/2015.2/common/technology/xilinx/ip/dds_compiler.lib "
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.000536Total elapsed time: 0.983 sec.
+@I [HLS-100] Command "source /ecad/tools/xilinx/Vivado_HLS/2015.2/common/technology/xilinx/ip/xfir.lib "
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.000423Total elapsed time: 0.984 sec.
+@I [HLS-100] Command "source /ecad/tools/xilinx/Vivado_HLS/2015.2/common/technology/xilinx/ip/xfft.lib "
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.000394Total elapsed time: 0.985 sec.
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.012414Total elapsed time: 0.989 sec.
+@I [HLS-100] Command "source /ecad/tools/xilinx/Vivado_HLS/2015.2/common/technology/xilinx/common/xilinx_old.lib "
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.001678Total elapsed time: 0.994 sec.
+@I [HLS-100] Command "source /ecad/tools/xilinx/Vivado_HLS/2015.2/common/technology/xilinx/common/xilinx_vivado.lib "
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.001397Total elapsed time: 0.996 sec.
+@I [HLS-100] Command "source /ecad/tools/xilinx/Vivado_HLS/2015.2/common/technology/xilinx/common/xilinx.hlp "
+@I [HLS-100] Command "source /ecad/tools/xilinx/Vivado_HLS/2015.2/common/technology/xilinx/common/target_info.tcl "
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.000487Total elapsed time: 1.5 sec.
+@I [HLS-100] Command "source /ecad/tools/xilinx/Vivado_HLS/2015.2/common/technology/xilinx/interface/xilinx_interface.hlp "
+@I [HLS-100] Command "source /ecad/tools/xilinx/Vivado_HLS/2015.2/common/technology/xilinx/interface/maxi.hlp "
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.000503Total elapsed time: 1.8 sec.
+@I [HLS-100] Command "source /ecad/tools/xilinx/Vivado_HLS/2015.2/common/technology/xilinx/interface/saxilite.hlp "
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.000427Total elapsed time: 1.9 sec.
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.001613Total elapsed time: 1.9 sec.
+@I [HLS-100] Command "source /ecad/tools/xilinx/Vivado_HLS/2015.2/common/technology/xilinx/common/dsp48.hlp "
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.001337Total elapsed time: 1.12 sec.
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.005762Total elapsed time: 1.13 sec.
+@I [HLS-100] Command "source /ecad/tools/xilinx/Vivado_HLS/2015.2/common/technology/xilinx/kintex7/dsp48e1.hlp "
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.000441Total elapsed time: 1.15 sec.
+@I [HLS-100] Command "get_default_platform "
+@I [HLS-100] Command 'get_default_platform' returned 0; elapsed 8e-06Total elapsed time: 1.15 sec.
+@I [HLS-100] Command "config_chip_info -quiet -resource  {SLICE 50950} {LUT 203800}    {FF 407600} {DSP48E 840}    {BRAM 890}  "
+@I [HLS-100] Command 'config_chip_info' returned 0; elapsed 3e-05Total elapsed time: 1.15 sec.
+@I [HLS-100] Command "config_chip_info -quiet -speed medium "
+@I [HLS-100] Command 'config_chip_info' returned 0; elapsed 9e-06Total elapsed time: 1.15 sec.
+@I [HLS-100] Command 'import_lib' returned 0; elapsed 0.031582Total elapsed time: 1.18 sec.
+@I [HLS-100] Command "source /ecad/tools/xilinx/Vivado_HLS/2015.2/common/technology/xilinx/kintex7/kintex7.gen "
+@I [HLS-100] Command "source /ecad/tools/xilinx/Vivado_HLS/2015.2/common/technology/xilinx/common/virtex.gen "
+@I [HLS-100] Command "source /ecad/tools/xilinx/Vivado_HLS/2015.2/common/technology/xilinx/common/xilinx.gen "
+@I [HLS-100] Command "source /ecad/tools/xilinx/Vivado_HLS/2015.2/common/technology/xilinx/interface/plb46.gen "
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.002053Total elapsed time: 1.25 sec.
+@I [HLS-100] Command "source /ecad/tools/xilinx/Vivado_HLS/2015.2/common/technology/xilinx/interface/fsl.gen "
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.001038Total elapsed time: 1.27 sec.
+@I [HLS-100] Command "source /ecad/tools/xilinx/Vivado_HLS/2015.2/common/technology/xilinx/interface/axi4.gen "
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.003657Total elapsed time: 1.32 sec.
+@I [HLS-100] Command "source /ecad/tools/xilinx/Vivado_HLS/2015.2/common/technology/xilinx/interface/nativeAXI4.gen "
+@I [HLS-100] Command "source /ecad/tools/xilinx/Vivado_HLS/2015.2/common/technology/xilinx/interface/saxilite.gen "
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.005443Total elapsed time: 1.40 sec.
+@I [HLS-100] Command "source /ecad/tools/xilinx/Vivado_HLS/2015.2/common/technology/xilinx/interface/maxi.gen "
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.011503Total elapsed time: 1.53 sec.
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.01764Total elapsed time: 1.53 sec.
+@I [HLS-100] Command "source /ecad/tools/xilinx/Vivado_HLS/2015.2/common/technology/xilinx/scripts/xilinxcoregen.gen "
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.014366Total elapsed time: 1.69 sec.
+@I [HLS-100] Command "source /ecad/tools/xilinx/Vivado_HLS/2015.2/common/technology/xilinx/interface/XilEDKCoreGen.gen "
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.011591Total elapsed time: 1.81 sec.
+@I [HLS-100] Command "source /ecad/tools/xilinx/Vivado_HLS/2015.2/common/technology/xilinx/ip/xfir.gen "
+@I [HLS-100] Command "source /ecad/tools/xilinx/Vivado_HLS/2015.2/tps/tcl/tcllib1.11.1/struct/list.tcl "
+@I [HLS-100] Command "source /ecad/tools/xilinx/Vivado_HLS/2015.2/tps/tcl/tcllib1.11.1/cmdline/cmdline.tcl "
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.001112Total elapsed time: 1.106 sec.
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.002502Total elapsed time: 1.107 sec.
+@I [HLS-100] Command "source /ecad/tools/xilinx/Vivado_HLS/2015.2/tps/tcl/tcllib1.11.1/math/bignum.tcl "
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.000943Total elapsed time: 1.121 sec.
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.042663Total elapsed time: 1.129 sec.
+@I [HLS-100] Command "source /ecad/tools/xilinx/Vivado_HLS/2015.2/common/technology/xilinx/ip/dds_compiler.gen "
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.004127Total elapsed time: 1.134 sec.
+@I [HLS-100] Command "source /ecad/tools/xilinx/Vivado_HLS/2015.2/common/technology/xilinx/ip/util.gen "
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.00039Total elapsed time: 1.135 sec.
+@I [HLS-100] Command "source /ecad/tools/xilinx/Vivado_HLS/2015.2/common/technology/xilinx/ip/xfft.gen "
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.114115Total elapsed time: 1.250 sec.
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.213095Total elapsed time: 1.250 sec.
+@I [HLS-100] Command "source /ecad/tools/xilinx/Vivado_HLS/2015.2/common/technology/xilinx/common/dsp48.gen "
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.000337Total elapsed time: 1.253 sec.
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.215341Total elapsed time: 1.253 sec.
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.215817Total elapsed time: 1.253 sec.
+@I [HLS-100] Command "get_default_platform "
+@I [HLS-100] Command 'get_default_platform' returned 0; elapsed 6e-06Total elapsed time: 1.253 sec.
+@I [HLS-100] Command "config_chip_info -quiet -resource  {SLICE 25350} {LUT 101400}    {FF 202800} {DSP48E 600}    {BRAM 650}  "
+@I [HLS-100] Command 'config_chip_info' returned 0; elapsed 1.8e-05Total elapsed time: 1.254 sec.
+@I [HLS-100] Command "config_chip_info -quiet -speed medium "
+@I [HLS-100] Command 'config_chip_info' returned 0; elapsed 5e-06Total elapsed time: 1.254 sec.
+@I [HLS-100] Command 'add_library' returned 0; elapsed 0.260685Total elapsed time: 1.254 sec.
+@I [HLS-100] Command "add_library xilinx/kintex7/kintex7_fpv6 "
+@I [HLS-100] Command "get_default_platform "
+@I [HLS-100] Command 'get_default_platform' returned 0; elapsed 4e-06Total elapsed time: 1.254 sec.
+@I [HLS-100] Command "license_exists VIVADO_HLS "
+@I [HLS-100] Command 'license_exists' returned 1; elapsed 0.008103Total elapsed time: 1.392 sec.
+@I [HLS-100] Command "license_exists ap_opencl "
+@I [HLS-100] Command 'license_exists' returned 0; elapsed 1.2e-05Total elapsed time: 1.392 sec.
+@I [HLS-100] Command "open_platform DefaultPlatform "
+@I [HLS-100] Command 'open_platform' returned 0; elapsed 1.3e-05Total elapsed time: 1.392 sec.
+@I [HLS-100] Command "import_lib /ecad/tools/xilinx/Vivado_HLS/2015.2/common/technology/xilinx/kintex7/kintex7_fpv6 "
+@I [HLS-100] Command "source /ecad/tools/xilinx/Vivado_HLS/2015.2/common/technology/xilinx/common/xilinx_fpv7.lib "
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.007948Total elapsed time: 1.406 sec.
+@I [HLS-100] Command "source /ecad/tools/xilinx/Vivado_HLS/2015.2/common/technology/xilinx/common/xilinx_fpv.hlp "
+@I [HLS-100] Command "source /ecad/tools/xilinx/Vivado_HLS/2015.2/common/technology/xilinx/common/xilinx.hlp "
+@I [HLS-100] Command "source /ecad/tools/xilinx/Vivado_HLS/2015.2/common/technology/xilinx/common/target_info.tcl "
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.000606Total elapsed time: 1.422 sec.
+@I [HLS-100] Command "source /ecad/tools/xilinx/Vivado_HLS/2015.2/common/technology/xilinx/interface/xilinx_interface.hlp "
+@I [HLS-100] Command "source /ecad/tools/xilinx/Vivado_HLS/2015.2/common/technology/xilinx/interface/maxi.hlp "
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.000404Total elapsed time: 1.424 sec.
+@I [HLS-100] Command "source /ecad/tools/xilinx/Vivado_HLS/2015.2/common/technology/xilinx/interface/saxilite.hlp "
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.00037Total elapsed time: 1.425 sec.
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.001229Total elapsed time: 1.425 sec.
+@I [HLS-100] Command "source /ecad/tools/xilinx/Vivado_HLS/2015.2/common/technology/xilinx/common/dsp48.hlp "
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.001308Total elapsed time: 1.427 sec.
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.005696Total elapsed time: 1.428 sec.
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.007049Total elapsed time: 1.429 sec.
+@I [HLS-100] Command "source /ecad/tools/xilinx/Vivado_HLS/2015.2/common/technology/xilinx/kintex7/kintex7_hp.hlp "
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.000819Total elapsed time: 1.431 sec.
+@I [HLS-100] Command 'import_lib' returned 0; elapsed 0.037043Total elapsed time: 1.438 sec.
+@I [HLS-100] Command "source /ecad/tools/xilinx/Vivado_HLS/2015.2/common/technology/xilinx/kintex7/kintex7_fpv6.gen "
+@I [HLS-100] Command "source /ecad/tools/xilinx/Vivado_HLS/2015.2/common/technology/xilinx/common/xilinx_fpv6.gen "
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.002806Total elapsed time: 1.443 sec.
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.003323Total elapsed time: 1.443 sec.
+@I [HLS-100] Command 'add_library' returned 0; elapsed 0.050915Total elapsed time: 1.444 sec.
+@I [HLS-10] Setting target device to 'xc7k160tfbg484-2'
+@I [HLS-100] Command 'set_part' returned 0; elapsed 0.3169Total elapsed time: 1.445 sec.
+@I [HLS-100] Command "create_clock -period 10 -name default "
+@I [HLS-100] Command "config_clock -quiet -name default -period 10 -default=false "
+@I [SYN-201] Setting up clock 'default' with a period of 10ns.
+@I [HLS-100] Command 'config_clock' returned 0; elapsed 8.6e-05Total elapsed time: 1.446 sec.
+@I [HLS-100] Command 'create_clock' returned 0; elapsed 0.001395Total elapsed time: 1.446 sec.
+@I [HLS-100] Command "csynth_design "
+@I [HLS-100] Command "elaborate -effort=medium -skip_syncheck=0 -lm=0 -skip_cdt=0 -skip_transform=0 -ng=0 -g=0 -opt_fp=0 "
+@I [HLS-10] Analyzing design file 'adpcm.c' ... 
+@0 [HLS-0] Analyzing design file 'adpcm.c' ... 
+@I [HLS-0] Compiling one TU...
+@I [HLS-0] 
+Checking before pre-process: exec clang -fno-limit-debug-info -gcc-toolchain "/ecad/tools/xilinx/Vivado_HLS/2015.2/lnx64/tools/gcc" -hls    -fno-math-errno -c -emit-llvm -O0  -mllvm -disable-llvm-optzns -std=gnu89   -DAESL_SYN -D__SYNTHESIS__ -D__HLS_SYN__ -I "/ecad/tools/xilinx/Vivado_HLS/2015.2/common/technology/autopilot" -I "/ecad/tools/xilinx/Vivado_HLS/2015.2/common/technology/autopilot/ap_sysc" -include etc/autopilot_ssdm_op.h  "adpcm.c"  -o "/scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/.autopilot/db/adpcm.pp.00.o"
+
+@I [HLS-100] Command "is_encrypted /scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/.autopilot/db/adpcm.pp.00.o "
+@I [HLS-100] Command 'is_encrypted' returned 0; elapsed 0.000404Total elapsed time: 1.581 sec.
+@I [HLS-0] Syntax Checker time: 0 seconds per iteration
+@I [HLS-0] 
+Source preprocessing: exec clang -fno-limit-debug-info -gcc-toolchain "/ecad/tools/xilinx/Vivado_HLS/2015.2/lnx64/tools/gcc" -hls -fno-exceptions  -D__llvm__  -CC -E "adpcm.c"     -fno-math-errno -c -emit-llvm -O0  -mllvm -disable-llvm-optzns -std=gnu89   -DAESL_SYN -D__SYNTHESIS__ -D__HLS_SYN__ -I "/ecad/tools/xilinx/Vivado_HLS/2015.2/common/technology/autopilot" -I "/ecad/tools/xilinx/Vivado_HLS/2015.2/common/technology/autopilot/ap_sysc" -include etc/autopilot_ssdm_op.h  -o "/scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/.autopilot/db/adpcm.pp.0.c"
+
+@I [HLS-0] GCC PP time: 0 seconds per iteration
+@I [HLS-100] Command "list_core -type functional_unit "
+@I [HLS-100] Command 'list_core' returned 0; elapsed 0.000163Total elapsed time: 1.690 sec.
+@I [HLS-0] Marker-Pragma convertor: /scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/.autopilot/db/adpcm.pp.0.c /scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/.autopilot/db/adpcm.pp.0.c.ap-line.c /scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/.autopilot/db/adpcm.pp.0.c.ap-line.c.CXX 1
+@I [HLS-0] 
+Source processor: exec /ecad/tools/xilinx/Vivado_HLS/2015.2/tps/lnx64/jre/bin/java -Xmx512m -classpath   "/ecad/tools/xilinx/Vivado_HLS/2015.2/lib/classes/autopilot.sourceprocessor.jar:/ecad/tools/xilinx/Vivado_HLS/2015.2/lib/classes/org.eclipse.cdt.core_5.3.0.xilinx_patch.jar:/ecad/tools/xilinx/Vivado_HLS/2015.2/lib/classes/org.eclipse.core.runtime_3.7.0.v20110110.jar:/ecad/tools/xilinx/Vivado_HLS/2015.2/lib/classes/org.eclipse.equinox.common_3.6.0.v20110523.jar:/ecad/tools/xilinx/Vivado_HLS/2015.2/lib/classes/com.ibm.icu_4.4.2.v20110208.jar:/ecad/tools/xilinx/Vivado_HLS/2015.2/lib/classes/jargs.jar:/ecad/tools/xilinx/Vivado_HLS/2015.2/lnx64/tools/eclipse/plugins/org.eclipse.emf.common_2.10.0.v20140514-1158.jar:/ecad/tools/xilinx/Vivado_HLS/2015.2/lnx64/tools/eclipse/plugins/org.eclipse.emf.ecore_2.10.0.v20140514-1158.jar:/ecad/tools/xilinx/Vivado_HLS/2015.2/lnx64/tools/eclipse/plugins/org.eclipse.emf.ecore.xmi_2.10.0.v20140514-1158.jar:/ecad/tools/xilinx/Vivado_HLS/2015.2/lnx64/tools/eclipse/plugins/com.autoesl.autopilot.ui.directiveFileModel_1.0.0.jar:/ecad/tools/xilinx/Vivado_HLS/2015.2/lnx64/tools/eclipse/plugins/com.autoesl.autopilot.ui.common_1.0.0.jar"  autopilot.sourceprocessor.CParser  "/scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/.autopilot/db/adpcm.pp.0.c.ap-line.c"  -m "encode" -o "/scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/.autopilot/db/adpcm.pp.0.c.ap-cdt.c" -c --pp --directive /scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/solution1.directive --source /scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm.c --error /scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/.autopilot/db --funcunit "AddSub AddSub_DSP AddSubnS DAddSub_fulldsp DAddSub_nodsp DDiv DExp_fulldsp DExp_meddsp DExp_nodsp DLog_fulldsp DLog_meddsp DLog_nodsp DMul_fulldsp DMul_maxdsp DMul_meddsp DMul_nodsp DRSqrt DRecip DSqrt DivnS FAddSub_fulldsp FAddSub_nodsp FDiv FExp_fulldsp FExp_meddsp FExp_nodsp FLog_fulldsp FLog_meddsp FLog_nodsp FMul_fulldsp FMul_maxdsp FMul_meddsp FMul_nodsp FRSqrt_fulldsp FRSqrt_nodsp FRecip_fulldsp FRecip_nodsp FSqrt Mul Mul2S Mul3S Mul4S Mul5S Mul6S MulnS MuxnS" --ca --gf --df --pd --p2d /scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/.autopilot/db --sd --scff /scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/.autopilot/db/.systemc_flag --ad
+
+@I [HLS-0] Marker-Pragma convertor: /scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/.autopilot/db/adpcm.pp.0.c.ap-cdt.c /scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/.autopilot/db/adpcm.pragma.0.c /scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/.autopilot/db/adpcm.pragma.0.c.ap-line.CXX 0
+@I [HLS-100] Command "source /scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/.autopilot/db/pragma.status.tcl "
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 8e-05Total elapsed time: 2.591 sec.
+@I [HLS-0] CDT processor time: 0 seconds per iteration
+@I [HLS-0] Pragma handling time: 0 seconds per iteration
+@I [HLS-0] 
+Source preprocessing: exec clang -fno-limit-debug-info -gcc-toolchain "/ecad/tools/xilinx/Vivado_HLS/2015.2/lnx64/tools/gcc" -hls -fno-exceptions  -D__llvm__  -CC -E "/scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/.autopilot/db/adpcm.pragma.1.c"     -fno-math-errno -c -emit-llvm -O0  -mllvm -disable-llvm-optzns -std=gnu89   -DAESL_SYN -D__SYNTHESIS__ -D__HLS_SYN__ -I "/ecad/tools/xilinx/Vivado_HLS/2015.2/common/technology/autopilot" -I "/ecad/tools/xilinx/Vivado_HLS/2015.2/common/technology/autopilot/ap_sysc" -include etc/autopilot_ssdm_op.h  -o "/scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/.autopilot/db/adpcm.pragma.2.c"
+
+@I [HLS-0] exec clang -fno-limit-debug-info -gcc-toolchain /ecad/tools/xilinx/Vivado_HLS/2015.2/lnx64/tools/gcc -hls -hls-analyze-label -hls-analyze-pragma -fno-exceptions  -D__llvm__  -w  "/scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/.autopilot/db/adpcm.pragma.2.c"    -fno-math-errno -c -emit-llvm -O0  -mllvm -disable-llvm-optzns -std=gnu89  -DAESL_SYN -D__SYNTHESIS__ -D__HLS_SYN__ -I "/ecad/tools/xilinx/Vivado_HLS/2015.2/common/technology/autopilot" -I "/ecad/tools/xilinx/Vivado_HLS/2015.2/common/technology/autopilot/ap_sysc" -include etc/autopilot_ssdm_op.h -g -o "/scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/.autopilot/db/adpcm.g.bc"
+@I [HLS-10] Validating synthesis directives ...
+@0 [HLS-0] Validating synthesis directives ...
+@I [HLS-100] Command "source /scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/.autopilot/db/pragma.status.tcl "
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.000129Total elapsed time: 2.842 sec.
+@I [HLS-0] Linking all ...
+@I [HLS-0] exec llvm-ld  "/scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/.autopilot/db/adpcm.bc"  -disable-opt  -L/ecad/tools/xilinx/Vivado_HLS/2015.2/lnx64/lib -lm_basic -o "/scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/.autopilot/db/a.o.pre"
+@I [HLS-0] Link time: 0 seconds per iteration
+@I [HLS-0] Linking all ...
+@I [HLS-0] exec llvm-ld  "/scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/.autopilot/db/adpcm.g.bc"  -disable-opt  -L/ecad/tools/xilinx/Vivado_HLS/2015.2/lnx64/lib -lm_basic -o "/scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/.autopilot/db/a.g.pre"
+@I [HLS-0] Link time: 0 seconds per iteration
+@I [HLS-100] Command "opt_and_import_c a -opt_level=2 -skip_syncheck=0 -ng=0 "
+@I [HLS-100] Command "cleanup_all_models "
+@I [HLS-100] Command 'cleanup_all_models' returned 0; elapsed 3.1e-05Total elapsed time: 3.67 sec.
+@I [HLS-10] Starting code transformations ...
+@0 [HLS-0] Starting code transformations ...
+@I [HLS-0] std xform: transform -hls -share-std-xform -always-inline -promote-dbg-pointer  -interface-preproc  -scalarrepl -mem2reg -keep-read-access -instcombine -dce  -promote-dbg-pointer  -bitop-raise  -indvars -loop-simplify -xunroll  -constprop -instcombine -simplifycfg -indvars  -simplifycfg -dce -globaldce  -basicaa  -simplifycfg -mem2reg -globalopt  -global-constprop -deadargelim -instcombine -simplifycfg  -prune-eh -simplifycfg  -scalarrepl -instcombine -reassociate -licm  -simplifycfg -loop-simplify -indvars -instcombine  -simplifycfg -mem2reg -loop-simplify -indvars -instcombine  -gvn -gvn -instcombine -adce  -break-crit-edges  -simplifycfg -loop-delete  -global-array-opt -dce -dse -adce  -find-syn-modules -top encode  -deadargelim  -mem2reg -instcombine -dce  -presyn-prepare -auto-rom-infer  -interface-preproc  -syn-check -check-rec-only  -find-region -simplifycfg -func-extr -function-inline  -globaldce -mem2reg -instcombine -dce   -gvn -globaldce -adce -adse  -constprop -instcombine -bit-constprop  -instcombine -dce -simplifycfg -bitop-raise  -simplifycfg -dce -loop-delete -reassociate  -globalopt -global-privatize -mem2reg -dce  -global-constprop -pointer-simplify -constprop -dce  -func-inst -deadargelim  -promote-dbg-pointer  -norm-name   /scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/.autopilot/db/a.g.0.bc -o /scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/.autopilot/db/a.g.1.bc -f  -phase std-opt
+@I [HLS-0] Std xform time: 0 seconds per iteration
+@I [HLS-100] Command "is_encrypted /scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/.autopilot/db/a.g.1.bc "
+@I [HLS-100] Command 'is_encrypted' returned 0; elapsed 4.8e-05Total elapsed time: 3.250 sec.
+@I [HLS-10] Checking synthesizability ...
+@0 [HLS-0] Checking synthesizability ...
+@I [HLS-0] syn check 1/2: transform -hls -syn-check -check-rec-only -disaggr -scalarrepl -norm-name -dce  -mem2reg -instcombine  -function-uniquify -directive-preproc -mem2reg -dse -dce -auto-rom-infer -dce  -array-normalize -instcombine -dce  -array-seg-normalize -instcombine -dce  -array-flatten -instcombine -dce  -array-burst -dce  -deadargelim -promote-global-argument  -function-inline -globaldce -dce  -doublePtrSimplify -doublePtrElim -dce  -doublePtrSimplify -promote-dbg-pointer  -dce -scalarrepl -dse -adse -instcombine  -ptrLegalization  -simplifycfg -dce -instcombine  -pointer-simplify -ptrArgReplace -dce -instcombine   -disaggr -scalarrepl -norm-name -dce  -mem2reg -instcombine -ptrLegalization   -simplifycfg -deadargelim  -instcombine -dce -inst-simplify  -function-uniquify -directive-preproc -mem2reg -dse -dce  -globaldce    /scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/.autopilot/db/a.g.1.bc -o /scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/.autopilot/db/a.g.2.prechk.bc -f
+@I [XFORM-602] Inlining function 'abs' into 'quantl' (adpcm.c:614) automatically.
+@I [XFORM-602] Inlining function 'filtep' into 'encode' (adpcm.c:290) automatically.
+@I [XFORM-602] Inlining function 'quantl' into 'encode' (adpcm.c:297) automatically.
+@I [XFORM-602] Inlining function 'logscl' into 'encode' (adpcm.c:304) automatically.
+@I [XFORM-602] Inlining function 'scalel' into 'encode' (adpcm.c:308) automatically.
+@I [XFORM-602] Inlining function 'uppol2' into 'encode' (adpcm.c:321) automatically.
+@I [XFORM-602] Inlining function 'uppol1' into 'encode' (adpcm.c:325) automatically.
+@I [XFORM-602] Inlining function 'abs' into 'encode' (adpcm.c:358) automatically.
+@I [XFORM-602] Inlining function 'logsch' into 'encode' (adpcm.c:365) automatically.
+@I [HLS-0] Syn check 1/2 time: 0 seconds per iteration
+@I [HLS-0] syn check 2/2: transform -syn-check   /scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/.autopilot/db/a.g.2.prechk.bc -o /scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/.autopilot/db/a.g.2.bc -f  -phase syn-check
+@I [HLS-0] Syn check 2/2 time: 0 seconds per iteration
+@I [HLS-0] Compiler optimizing ...
+@I [HLS-0] Share syncheck's 1.bc for syn flow: copy /scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/.autopilot/db/a.g.1.bc to /scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/.autopilot/db/a.o.1.bc
+@I [HLS-0] presyn 1: transform -hls -tmp /scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/.autopilot/db -type-info  -function-uniquify -directive-preproc -mem2reg -dse -dce  -disaggr -scalarrepl -norm-name -deadargelim  -mem2reg -instcombine -dce -auto-rom-infer -dce -function-uniquify  -clib-intrinsic-prepare -dce  -func-buffer -dce -array-normalize  -func-legal -instcombine -gvn -constprop -dce   -ptrArgReplace -mem2reg -instcombine -dce  -array-seg-normalize -deadargelim  -instcombine -dce  -pointer-simplify -dce  -port-alignment -dce  -interface-preproc  -data-pack -instcombine -dce   -basicaa -aggr-aa -aggrmodref-aa -aggr-aa -gvn -gvn  -basicaa -aggr-aa -aggrmodref-aa -aggr-aa -dse -adse -adce  -loop-simplify -indvars -instcombine  -gvn -loop-simplify -mem2reg -dce -simplifycfg  -find-region -instcombine  -auto-loop-pipeline  -inst-simplify  -interface-preproc  -indvars -auto-loop-unroll -loop-simplify -loop-bound -xunroll  -constprop -instcombine -simplifycfg -indvars  -simplifycfg -dce -globaldce  -attach-range  -gvn -disable-agg-range -inst-simplify  -constprop -simplifycfg -dce  -pointer-simplify -dce  -globalopt -constprop -dce  -array-promote -constprop -instcombine -dce  -ptrArgReplace -mem2reg  -instcombine -simplifycfg -dce  -auto-par -instcombine -dce  -array-transform-check  -array-reshape -instcombine -simplifycfg -dce  -ptrArgReplace -deadargelim -mem2reg  -instcombine -simplifycfg -dce   -array-partition -instcombine -simplifycfg -dce  -ptrArgReplace -global-constprop -deadargelim -mem2reg  -func-legal -instcombine -dce -global-constprop -deadargelim -mem2reg  -instcombine -simplifycfg -dce   -globalopt -constprop -dce  -array-promote -constprop -instcombine -dce  -ptrArgReplace -mem2reg  -instcombine -simplifycfg -dce   -mem-intrinsic-preproc -dce  -global-privatize  -mem2reg -globaldce  -promote-global-argument  -ptrArgReplace -mem2reg -instcombine -dce  -globalopt -mergereturn -simplify-global-access -mem2reg -dce  -pointer-simplify -dce  -functionattrs  -basicaa -aggr-aa -aggrmodref-aa -aggr-aa -gvn -gvn  -basicaa -aggr-aa -aggrmodref-aa -aggr-aa -dse -adse -adce  -inst-simplify -dce -norm-name  -function-inline -globaldce  -func-inst -constprop -instcombine -simplifycfg -dce  -func-legal -dce   -loop-bound  -arraycheck -bitwidthmin -on-by-dataflow  -loop-delete -instcombine -simplifycfg -dce -loop-simplify -clean-region -simplifycfg -loop-stream -instcombine -simplifycfg -dce -globaldce  -stream-intrinsic-preproc -dce  -check-ap-stream -check-dataflow-syntax  -legalize-stream-variable -legalize-global -legalize-global-1  -extract-subproc -scalar-propagation -globaldce -mem2reg  -check-dataflow-channels -function-stream -dce -globaldce  -prop-fifo-spec -internal-stream-gen  -array-streaming -instcombine -simplifycfg -dce    -function-uniquify -directive-preproc -mem2reg -dse -dce  -group-axi-access    -simplifycfg -dce -loop-delete  -norm-name  /scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/.autopilot/db/a.o.1.bc -o /scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/.autopilot/db/a.o.1.tmp.bc -f
+@I [XFORM-102] Automatically partitioning small array 'qq2_code2_table' completely based on array size.
+@I [XFORM-102] Automatically partitioning small array 'wh_code_table' completely based on array size.
+@I [XFORM-101] Partitioning array 'qq2_code2_table' in dimension 1 completely.
+@I [XFORM-101] Partitioning array 'wh_code_table' in dimension 1 completely.
+@I [XFORM-602] Inlining function 'abs' into 'quantl' (adpcm.c:614) automatically.
+@I [XFORM-602] Inlining function 'filtez' into 'encode' (adpcm.c:287) automatically.
+@I [XFORM-602] Inlining function 'filtep' into 'encode' (adpcm.c:290) automatically.
+@I [XFORM-602] Inlining function 'quantl' into 'encode' (adpcm.c:297) automatically.
+@I [XFORM-602] Inlining function 'logscl' into 'encode' (adpcm.c:304) automatically.
+@I [XFORM-602] Inlining function 'scalel' into 'encode' (adpcm.c:308) automatically.
+@I [XFORM-602] Inlining function 'uppol2' into 'encode' (adpcm.c:321) automatically.
+@I [XFORM-602] Inlining function 'uppol1' into 'encode' (adpcm.c:325) automatically.
+@I [XFORM-602] Inlining function 'abs' into 'encode' (adpcm.c:358) automatically.
+@I [XFORM-602] Inlining function 'logsch' into 'encode' (adpcm.c:365) automatically.
+@I [HLS-0] Presyn 1 time: 0 seconds per iteration
+@I [HLS-0] presyn 2: transform -hls -keep-callgraph -scalarrepl -mem2reg  -port-alignment -attach-range -dce  -pipe-mux-gen  -indvars -loop-bound  -inst-simplify -instcombine -dce  -merge-array-access -mem2reg -dce  -clean-region -mergereturn -if-conv  -instcombine -dce -constprop  -basicaa -aggr-aa -aggrmodref-aa -aggr-aa -gvn -gvn  -basicaa -aggr-aa -aggrmodref-aa -aggr-aa -dse -adse -adce  -scalarrepl -mem2reg  -global-constprop -deadargelim -deadargelim  -instcombine -dce -simplifycfg    -ptrArgReplace -mem2reg -function-inline  -globaldce -mem2reg -instcombine -dce -expr-balance  -instcombine -dce  -bitwidthmin  -directive-preproc  -inst-rectify -instcombine -dce  -functionattrs  -constprop -instcombine -bit-constprop  -simplify-global-access  -globalopt -globaldce  -inst-simplify -instcombine -elimdeaddata -dce  -loop-delete -simplifycfg   -norm-name /scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/.autopilot/db/a.o.1.tmp.bc -o /scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/.autopilot/db/a.o.2.bc -f  -phase presyn
+@I [XFORM-401] Performing if-conversion on hyperblock from (adpcm.c:623:3) to (adpcm.c:586:8) in function 'encode'... converting 7 basic blocks.
+@I [XFORM-401] Performing if-conversion on hyperblock to (adpcm.c:395:3) in function 'encode'... converting 4 basic blocks.
+@I [HLS-0] Presyn 2 time: 0 seconds per iteration
+@I [HLS-100] Command "is_encrypted /scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/.autopilot/db/a.o.2.bc "
+@I [HLS-100] Command 'is_encrypted' returned 0; elapsed 5.1e-05Total elapsed time: 3.660 sec.
+@I [HLS-0] build ssdm: transform -hls -function-uniquify -auto-function-inline -globaldce  -ptrArgReplace -mem2reg -instcombine -dce  -loop-simplify -indvars -licm -loop-dep  -loop-bound -licm -loop-simplify -flattenloopnest  -array-flatten -gvn -instcombine -dce  -array-map -dce -func-legal  -gvn -adce -instcombine -cfgopt -simplifycfg -loop-simplify   -array-burst -promote-global-argument -dce  -axi4-lower -array-seg-normalize  -basicaa -aggrmodref-aa -globalsmodref-aa -aggr-aa -gvn -gvn  -basicaa -aggrmodref-aa -globalsmodref-aa -aggr-aa -dse -adse -adce -licm  -inst-simplify -dce  -globaldce -array-streaming -instcombine  -dce   -deadargelim -doublePtrSimplify  -doublePtrElim -dce -doublePtrSimplify -promote-dbg-pointer  -dce -scalarrepl -mem2reg -disaggr -norm-name -mem2reg  -instcombine  -dse -adse -adce -ptrLegalization -dce -auto-rom-infer -array-flatten -dce -instcombine  -loop-rot -constprop -cfgopt -simplifycfg -loop-simplify -indvars -pointer-simplify -dce -loop-bound  -loop-simplify -loop-preproc  -constprop -global-constprop -gvn -mem2reg -instcombine -dce  -loop-merge -dce  -bitwidthmin  -scalar-propagation -globaldce -mem2reg  -interface-preproc -interface-gen  -deadargelim -directive-preproc -inst-simplify -dce  -gvn -mem2reg -instcombine -dce -adse  -loop-bound  -instcombine -cfgopt -simplifycfg -loop-simplify  -clean-region -io-protocol  -find-region -mem2reg  -bitop-raise  -inst-simplify -inst-rectify -instcombine -adce -deadargelim  -loop-simplify -phi-opt -bitop-raise  -cfgopt -simplifycfg -strip-dead-prototypes  -interface-lower -bitop-lower -intrinsic-lower -auto-function-inline  -basicaa -aggrmodref-aa -globalsmodref-aa -aggr-aa  -inst-simplify -simplifycfg   -mergereturn -inst-simplify -inst-rectify  -dce -bitop-lower  -loop-rewind -pointer-simplify -dce -cfgopt  -norm-name -legalize -read-loop-dep -dce -bitwidth   -cdfg-build  /scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/.autopilot/db/a.o.2.bc -o /scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/.autopilot/db/a.o.3.bc -f  -phase build-ssdm
+@I [HLS-0] Build ssdm time: 0 seconds per iteration
+@I [HLS-100] Command "is_encrypted /scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/.autopilot/db/a.o.3.bc "
+@I [HLS-100] Command 'is_encrypted' returned 0; elapsed 0.000111Total elapsed time: 4.276 sec.
+@I [HLS-0] Finish building internal data model.
+@I [HLS-100] Command 'opt_and_import_c' returned 0; elapsed 1.05702Total elapsed time: 4.313 sec.
+@I [HLS-111] Elapsed time: 1.84206 seconds; current memory usage: 67.7 MB.
+@I [HLS-100] Command 'elaborate' returned 0; elapsed 1.15006Total elapsed time: 4.313 sec.
+@I [HLS-100] Command "autosyn "
+@I [HLS-10] Starting hardware synthesis ...
+@0 [HLS-0] Starting hardware synthesis ...
+@I [HLS-0] Synthesizing C/C++ design ...
+@I [HLS-10] Synthesizing 'encode' ...
+@0 [HLS-0] Synthesizing 'encode' ...
+@I [HLS-100] Command "ap_set_top_model encode "
+@I [HLS-100] Command 'ap_set_top_model' returned 0; elapsed 6e-05Total elapsed time: 4.314 sec.
+@I [HLS-100] Command "get_model_list encode -filter all-wo-channel -topdown "
+@I [HLS-100] Command 'get_model_list' returned 0; elapsed 5.5e-05Total elapsed time: 4.314 sec.
+@I [HLS-100] Command "preproc_iomode -model encode "
+@I [HLS-100] Command 'preproc_iomode' returned 0; elapsed 0.00134Total elapsed time: 4.315 sec.
+@I [HLS-100] Command "preproc_iomode -model encode_upzero "
+@I [HLS-100] Command 'preproc_iomode' returned 0; elapsed 2.4e-05Total elapsed time: 4.315 sec.
+@I [HLS-100] Command "get_model_list encode -filter all-wo-channel "
+@I [HLS-100] Command 'get_model_list' returned 0; elapsed 2.5e-05Total elapsed time: 4.316 sec.
+@I [HLS-0] Model list for configure: encode_upzero encode
+@I [HLS-0] Configuring Module : encode_upzero ...
+@I [HLS-100] Command "set_default_model encode_upzero "
+@I [HLS-100] Command 'set_default_model' returned 0; elapsed 2.1e-05Total elapsed time: 4.316 sec.
+@I [HLS-100] Command "apply_spec_resource_limit encode_upzero "
+@I [HLS-100] Command 'apply_spec_resource_limit' returned 0; elapsed 2.2e-05Total elapsed time: 4.316 sec.
+@I [HLS-0] Configuring Module : encode ...
+@I [HLS-100] Command "set_default_model encode "
+@I [HLS-100] Command 'set_default_model' returned 0; elapsed 3.1e-05Total elapsed time: 4.316 sec.
+@I [HLS-100] Command "apply_spec_resource_limit encode "
+@I [HLS-100] Command 'apply_spec_resource_limit' returned 0; elapsed 4.8e-05Total elapsed time: 4.316 sec.
+@I [HLS-0] Model list for preprocess: encode_upzero encode
+@I [HLS-0] Preprocessing Module: encode_upzero ...
+@I [HLS-100] Command "set_default_model encode_upzero "
+@I [HLS-100] Command 'set_default_model' returned 0; elapsed 9e-06Total elapsed time: 4.317 sec.
+@I [HLS-100] Command "cdfg_preprocess -model encode_upzero "
+@I [HLS-100] Command 'cdfg_preprocess' returned 0; elapsed 0.000485Total elapsed time: 4.317 sec.
+@I [HLS-100] Command "rtl_gen_preprocess encode_upzero "
+@I [HLS-100] Command 'rtl_gen_preprocess' returned 0; elapsed 0.000706Total elapsed time: 4.318 sec.
+@I [HLS-0] Preprocessing Module: encode ...
+@I [HLS-100] Command "set_default_model encode "
+@I [HLS-100] Command 'set_default_model' returned 0; elapsed 2.1e-05Total elapsed time: 4.318 sec.
+@I [HLS-100] Command "cdfg_preprocess -model encode "
+@I [HLS-100] Command 'cdfg_preprocess' returned 0; elapsed 0.003194Total elapsed time: 4.321 sec.
+@I [HLS-100] Command "rtl_gen_preprocess encode "
+@I [HLS-100] Command 'rtl_gen_preprocess' returned 0; elapsed 0.000654Total elapsed time: 4.322 sec.
+@I [HLS-0] Model list for synthesis: encode_upzero encode
+@I [HLS-10] ----------------------------------------------------------------
+@0 [HLS-0] ----------------------------------------------------------------
+@I [HLS-10] -- Scheduling module 'encode_upzero' 
+@0 [HLS-0] -- Scheduling module 'encode_upzero' 
+@I [HLS-10] ----------------------------------------------------------------
+@0 [HLS-0] ----------------------------------------------------------------
+@I [HLS-100] Command "set_default_model encode_upzero "
+@I [HLS-100] Command 'set_default_model' returned 0; elapsed 7e-06Total elapsed time: 4.322 sec.
+@I [HLS-100] Command "schedule -model encode_upzero "
+@I [SCHED-11] Starting scheduling ...
+@I [SCHED-11] Finished scheduling.
+@I [HLS-100] Command 'schedule' returned 0; elapsed 0.044329Total elapsed time: 4.367 sec.
+@I [HLS-111] Elapsed time: 0.053537 seconds; current memory usage: 68.2 MB.
+@I [HLS-100] Command "report -o /scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/.autopilot/db/encode_upzero.verbose.sched.rpt -verbose -f "
+@I [HLS-100] Command 'report' returned 0; elapsed 0.005971Total elapsed time: 4.373 sec.
+@I [HLS-100] Command "db_write -o /scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/.autopilot/db/encode_upzero.sched.adb -f "
+@I [HLS-100] Command 'db_write' returned 0; elapsed 0.007027Total elapsed time: 4.380 sec.
+@I [HLS-0] Finish scheduling encode_upzero.
+@I [HLS-10] ----------------------------------------------------------------
+@0 [HLS-0] ----------------------------------------------------------------
+@I [HLS-10] -- Exploring micro-architecture for module 'encode_upzero' 
+@0 [HLS-0] -- Exploring micro-architecture for module 'encode_upzero' 
+@I [HLS-10] ----------------------------------------------------------------
+@0 [HLS-0] ----------------------------------------------------------------
+@I [HLS-100] Command "set_default_model encode_upzero "
+@I [HLS-100] Command 'set_default_model' returned 0; elapsed 9e-06Total elapsed time: 4.380 sec.
+@I [HLS-100] Command "bind -model encode_upzero "
+@I [BIND-110] clear=
+@I [BIND-110] debug=
+@I [BIND-110] drf=
+@I [BIND-110] effort=
+@I [BIND-110] fast_refine=
+@I [BIND-110] fu_weight=[ 0.0 -- 1.0 ]
+@I [BIND-110] global_opt=
+@I [BIND-110] gsearch=
+@I [BIND-110] help=
+@I [BIND-110] help-hidden=
+@I [BIND-110] min_mem_port=
+@I [BIND-110] min_op=
+@I [BIND-110] minreg=
+@I [BIND-110] ml=
+@I [BIND-110] model=encode_upzero
+@I [BIND-110] no_false_path=
+@I [BIND-110] no_min_op=
+@I [BIND-110] normalize=
+@I [BIND-110] quiet=
+@I [BIND-110] refine=
+@I [BIND-110] reg_weight=[ 0.0 -- 1.0 ]
+@I [BIND-110] search=
+@I [BIND-110] tight_delay=
+@I [BIND-110] verbose=
+@I [BIND-110] wFF=
+@I [BIND-110] wFU=
+@I [BIND-110] wMUX=
+@I [BIND-110] wNET=
+@I [BIND-100] Starting micro-architecture generation ...
+@I [BIND-101] Performing variable lifetime analysis.
+@I [BIND-101] Exploring resource sharing.
+@I [BIND-101] Binding ...
+@I [BIND-100] Finished micro-architecture generation.
+@I [HLS-100] Command 'bind' returned 0; elapsed 0.00875Total elapsed time: 4.389 sec.
+@I [HLS-111] Elapsed time: 0.022476 seconds; current memory usage: 68.4 MB.
+@I [HLS-100] Command "report -o /scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/.autopilot/db/encode_upzero.verbose.bind.rpt -verbose -f "
+@I [HLS-100] Command 'report' returned 0; elapsed 0.020192Total elapsed time: 4.409 sec.
+@I [HLS-100] Command "db_write -o /scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/.autopilot/db/encode_upzero.bind.adb -f "
+@I [HLS-100] Command 'db_write' returned 0; elapsed 0.007331Total elapsed time: 4.417 sec.
+@I [HLS-0] Finish binding encode_upzero.
+@I [HLS-10] ----------------------------------------------------------------
+@0 [HLS-0] ----------------------------------------------------------------
+@I [HLS-10] -- Scheduling module 'encode' 
+@0 [HLS-0] -- Scheduling module 'encode' 
+@I [HLS-10] ----------------------------------------------------------------
+@0 [HLS-0] ----------------------------------------------------------------
+@I [HLS-100] Command "set_default_model encode "
+@I [HLS-100] Command 'set_default_model' returned 0; elapsed 2.3e-05Total elapsed time: 4.417 sec.
+@I [HLS-100] Command "schedule -model encode "
+@I [SCHED-11] Starting scheduling ...
+@I [SCHED-11] Finished scheduling.
+@I [HLS-100] Command 'schedule' returned 0; elapsed 0.358772Total elapsed time: 4.776 sec.
+@I [HLS-111] Elapsed time: 0.386856 seconds; current memory usage: 69.9 MB.
+@I [HLS-100] Command "report -o /scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/.autopilot/db/encode.verbose.sched.rpt -verbose -f "
+@I [HLS-100] Command 'report' returned 0; elapsed 0.028245Total elapsed time: 4.804 sec.
+@I [HLS-100] Command "db_write -o /scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/.autopilot/db/encode.sched.adb -f "
+@I [HLS-100] Command 'db_write' returned 0; elapsed 0.04099Total elapsed time: 4.845 sec.
+@I [HLS-0] Finish scheduling encode.
+@I [HLS-10] ----------------------------------------------------------------
+@0 [HLS-0] ----------------------------------------------------------------
+@I [HLS-10] -- Exploring micro-architecture for module 'encode' 
+@0 [HLS-0] -- Exploring micro-architecture for module 'encode' 
+@I [HLS-10] ----------------------------------------------------------------
+@0 [HLS-0] ----------------------------------------------------------------
+@I [HLS-100] Command "set_default_model encode "
+@I [HLS-100] Command 'set_default_model' returned 0; elapsed 1.7e-05Total elapsed time: 4.846 sec.
+@I [HLS-100] Command "bind -model encode "
+@I [BIND-110] clear=
+@I [BIND-110] debug=
+@I [BIND-110] drf=
+@I [BIND-110] effort=
+@I [BIND-110] fast_refine=
+@I [BIND-110] fu_weight=[ 0.0 -- 1.0 ]
+@I [BIND-110] global_opt=
+@I [BIND-110] gsearch=
+@I [BIND-110] help=
+@I [BIND-110] help-hidden=
+@I [BIND-110] min_mem_port=
+@I [BIND-110] min_op=
+@I [BIND-110] minreg=
+@I [BIND-110] ml=
+@I [BIND-110] model=encode
+@I [BIND-110] no_false_path=
+@I [BIND-110] no_min_op=
+@I [BIND-110] normalize=
+@I [BIND-110] quiet=
+@I [BIND-110] refine=
+@I [BIND-110] reg_weight=[ 0.0 -- 1.0 ]
+@I [BIND-110] search=
+@I [BIND-110] tight_delay=
+@I [BIND-110] verbose=
+@I [BIND-110] wFF=
+@I [BIND-110] wFU=
+@I [BIND-110] wMUX=
+@I [BIND-110] wNET=
+@I [BIND-100] Starting micro-architecture generation ...
+@I [BIND-101] Performing variable lifetime analysis.
+@I [BIND-101] Exploring resource sharing.
+@I [BIND-101] Binding ...
+@I [BIND-100] Finished micro-architecture generation.
+@I [HLS-100] Command 'bind' returned 0; elapsed 0.097098Total elapsed time: 4.943 sec.
+@I [HLS-111] Elapsed time: 0.166743 seconds; current memory usage: 71.6 MB.
+@I [HLS-100] Command "report -o /scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/.autopilot/db/encode.verbose.bind.rpt -verbose -f "
+@I [HLS-100] Command 'report' returned 0; elapsed 0.194452Total elapsed time: 5.137 sec.
+@I [HLS-100] Command "db_write -o /scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/.autopilot/db/encode.bind.adb -f "
+@I [HLS-100] Command 'db_write' returned 0; elapsed 0.048229Total elapsed time: 5.186 sec.
+@I [HLS-0] Finish binding encode.
+@I [HLS-100] Command "get_model_list encode -filter all-wo-channel "
+@I [HLS-100] Command 'get_model_list' returned 0; elapsed 3.2e-05Total elapsed time: 5.186 sec.
+@I [HLS-0] Preprocessing for RTLGen ...
+@I [HLS-100] Command "rtl_gen_preprocess encode_upzero "
+@I [HLS-100] Command 'rtl_gen_preprocess' returned 0; elapsed 0.000444Total elapsed time: 5.186 sec.
+@I [HLS-100] Command "rtl_gen_preprocess encode "
+@I [HLS-100] Command 'rtl_gen_preprocess' returned 0; elapsed 0.000463Total elapsed time: 5.187 sec.
+@I [HLS-0] Model list for RTL generation: encode_upzero encode
+@I [HLS-10] ----------------------------------------------------------------
+@0 [HLS-0] ----------------------------------------------------------------
+@I [HLS-10] -- Generating RTL for module 'encode_upzero' 
+@0 [HLS-0] -- Generating RTL for module 'encode_upzero' 
+@I [HLS-10] ----------------------------------------------------------------
+@0 [HLS-0] ----------------------------------------------------------------
+@I [HLS-100] Command "create_rtl_model encode_upzero -vendor xilinx -mg_file /scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/.autopilot/db/encode_upzero.compgen.tcl "
+@I [RTGEN-100] Generating core module 'encode_mul_32s_32s_64_3': 1 instance(s).
+@I [RTGEN-100] Finished creating RTL model for 'encode_upzero'.
+@I [HLS-100] Command 'create_rtl_model' returned 0; elapsed 0.01349Total elapsed time: 5.201 sec.
+@I [HLS-111] Elapsed time: 0.25831 seconds; current memory usage: 72.2 MB.
+@I [HLS-100] Command "source /scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/.autopilot/db/encode.rtl_wrap.cfg.tcl "
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.001364Total elapsed time: 5.203 sec.
+@I [HLS-100] Command "gen_rtl encode_upzero -style xilinx -tracefl mytrace -tracefmt vcd -traceopt all -f -lang sc -o /scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/syn/systemc/encode_upzero -synmodules encode_upzero encode "
+@I [HLS-100] Command 'gen_rtl' returned 0; elapsed 0.001292Total elapsed time: 5.205 sec.
+@I [HLS-100] Command "gen_rtl encode_upzero -style xilinx -f -lang vhdl -o /scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/syn/vhdl/encode_upzero "
+@I [HLS-100] Command 'gen_rtl' returned 0; elapsed 0.001054Total elapsed time: 5.206 sec.
+@I [HLS-100] Command "gen_rtl encode_upzero -style xilinx -f -lang vlog -o /scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/syn/verilog/encode_upzero "
+@I [HLS-100] Command 'gen_rtl' returned 0; elapsed 0.001144Total elapsed time: 5.207 sec.
+@I [HLS-100] Command "gen_tb_info encode_upzero -o /scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/.autopilot/db/encode_upzero -p /scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/.autopilot/db "
+@I [HLS-100] Command 'gen_tb_info' returned 0; elapsed 0.000195Total elapsed time: 5.207 sec.
+@I [HLS-100] Command "report -model encode_upzero -o /scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/syn/report/encode_upzero_csynth.rpt -f "
+@I [HLS-100] Command 'report' returned 0; elapsed 0.007143Total elapsed time: 5.215 sec.
+@I [HLS-100] Command "report -model encode_upzero -o /scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/syn/report/encode_upzero_csynth.xml -f -x "
+@I [HLS-100] Command 'report' returned 0; elapsed 0.00532Total elapsed time: 5.220 sec.
+@I [HLS-100] Command "report -model encode_upzero -o /scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/.autopilot/db/encode_upzero.verbose.rpt -verbose -f "
+@I [HLS-100] Command 'report' returned 0; elapsed 0.025632Total elapsed time: 5.246 sec.
+@I [HLS-100] Command "db_write -model encode_upzero -o /scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/.autopilot/db/encode_upzero.adb -f "
+@I [HLS-100] Command 'db_write' returned 0; elapsed 0.012486Total elapsed time: 5.258 sec.
+@I [HLS-10] ----------------------------------------------------------------
+@0 [HLS-0] ----------------------------------------------------------------
+@I [HLS-10] -- Generating RTL for module 'encode' 
+@0 [HLS-0] -- Generating RTL for module 'encode' 
+@I [HLS-10] ----------------------------------------------------------------
+@0 [HLS-0] ----------------------------------------------------------------
+@I [HLS-100] Command "create_rtl_model encode -vendor xilinx -mg_file /scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/.autopilot/db/encode.compgen.tcl "
+@I [RTGEN-500] Setting interface mode on port 'encode/xin1' to 'ap_none'.
+@I [RTGEN-500] Setting interface mode on port 'encode/xin2' to 'ap_none'.
+@I [RTGEN-500] Setting interface mode on function 'encode' to 'ap_ctrl_hs'.
+@W [RTGEN-101] Global array 'tqmf' will not be exposed as RTL port.
+@W [RTGEN-101] Global array 'h' will not be exposed as RTL port.
+@W [RTGEN-101] Global scalar 'xl' will not be exposed as RTL port.
+@W [RTGEN-101] Register 'xh' is power-on initialization.
+@W [RTGEN-101] Global scalar 'xh' will not be exposed as RTL port.
+@W [RTGEN-101] Global array 'delay_bpl' will not be exposed as RTL port.
+@W [RTGEN-101] Global array 'delay_dltx' will not be exposed as RTL port.
+@W [RTGEN-101] Global scalar 'szl' will not be exposed as RTL port.
+@W [RTGEN-101] Register 'rlt1' is power-on initialization.
+@W [RTGEN-101] Global scalar 'rlt1' will not be exposed as RTL port.
+@W [RTGEN-101] Register 'al1' is power-on initialization.
+@W [RTGEN-101] Global scalar 'al1' will not be exposed as RTL port.
+@W [RTGEN-101] Register 'rlt2' is power-on initialization.
+@W [RTGEN-101] Global scalar 'rlt2' will not be exposed as RTL port.
+@W [RTGEN-101] Register 'al2' is power-on initialization.
+@W [RTGEN-101] Global scalar 'al2' will not be exposed as RTL port.
+@W [RTGEN-101] Global scalar 'spl' will not be exposed as RTL port.
+@W [RTGEN-101] Register 'sl' is power-on initialization.
+@W [RTGEN-101] Global scalar 'sl' will not be exposed as RTL port.
+@W [RTGEN-101] Global scalar 'el' will not be exposed as RTL port.
+@W [RTGEN-101] Register 'detl' is power-on initialization.
+@W [RTGEN-101] Global scalar 'detl' will not be exposed as RTL port.
+@W [RTGEN-101] Global array 'decis_levl' will not be exposed as RTL port.
+@W [RTGEN-101] Global array 'quant26bt_pos' will not be exposed as RTL port.
+@W [RTGEN-101] Global array 'quant26bt_neg' will not be exposed as RTL port.
+@W [RTGEN-101] Register 'il' is power-on initialization.
+@W [RTGEN-101] Global scalar 'il' will not be exposed as RTL port.
+@W [RTGEN-101] Global array 'qq4_code4_table' will not be exposed as RTL port.
+@W [RTGEN-101] Register 'dlt' is power-on initialization.
+@W [RTGEN-101] Global scalar 'dlt' will not be exposed as RTL port.
+@W [RTGEN-101] Register 'nbl' is power-on initialization.
+@W [RTGEN-101] Global scalar 'nbl' will not be exposed as RTL port.
+@W [RTGEN-101] Global array 'wl_code_table' will not be exposed as RTL port.
+@W [RTGEN-101] Global array 'ilb_table' will not be exposed as RTL port.
+@W [RTGEN-101] Register 'plt' is power-on initialization.
+@W [RTGEN-101] Global scalar 'plt' will not be exposed as RTL port.
+@W [RTGEN-101] Register 'plt1' is power-on initialization.
+@W [RTGEN-101] Global scalar 'plt1' will not be exposed as RTL port.
+@W [RTGEN-101] Register 'plt2' is power-on initialization.
+@W [RTGEN-101] Global scalar 'plt2' will not be exposed as RTL port.
+@W [RTGEN-101] Global scalar 'rlt' will not be exposed as RTL port.
+@W [RTGEN-101] Global array 'delay_bph' will not be exposed as RTL port.
+@W [RTGEN-101] Global array 'delay_dhx' will not be exposed as RTL port.
+@W [RTGEN-101] Global scalar 'szh' will not be exposed as RTL port.
+@W [RTGEN-101] Register 'rh1' is power-on initialization.
+@W [RTGEN-101] Global scalar 'rh1' will not be exposed as RTL port.
+@W [RTGEN-101] Register 'ah1' is power-on initialization.
+@W [RTGEN-101] Global scalar 'ah1' will not be exposed as RTL port.
+@W [RTGEN-101] Register 'rh2' is power-on initialization.
+@W [RTGEN-101] Global scalar 'rh2' will not be exposed as RTL port.
+@W [RTGEN-101] Register 'ah2' is power-on initialization.
+@W [RTGEN-101] Global scalar 'ah2' will not be exposed as RTL port.
+@W [RTGEN-101] Global scalar 'sph' will not be exposed as RTL port.
+@W [RTGEN-101] Register 'sh' is power-on initialization.
+@W [RTGEN-101] Global scalar 'sh' will not be exposed as RTL port.
+@W [RTGEN-101] Global scalar 'eh' will not be exposed as RTL port.
+@W [RTGEN-101] Register 'ih' is power-on initialization.
+@W [RTGEN-101] Global scalar 'ih' will not be exposed as RTL port.
+@W [RTGEN-101] Register 'deth' is power-on initialization.
+@W [RTGEN-101] Global scalar 'deth' will not be exposed as RTL port.
+@W [RTGEN-101] Register 'dh' is power-on initialization.
+@W [RTGEN-101] Global scalar 'dh' will not be exposed as RTL port.
+@W [RTGEN-101] Register 'nbh' is power-on initialization.
+@W [RTGEN-101] Global scalar 'nbh' will not be exposed as RTL port.
+@W [RTGEN-101] Register 'ph' is power-on initialization.
+@W [RTGEN-101] Global scalar 'ph' will not be exposed as RTL port.
+@W [RTGEN-101] Register 'ph1' is power-on initialization.
+@W [RTGEN-101] Global scalar 'ph1' will not be exposed as RTL port.
+@W [RTGEN-101] Register 'ph2' is power-on initialization.
+@W [RTGEN-101] Global scalar 'ph2' will not be exposed as RTL port.
+@W [RTGEN-101] Global scalar 'yh' will not be exposed as RTL port.
+@I [RTGEN-100] Generating core module 'encode_mul_32s_32s_47_3': 1 instance(s).
+@I [RTGEN-100] Generating core module 'encode_mul_32s_32s_64_3': 12 instance(s).
+@I [RTGEN-100] Generating core module 'encode_mux_4to1_sel2_32_1': 2 instance(s).
+@I [RTGEN-100] Finished creating RTL model for 'encode'.
+@I [HLS-100] Command 'create_rtl_model' returned 0; elapsed 0.124574Total elapsed time: 5.395 sec.
+@I [HLS-111] Elapsed time: 0.193787 seconds; current memory usage: 76 MB.
+@I [HLS-100] Command "source /scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/.autopilot/db/encode.rtl_wrap.cfg.tcl "
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.003412Total elapsed time: 5.399 sec.
+@I [HLS-100] Command "gen_rtl encode -istop -style xilinx -tracefl mytrace -tracefmt vcd -traceopt all -f -lang sc -o /scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/syn/systemc/encode -synmodules encode_upzero encode "
+@I [HLS-100] Command 'gen_rtl' returned 0; elapsed 0.014752Total elapsed time: 5.415 sec.
+@I [HLS-100] Command "gen_rtl encode -istop -style xilinx -f -lang vhdl -o /scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/syn/vhdl/encode "
+@I [HLS-100] Command 'gen_rtl' returned 0; elapsed 0.107061Total elapsed time: 5.522 sec.
+@I [HLS-100] Command "gen_rtl encode -istop -style xilinx -f -lang vlog -o /scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/syn/verilog/encode "
+@I [HLS-100] Command 'gen_rtl' returned 0; elapsed 0.075028Total elapsed time: 5.597 sec.
+@I [HLS-100] Command "export_constraint_db -o /scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/.autopilot/db/encode.constraint.tcl -f -tool general "
+@I [HLS-100] Command 'export_constraint_db' returned 0; elapsed 7.4e-05Total elapsed time: 5.597 sec.
+@I [HLS-100] Command "report -model encode -o /scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/.autopilot/db/encode.design.xml -verbose -f -dv "
+@I [HLS-100] Command 'report' returned 0; elapsed 0.118782Total elapsed time: 5.716 sec.
+@I [HLS-100] Command "gen_tb_info encode -o /scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/.autopilot/db/encode -p /scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/.autopilot/db "
+@I [HLS-100] Command 'gen_tb_info' returned 0; elapsed 0.000985Total elapsed time: 5.717 sec.
+@I [HLS-100] Command "report -model encode -o /scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/syn/report/encode_csynth.rpt -f "
+@I [HLS-100] Command 'report' returned 0; elapsed 0.058979Total elapsed time: 5.776 sec.
+@I [HLS-100] Command "report -model encode -o /scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/syn/report/encode_csynth.xml -f -x "
+@I [HLS-100] Command 'report' returned 0; elapsed 0.052739Total elapsed time: 5.829 sec.
+@I [HLS-100] Command "report -model encode -o /scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/.autopilot/db/encode.verbose.rpt -verbose -f "
+@I [HLS-100] Command 'report' returned 0; elapsed 0.253501Total elapsed time: 6.82 sec.
+@I [HLS-100] Command "db_write -model encode -o /scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/.autopilot/db/encode.adb -f "
+@I [HLS-100] Command 'db_write' returned 0; elapsed 0.103676Total elapsed time: 6.186 sec.
+@I [HLS-100] Command "sc_get_clocks encode "
+@I [HLS-100] Command 'sc_get_clocks' returned 0; elapsed 5e-06Total elapsed time: 6.266 sec.
+@I [HLS-100] Command "sc_get_portdomain encode "
+@I [HLS-100] Command 'sc_get_portdomain' returned 0; elapsed 4e-06Total elapsed time: 6.266 sec.
+@I [HLS-0] Model list for RTL component generation: encode_upzero encode
+@I [HLS-0] Handling components in module [encode_upzero] ... 
+@I [HLS-100] Command "source /scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/.autopilot/db/encode_upzero.compgen.tcl "
+@I [HLS-0] Found component encode_mul_32s_32s_64_3.
+@I [HLS-0] Append model encode_mul_32s_32s_64_3
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.000254Total elapsed time: 6.268 sec.
+@I [HLS-0] Handling components in module [encode] ... 
+@I [HLS-100] Command "source /scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/.autopilot/db/encode.compgen.tcl "
+@I [HLS-0] Found component encode_mux_4to1_sel2_32_1.
+@I [HLS-0] Append model encode_mux_4to1_sel2_32_1
+@I [HLS-0] Found component encode_mul_32s_32s_47_3.
+@I [HLS-0] Append model encode_mul_32s_32s_47_3
+@I [HLS-0] Found component encode_mux_4to1_sel2_32_1.
+@I [HLS-0] Append model encode_mux_4to1_sel2_32_1
+@I [HLS-0] Found component encode_tqmf.
+@I [HLS-0] Append model encode_tqmf
+@I [HLS-0] Found component encode_h.
+@I [HLS-0] Append model encode_h
+@I [HLS-0] Found component encode_delay_bpl.
+@I [HLS-0] Append model encode_delay_bpl
+@I [HLS-0] Found component encode_delay_dltx.
+@I [HLS-0] Append model encode_delay_dltx
+@I [HLS-0] Found component encode_decis_levl.
+@I [HLS-0] Append model encode_decis_levl
+@I [HLS-0] Found component encode_quant26bt_pos.
+@I [HLS-0] Append model encode_quant26bt_pos
+@I [HLS-0] Found component encode_quant26bt_neg.
+@I [HLS-0] Append model encode_quant26bt_neg
+@I [HLS-0] Found component encode_qq4_code4_table.
+@I [HLS-0] Append model encode_qq4_code4_table
+@I [HLS-0] Found component encode_wl_code_table.
+@I [HLS-0] Append model encode_wl_code_table
+@I [HLS-0] Found component encode_ilb_table.
+@I [HLS-0] Append model encode_ilb_table
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.001183Total elapsed time: 6.269 sec.
+@I [HLS-0] Append model encode_upzero
+@I [HLS-0] Append model encode
+@I [HLS-0] Generating RTL model list ...
+@I [HLS-0] All models in this session: encode_mul_32s_32s_64_3 encode_mux_4to1_sel2_32_1 encode_mul_32s_32s_47_3 encode_mux_4to1_sel2_32_1 encode_tqmf encode_h encode_delay_bpl encode_delay_dltx encode_decis_levl encode_quant26bt_pos encode_quant26bt_neg encode_qq4_code4_table encode_wl_code_table encode_ilb_table encode_upzero encode
+@I [HLS-0] To file: write model encode_mul_32s_32s_64_3
+@I [HLS-0] To file: write model encode_mux_4to1_sel2_32_1
+@I [HLS-0] To file: write model encode_mul_32s_32s_47_3
+@I [HLS-0] To file: write model encode_mux_4to1_sel2_32_1
+@I [HLS-0] To file: write model encode_tqmf
+@I [HLS-0] To file: write model encode_h
+@I [HLS-0] To file: write model encode_delay_bpl
+@I [HLS-0] To file: write model encode_delay_dltx
+@I [HLS-0] To file: write model encode_decis_levl
+@I [HLS-0] To file: write model encode_quant26bt_pos
+@I [HLS-0] To file: write model encode_quant26bt_neg
+@I [HLS-0] To file: write model encode_qq4_code4_table
+@I [HLS-0] To file: write model encode_wl_code_table
+@I [HLS-0] To file: write model encode_ilb_table
+@I [HLS-0] To file: write model encode_upzero
+@I [HLS-0] To file: write model encode
+@I [HLS-0] Finished generating RTL model list.
+
+
+@I [HLS-0] RTL Generation done.
+@I [HLS-0] CAS Generation done.
+@I [HLS-0] CBC Generation done.
+@I [HLS-100] Command "export_ssdm /scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/.autopilot/db/a.export.ll "
+@I [HLS-100] Command 'export_ssdm' returned 0; elapsed 0.000864Total elapsed time: 6.271 sec.
+@I [HLS-100] Command "source /scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/.autopilot/db/global.setting.tcl "
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.000114Total elapsed time: 6.273 sec.
+@I [HLS-100] Command "source /ecad/tools/xilinx/Vivado_HLS/2015.2/common/technology/generic/autopilot/common.gen "
+@I [HLS-100] Command "source /ecad/tools/xilinx/Vivado_HLS/2015.2/common/technology/generic/autopilot/APCoreGen.gen "
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.00073Total elapsed time: 6.277 sec.
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.001444Total elapsed time: 6.278 sec.
+@I [HLS-100] Command "source /ecad/tools/xilinx/Vivado_HLS/2015.2/common/technology/generic/autopilot/op.gen "
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.000507Total elapsed time: 6.279 sec.
+@I [HLS-100] Command "source /ecad/tools/xilinx/Vivado_HLS/2015.2/common/technology/generic/autopilot/op_simcore.gen "
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.000862Total elapsed time: 6.281 sec.
+@I [HLS-100] Command "source /ecad/tools/xilinx/Vivado_HLS/2015.2/common/technology/generic/autopilot/interface.gen "
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.000249Total elapsed time: 6.282 sec.
+@I [HLS-100] Command "source /scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/.autopilot/db/global.setting.tcl "
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.000108Total elapsed time: 6.283 sec.
+@I [HLS-100] Command "source /ecad/tools/xilinx/Vivado_HLS/2015.2/common/technology/xilinx/kintex7/kintex7.gen "
+@I [HLS-100] Command "source /ecad/tools/xilinx/Vivado_HLS/2015.2/common/technology/xilinx/common/virtex.gen "
+@I [HLS-100] Command "source /ecad/tools/xilinx/Vivado_HLS/2015.2/common/technology/xilinx/common/xilinx.gen "
+@I [HLS-100] Command "source /ecad/tools/xilinx/Vivado_HLS/2015.2/common/technology/xilinx/interface/plb46.gen "
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.001082Total elapsed time: 6.287 sec.
+@I [HLS-100] Command "source /ecad/tools/xilinx/Vivado_HLS/2015.2/common/technology/xilinx/interface/fsl.gen "
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.000576Total elapsed time: 6.288 sec.
+@I [HLS-100] Command "source /ecad/tools/xilinx/Vivado_HLS/2015.2/common/technology/xilinx/interface/axi4.gen "
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.00186Total elapsed time: 6.291 sec.
+@I [HLS-100] Command "source /ecad/tools/xilinx/Vivado_HLS/2015.2/common/technology/xilinx/interface/nativeAXI4.gen "
+@I [HLS-100] Command "source /ecad/tools/xilinx/Vivado_HLS/2015.2/common/technology/xilinx/interface/saxilite.gen "
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.002436Total elapsed time: 6.295 sec.
+@I [HLS-100] Command "source /ecad/tools/xilinx/Vivado_HLS/2015.2/common/technology/xilinx/interface/maxi.gen "
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.0053Total elapsed time: 6.301 sec.
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.008088Total elapsed time: 6.301 sec.
+@I [HLS-100] Command "source /ecad/tools/xilinx/Vivado_HLS/2015.2/common/technology/xilinx/scripts/xilinxcoregen.gen "
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.007609Total elapsed time: 6.309 sec.
+@I [HLS-100] Command "source /ecad/tools/xilinx/Vivado_HLS/2015.2/common/technology/xilinx/interface/XilEDKCoreGen.gen "
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.006013Total elapsed time: 6.316 sec.
+@I [HLS-100] Command "source /ecad/tools/xilinx/Vivado_HLS/2015.2/common/technology/xilinx/ip/xfir.gen "
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.024533Total elapsed time: 6.342 sec.
+@I [HLS-100] Command "source /ecad/tools/xilinx/Vivado_HLS/2015.2/common/technology/xilinx/ip/dds_compiler.gen "
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.002827Total elapsed time: 6.345 sec.
+@I [HLS-100] Command "source /ecad/tools/xilinx/Vivado_HLS/2015.2/common/technology/xilinx/ip/util.gen "
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.000316Total elapsed time: 6.346 sec.
+@I [HLS-100] Command "source /ecad/tools/xilinx/Vivado_HLS/2015.2/common/technology/xilinx/ip/xfft.gen "
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.080386Total elapsed time: 6.427 sec.
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.134113Total elapsed time: 6.427 sec.
+@I [HLS-100] Command "source /ecad/tools/xilinx/Vivado_HLS/2015.2/common/technology/xilinx/common/dsp48.gen "
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.00019Total elapsed time: 6.429 sec.
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.13581Total elapsed time: 6.429 sec.
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.13606Total elapsed time: 6.429 sec.
+@I [HLS-100] Command "source /ecad/tools/xilinx/Vivado_HLS/2015.2/common/technology/xilinx/kintex7/kintex7_fpv6.gen "
+@I [HLS-100] Command "source /ecad/tools/xilinx/Vivado_HLS/2015.2/common/technology/xilinx/common/xilinx_fpv6.gen "
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.001322Total elapsed time: 6.432 sec.
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.001507Total elapsed time: 6.432 sec.
+@I [HLS-100] Command "source /scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/.autopilot/db/global.setting.tcl "
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.000115Total elapsed time: 6.433 sec.
+@I [HLS-100] Command "source /scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/.autopilot/db/global.setting.tcl "
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.000111Total elapsed time: 6.433 sec.
+@I [HLS-100] Command "source /scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/.autopilot/db/global.setting.tcl "
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.000103Total elapsed time: 6.433 sec.
+@I [HLS-100] Command "source /scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/.autopilot/db/global.setting.tcl "
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.0001Total elapsed time: 6.433 sec.
+@I [HLS-100] Command "source /scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/.autopilot/db/encode_upzero.compgen.tcl "
+@I [RTMG-282] Generating pipelined core: 'encode_mul_32s_32s_64_3_Mul3S_0'
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.014527Total elapsed time: 6.451 sec.
+@I [HLS-100] Command "source /scratch/qijing.huang/firechip/hls_adpcm_encode/src/main/c/adpcm_prj/solution1/.autopilot/db/encode.compgen.tcl "
+@I [RTMG-282] Generating pipelined core: 'encode_mul_32s_32s_47_3_Mul3S_1'
+@I [RTMG-278] Implementing memory 'encode_tqmf_ram' using block RAMs with power-on initialization.
+@I [RTMG-279] Implementing memory 'encode_h_rom' using distributed ROMs.
+@I [RTMG-278] Implementing memory 'encode_delay_bpl_ram' using distributed RAMs with power-on initialization.
+@I [RTMG-278] Implementing memory 'encode_delay_dltx_ram' using block RAMs with power-on initialization.
+@I [RTMG-279] Implementing memory 'encode_decis_levl_rom' using distributed ROMs.
+@I [RTMG-279] Implementing memory 'encode_quant26bt_pos_rom' using distributed ROMs.
+@I [RTMG-279] Implementing memory 'encode_quant26bt_neg_rom' using distributed ROMs.
+@I [RTMG-279] Implementing memory 'encode_qq4_code4_table_rom' using distributed ROMs.
+@I [RTMG-279] Implementing memory 'encode_wl_code_table_rom' using distributed ROMs.
+@I [RTMG-279] Implementing memory 'encode_ilb_table_rom' using distributed ROMs.
+@I [HLS-100] Command 'ap_source' returned 0; elapsed 0.090075Total elapsed time: 6.541 sec.
+@I [HLS-10] Finished generating all RTL models.
+@0 [HLS-0] Finished generating all RTL models.
+@I [WSYSC-301] Generating RTL SystemC for 'encode'.
+@I [WVHDL-304] Generating RTL VHDL for 'encode'.
+@I [WVLOG-307] Generating RTL Verilog for 'encode'.
+@I [HLS-100] Command 'autosyn' returned 0; elapsed 2.22227Total elapsed time: 6.569 sec.
+@I [HLS-100] Command 'csynth_design' returned 0; elapsed 3.37255Total elapsed time: 6.569 sec.
+@I [HLS-100] Command "cleanup_all "
+@I [HLS-100] Command 'cleanup_all' returned 0; elapsed 0.02003Total elapsed time: 6.589 sec.

@@ -1,0 +1,33 @@
+clang -emit-llvm adpcm.c -c -o adpcm.bc
+llvm-dis <adpcm.bc> adpcm.ll
+llc -march=riscv -mcpu=Rocket -mattr=rv64 adpcm.bc -o adpcm.rv.s
+
+nvalid branch condition code!
+UNREACHABLE executed at /tools/designs/qijing.huang/riscv-llvm/lib/Target/RISCV/RISCVInstrInfo.cpp:382!
+0  llc             0x0000000001544cae llvm::sys::PrintStackTrace(_IO_FILE*) + 46
+1  llc             0x0000000001544f6b
+2  llc             0x00000000015451d8
+3  libpthread.so.0 0x0000003a5e00f710
+4  libc.so.6       0x0000003a5dc32625 gsignal + 53
+5  libc.so.6       0x0000003a5dc33e05 abort + 373
+6  llc             0x000000000152b1e6
+7  llc             0x000000000068ef9c llvm::RISCVInstrInfo::InsertBranchAtInst(llvm::MachineBasicBlock&, llvm::MachineInstr*, llvm::MachineBasicBlock*, llvm::SmallVectorImpl<llvm::MachineOperand> const&, llvm::DebugLoc) const + 1884
+8  llc             0x000000000068dcad llvm::RISCVInstrInfo::InsertBranch(llvm::MachineBasicBlock&, llvm::MachineBasicBlock*, llvm::MachineBasicBlock*, llvm::SmallVectorImpl<llvm::MachineOperand> const&, llvm::DebugLoc) const + 397
+9  llc             0x000000000110b95c llvm::BranchFolder::TailMergeBlocks(llvm::MachineFunction&) + 2252
+10 llc             0x000000000110ad02 llvm::BranchFolder::OptimizeFunction(llvm::MachineFunction&, llvm::TargetInstrInfo const*, llvm::TargetRegisterInfo const*, llvm::MachineModuleInfo*) + 674
+11 llc             0x0000000001111d2a
+12 llc             0x0000000000fb1b6e llvm::MachineFunctionPass::runOnFunction(llvm::Function&) + 110
+13 llc             0x00000000014b911d llvm::FPPassManager::runOnFunction(llvm::Function&) + 413
+14 llc             0x00000000014b9428 llvm::FPPassManager::runOnModule(llvm::Module&) + 104
+15 llc             0x00000000014b9819 llvm::MPPassManager::runOnModule(llvm::Module&) + 617
+16 llc             0x00000000014b9fce llvm::PassManagerImpl::run(llvm::Module&) + 302
+17 llc             0x00000000014ba221 llvm::PassManager::run(llvm::Module&) + 33
+18 llc             0x00000000005d73fc
+19 llc             0x00000000005d6112 main + 226
+20 libc.so.6       0x0000003a5dc1ed5d __libc_start_main + 253
+21 llc             0x00000000005d5e55
+Stack dump:
+0.dumpProgram arguments: llc -march=riscv -mcpu=Rocket -mattr=rv64 adpcm.bc -o adpcm.rv.s 
+1.rvRunning pass 'Function Pass Manager' on module 'adpcm.bc'.
+2.bcRunning pass 'Control Flow Optimizer' on function '@encode'
+

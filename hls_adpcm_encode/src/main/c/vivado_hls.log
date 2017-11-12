@@ -1,0 +1,330 @@
+@I [LIC-101] Checked out feature [HLS]
+@I [HLS-10] Running '/tools/xilinx/Vivado_HLS/2015.1/bin/unwrapped/lnx64.o/vivado_hls'
+            for user 'qijing.huang' on host 'bwrcrdsl-3.EECS.Berkeley.EDU' (Linux_x86_64 version 2.6.32-504.3.3.el6.x86_64) on Thu Dec 03 19:25:29 PST 2015
+            in directory '/users/qijing.huang/Downloads/CHStone_v1.11_150204/adpcm'
+@I [HLS-10] Opening project '/users/qijing.huang/Downloads/CHStone_v1.11_150204/adpcm/adpcm'.
+@I [HLS-10] Adding design file 'adpcm.c' to the project
+@I [HLS-10] Opening solution '/users/qijing.huang/Downloads/CHStone_v1.11_150204/adpcm/adpcm/solution1'.
+@I [SYN-201] Setting up clock 'default' with a period of 10ns.
+@I [HLS-10] Setting target device to 'xc7z045ffg900-2'
+@I [SYN-201] Setting up clock 'default' with a period of 10ns.
+@I [HLS-10] Analyzing design file 'adpcm.c' ... 
+@I [HLS-10] Validating synthesis directives ...
+@I [HLS-10] Starting code transformations ...
+@I [HLS-10] Checking synthesizability ...
+@I [XFORM-602] Inlining function 'abs' into 'quantl' (adpcm.c:614) automatically.
+@I [XFORM-602] Inlining function 'filtep' into 'encode' (adpcm.c:290) automatically.
+@I [XFORM-602] Inlining function 'quantl' into 'encode' (adpcm.c:297) automatically.
+@I [XFORM-602] Inlining function 'logscl' into 'encode' (adpcm.c:304) automatically.
+@I [XFORM-602] Inlining function 'scalel' into 'encode' (adpcm.c:308) automatically.
+@I [XFORM-602] Inlining function 'uppol2' into 'encode' (adpcm.c:321) automatically.
+@I [XFORM-602] Inlining function 'uppol1' into 'encode' (adpcm.c:325) automatically.
+@I [XFORM-602] Inlining function 'abs' into 'encode' (adpcm.c:358) automatically.
+@I [XFORM-602] Inlining function 'logsch' into 'encode' (adpcm.c:365) automatically.
+@I [XFORM-602] Inlining function 'filtep' into 'decode' (adpcm.c:418) automatically.
+@I [XFORM-602] Inlining function 'logscl' into 'decode' (adpcm.c:431) automatically.
+@I [XFORM-602] Inlining function 'scalel' into 'decode' (adpcm.c:434) automatically.
+@I [XFORM-602] Inlining function 'uppol2' into 'decode' (adpcm.c:444) automatically.
+@I [XFORM-602] Inlining function 'uppol1' into 'decode' (adpcm.c:447) automatically.
+@I [XFORM-602] Inlining function 'logsch' into 'decode' (adpcm.c:473) automatically.
+@I [XFORM-102] Automatically partitioning small array 'qq2_code2_table' completely based on array size.
+@I [XFORM-102] Automatically partitioning small array 'wh_code_table' completely based on array size.
+@I [XFORM-101] Partitioning array 'qq2_code2_table' in dimension 1 completely.
+@I [XFORM-101] Partitioning array 'wh_code_table' in dimension 1 completely.
+@I [XFORM-602] Inlining function 'abs' into 'quantl' (adpcm.c:614) automatically.
+@I [XFORM-602] Inlining function 'filtez' into 'encode' (adpcm.c:287) automatically.
+@I [XFORM-602] Inlining function 'filtep' into 'encode' (adpcm.c:290) automatically.
+@I [XFORM-602] Inlining function 'quantl' into 'encode' (adpcm.c:297) automatically.
+@I [XFORM-602] Inlining function 'logscl' into 'encode' (adpcm.c:304) automatically.
+@I [XFORM-602] Inlining function 'scalel' into 'encode' (adpcm.c:308) automatically.
+@I [XFORM-602] Inlining function 'uppol2' into 'encode' (adpcm.c:321) automatically.
+@I [XFORM-602] Inlining function 'uppol1' into 'encode' (adpcm.c:325) automatically.
+@I [XFORM-602] Inlining function 'abs' into 'encode' (adpcm.c:358) automatically.
+@I [XFORM-602] Inlining function 'logsch' into 'encode' (adpcm.c:365) automatically.
+@I [XFORM-602] Inlining function 'filtez' into 'decode' (adpcm.c:415) automatically.
+@I [XFORM-602] Inlining function 'filtep' into 'decode' (adpcm.c:418) automatically.
+@I [XFORM-602] Inlining function 'logscl' into 'decode' (adpcm.c:431) automatically.
+@I [XFORM-602] Inlining function 'scalel' into 'decode' (adpcm.c:434) automatically.
+@I [XFORM-602] Inlining function 'uppol2' into 'decode' (adpcm.c:444) automatically.
+@I [XFORM-602] Inlining function 'uppol1' into 'decode' (adpcm.c:447) automatically.
+@I [XFORM-602] Inlining function 'logsch' into 'decode' (adpcm.c:473) automatically.
+@I [XFORM-401] Performing if-conversion on hyperblock from (adpcm.c:623:3) to (adpcm.c:586:8) in function 'encode'... converting 7 basic blocks.
+@I [XFORM-401] Performing if-conversion on hyperblock to (adpcm.c:395:3) in function 'encode'... converting 4 basic blocks.
+@I [XFORM-401] Performing if-conversion on hyperblock from (adpcm.c:589:3) to (adpcm.c:586:8) in function 'decode'... converting 4 basic blocks.
+@I [XFORM-401] Performing if-conversion on hyperblock from (adpcm.c:589:3) to (adpcm.c:512:8) in function 'decode'... converting 4 basic blocks.
+@W [XFORM-562] Loop 'Loop-4' (adpcm.c:616) in function 'encode' has unknown bound because it has multiple exiting blocks.
+@I [HLS-111] Elapsed time: 2.08 seconds; current memory usage: 0.156 MB.
+@I [HLS-10] Starting hardware synthesis ...
+@I [HLS-10] Synthesizing 'adpcm_main' ...
+@I [HLS-10] ----------------------------------------------------------------
+@I [HLS-10] -- Scheduling module 'adpcm_main_reset' 
+@I [HLS-10] ----------------------------------------------------------------
+@I [SCHED-11] Starting scheduling ...
+@I [SCHED-11] Finished scheduling.
+@I [HLS-111] Elapsed time: 0.04 seconds; current memory usage: 0.156 MB.
+@I [HLS-10] ----------------------------------------------------------------
+@I [HLS-10] -- Exploring micro-architecture for module 'adpcm_main_reset' 
+@I [HLS-10] ----------------------------------------------------------------
+@I [BIND-100] Starting micro-architecture generation ...
+@I [BIND-101] Performing variable lifetime analysis.
+@I [BIND-101] Exploring resource sharing.
+@I [BIND-101] Binding ...
+@I [BIND-100] Finished micro-architecture generation.
+@I [HLS-111] Elapsed time: 0.03 seconds; current memory usage: 0.156 MB.
+@I [HLS-10] ----------------------------------------------------------------
+@I [HLS-10] -- Scheduling module 'adpcm_main_upzero' 
+@I [HLS-10] ----------------------------------------------------------------
+@I [SCHED-11] Starting scheduling ...
+@I [SCHED-11] Finished scheduling.
+@I [HLS-111] Elapsed time: 0.06 seconds; current memory usage: 0.156 MB.
+@I [HLS-10] ----------------------------------------------------------------
+@I [HLS-10] -- Exploring micro-architecture for module 'adpcm_main_upzero' 
+@I [HLS-10] ----------------------------------------------------------------
+@I [BIND-100] Starting micro-architecture generation ...
+@I [BIND-101] Performing variable lifetime analysis.
+@I [BIND-101] Exploring resource sharing.
+@I [BIND-101] Binding ...
+@I [BIND-100] Finished micro-architecture generation.
+@I [HLS-111] Elapsed time: 0.01 seconds; current memory usage: 0.156 MB.
+@I [HLS-10] ----------------------------------------------------------------
+@I [HLS-10] -- Scheduling module 'adpcm_main_encode' 
+@I [HLS-10] ----------------------------------------------------------------
+@I [SCHED-11] Starting scheduling ...
+@I [SCHED-11] Finished scheduling.
+@I [HLS-111] Elapsed time: 0.45 seconds; current memory usage: 0.156 MB.
+@I [HLS-10] ----------------------------------------------------------------
+@I [HLS-10] -- Exploring micro-architecture for module 'adpcm_main_encode' 
+@I [HLS-10] ----------------------------------------------------------------
+@I [BIND-100] Starting micro-architecture generation ...
+@I [BIND-101] Performing variable lifetime analysis.
+@I [BIND-101] Exploring resource sharing.
+@I [BIND-101] Binding ...
+@I [BIND-100] Finished micro-architecture generation.
+@I [HLS-111] Elapsed time: 0.18 seconds; current memory usage: 0.156 MB.
+@I [HLS-10] ----------------------------------------------------------------
+@I [HLS-10] -- Scheduling module 'adpcm_main_decode' 
+@I [HLS-10] ----------------------------------------------------------------
+@I [SCHED-11] Starting scheduling ...
+@I [SCHED-11] Finished scheduling.
+@I [HLS-111] Elapsed time: 0.6 seconds; current memory usage: 0.156 MB.
+@I [HLS-10] ----------------------------------------------------------------
+@I [HLS-10] -- Exploring micro-architecture for module 'adpcm_main_decode' 
+@I [HLS-10] ----------------------------------------------------------------
+@I [BIND-100] Starting micro-architecture generation ...
+@I [BIND-101] Performing variable lifetime analysis.
+@I [BIND-101] Exploring resource sharing.
+@I [BIND-101] Binding ...
+@I [BIND-100] Finished micro-architecture generation.
+@I [HLS-111] Elapsed time: 0.16 seconds; current memory usage: 0.156 MB.
+@I [HLS-10] ----------------------------------------------------------------
+@I [HLS-10] -- Scheduling module 'adpcm_main' 
+@I [HLS-10] ----------------------------------------------------------------
+@I [SCHED-11] Starting scheduling ...
+@I [SCHED-11] Finished scheduling.
+@I [HLS-111] Elapsed time: 0.2 seconds; current memory usage: 0.156 MB.
+@I [HLS-10] ----------------------------------------------------------------
+@I [HLS-10] -- Exploring micro-architecture for module 'adpcm_main' 
+@I [HLS-10] ----------------------------------------------------------------
+@I [BIND-100] Starting micro-architecture generation ...
+@I [BIND-101] Performing variable lifetime analysis.
+@I [BIND-101] Exploring resource sharing.
+@I [BIND-101] Binding ...
+@I [BIND-100] Finished micro-architecture generation.
+@I [HLS-111] Elapsed time: 0.23 seconds; current memory usage: 0.156 MB.
+@I [HLS-10] ----------------------------------------------------------------
+@I [HLS-10] -- Generating RTL for module 'adpcm_main_reset' 
+@I [HLS-10] ----------------------------------------------------------------
+@I [RTGEN-100] Finished creating RTL model for 'adpcm_main_reset'.
+@I [HLS-111] Elapsed time: 0.25 seconds; current memory usage: 0.156 MB.
+@I [HLS-10] ----------------------------------------------------------------
+@I [HLS-10] -- Generating RTL for module 'adpcm_main_upzero' 
+@I [HLS-10] ----------------------------------------------------------------
+@I [RTGEN-100] Generating core module 'adpcm_main_mul_32s_32s_64_6': 1 instance(s).
+@I [RTGEN-100] Finished creating RTL model for 'adpcm_main_upzero'.
+@I [HLS-111] Elapsed time: 0.08 seconds; current memory usage: 0.156 MB.
+@I [HLS-10] ----------------------------------------------------------------
+@I [HLS-10] -- Generating RTL for module 'adpcm_main_encode' 
+@I [HLS-10] ----------------------------------------------------------------
+@W [RTGEN-101] Register 'xh' is power-on initialization.
+@W [RTGEN-101] Register 'sl' is power-on initialization.
+@W [RTGEN-101] Register 'dlt' is power-on initialization.
+@W [RTGEN-101] Register 'plt' is power-on initialization.
+@W [RTGEN-101] Register 'sh' is power-on initialization.
+@W [RTGEN-101] Register 'dh' is power-on initialization.
+@W [RTGEN-101] Register 'ph' is power-on initialization.
+@I [RTGEN-100] Generating core module 'adpcm_main_mul_32s_32s_47_6': 1 instance(s).
+@I [RTGEN-100] Generating core module 'adpcm_main_mul_32s_32s_64_6': 12 instance(s).
+@I [RTGEN-100] Generating core module 'adpcm_main_mux_4to1_sel2_32_1': 2 instance(s).
+@I [RTGEN-100] Finished creating RTL model for 'adpcm_main_encode'.
+@I [HLS-111] Elapsed time: 0.19 seconds; current memory usage: 0.156 MB.
+@I [HLS-10] ----------------------------------------------------------------
+@I [HLS-10] -- Generating RTL for module 'adpcm_main_decode' 
+@I [HLS-10] ----------------------------------------------------------------
+@W [RTGEN-101] Register 'dec_sl' is power-on initialization.
+@W [RTGEN-101] Register 'dec_dlt' is power-on initialization.
+@W [RTGEN-101] Register 'rl' is power-on initialization.
+@W [RTGEN-101] Register 'dec_plt' is power-on initialization.
+@W [RTGEN-101] Register 'dec_sh' is power-on initialization.
+@W [RTGEN-101] Register 'dec_dh' is power-on initialization.
+@W [RTGEN-101] Register 'dec_ph' is power-on initialization.
+@I [RTGEN-100] Generating core module 'adpcm_main_mul_32s_32s_47_6': 5 instance(s).
+@I [RTGEN-100] Generating core module 'adpcm_main_mul_32s_32s_64_6': 8 instance(s).
+@I [RTGEN-100] Generating core module 'adpcm_main_mux_4to1_sel2_32_1': 2 instance(s).
+@I [RTGEN-100] Finished creating RTL model for 'adpcm_main_decode'.
+@I [HLS-111] Elapsed time: 0.61 seconds; current memory usage: 0.156 MB.
+@I [HLS-10] ----------------------------------------------------------------
+@I [HLS-10] -- Generating RTL for module 'adpcm_main' 
+@I [HLS-10] ----------------------------------------------------------------
+@I [RTGEN-500] Setting interface mode on function 'adpcm_main' to 'ap_ctrl_hs'.
+@W [RTGEN-101] Register 'dec_detl' is power-on initialization.
+@W [RTGEN-101] Global scalar 'dec_detl' will not be exposed as RTL port.
+@W [RTGEN-101] Register 'detl' is power-on initialization.
+@W [RTGEN-101] Global scalar 'detl' will not be exposed as RTL port.
+@W [RTGEN-101] Register 'dec_deth' is power-on initialization.
+@W [RTGEN-101] Global scalar 'dec_deth' will not be exposed as RTL port.
+@W [RTGEN-101] Register 'deth' is power-on initialization.
+@W [RTGEN-101] Global scalar 'deth' will not be exposed as RTL port.
+@W [RTGEN-101] Register 'rlt2' is power-on initialization.
+@W [RTGEN-101] Global scalar 'rlt2' will not be exposed as RTL port.
+@W [RTGEN-101] Register 'rlt1' is power-on initialization.
+@W [RTGEN-101] Global scalar 'rlt1' will not be exposed as RTL port.
+@W [RTGEN-101] Register 'plt2' is power-on initialization.
+@W [RTGEN-101] Global scalar 'plt2' will not be exposed as RTL port.
+@W [RTGEN-101] Register 'plt1' is power-on initialization.
+@W [RTGEN-101] Global scalar 'plt1' will not be exposed as RTL port.
+@W [RTGEN-101] Register 'al2' is power-on initialization.
+@W [RTGEN-101] Global scalar 'al2' will not be exposed as RTL port.
+@W [RTGEN-101] Register 'al1' is power-on initialization.
+@W [RTGEN-101] Global scalar 'al1' will not be exposed as RTL port.
+@W [RTGEN-101] Register 'nbl' is power-on initialization.
+@W [RTGEN-101] Global scalar 'nbl' will not be exposed as RTL port.
+@W [RTGEN-101] Register 'rh2' is power-on initialization.
+@W [RTGEN-101] Global scalar 'rh2' will not be exposed as RTL port.
+@W [RTGEN-101] Register 'rh1' is power-on initialization.
+@W [RTGEN-101] Global scalar 'rh1' will not be exposed as RTL port.
+@W [RTGEN-101] Register 'ph2' is power-on initialization.
+@W [RTGEN-101] Global scalar 'ph2' will not be exposed as RTL port.
+@W [RTGEN-101] Register 'ph1' is power-on initialization.
+@W [RTGEN-101] Global scalar 'ph1' will not be exposed as RTL port.
+@W [RTGEN-101] Register 'ah2' is power-on initialization.
+@W [RTGEN-101] Global scalar 'ah2' will not be exposed as RTL port.
+@W [RTGEN-101] Register 'ah1' is power-on initialization.
+@W [RTGEN-101] Global scalar 'ah1' will not be exposed as RTL port.
+@W [RTGEN-101] Register 'nbh' is power-on initialization.
+@W [RTGEN-101] Global scalar 'nbh' will not be exposed as RTL port.
+@W [RTGEN-101] Register 'dec_rlt2' is power-on initialization.
+@W [RTGEN-101] Global scalar 'dec_rlt2' will not be exposed as RTL port.
+@W [RTGEN-101] Register 'dec_rlt1' is power-on initialization.
+@W [RTGEN-101] Global scalar 'dec_rlt1' will not be exposed as RTL port.
+@W [RTGEN-101] Register 'dec_plt2' is power-on initialization.
+@W [RTGEN-101] Global scalar 'dec_plt2' will not be exposed as RTL port.
+@W [RTGEN-101] Register 'dec_plt1' is power-on initialization.
+@W [RTGEN-101] Global scalar 'dec_plt1' will not be exposed as RTL port.
+@W [RTGEN-101] Register 'dec_al2' is power-on initialization.
+@W [RTGEN-101] Global scalar 'dec_al2' will not be exposed as RTL port.
+@W [RTGEN-101] Register 'dec_al1' is power-on initialization.
+@W [RTGEN-101] Global scalar 'dec_al1' will not be exposed as RTL port.
+@W [RTGEN-101] Register 'dec_nbl' is power-on initialization.
+@W [RTGEN-101] Global scalar 'dec_nbl' will not be exposed as RTL port.
+@W [RTGEN-101] Register 'dec_rh2' is power-on initialization.
+@W [RTGEN-101] Global scalar 'dec_rh2' will not be exposed as RTL port.
+@W [RTGEN-101] Register 'dec_rh1' is power-on initialization.
+@W [RTGEN-101] Global scalar 'dec_rh1' will not be exposed as RTL port.
+@W [RTGEN-101] Register 'dec_ph2' is power-on initialization.
+@W [RTGEN-101] Global scalar 'dec_ph2' will not be exposed as RTL port.
+@W [RTGEN-101] Register 'dec_ph1' is power-on initialization.
+@W [RTGEN-101] Global scalar 'dec_ph1' will not be exposed as RTL port.
+@W [RTGEN-101] Register 'dec_ah2' is power-on initialization.
+@W [RTGEN-101] Global scalar 'dec_ah2' will not be exposed as RTL port.
+@W [RTGEN-101] Register 'dec_ah1' is power-on initialization.
+@W [RTGEN-101] Global scalar 'dec_ah1' will not be exposed as RTL port.
+@W [RTGEN-101] Register 'dec_nbh' is power-on initialization.
+@W [RTGEN-101] Global scalar 'dec_nbh' will not be exposed as RTL port.
+@W [RTGEN-101] Global array 'delay_dltx' will not be exposed as RTL port.
+@W [RTGEN-101] Global array 'delay_dhx' will not be exposed as RTL port.
+@W [RTGEN-101] Global array 'dec_del_dltx' will not be exposed as RTL port.
+@W [RTGEN-101] Global array 'dec_del_dhx' will not be exposed as RTL port.
+@W [RTGEN-101] Global array 'delay_bpl' will not be exposed as RTL port.
+@W [RTGEN-101] Global array 'delay_bph' will not be exposed as RTL port.
+@W [RTGEN-101] Global array 'dec_del_bpl' will not be exposed as RTL port.
+@W [RTGEN-101] Global array 'dec_del_bph' will not be exposed as RTL port.
+@W [RTGEN-101] Global array 'tqmf' will not be exposed as RTL port.
+@W [RTGEN-101] Global array 'accumc' will not be exposed as RTL port.
+@W [RTGEN-101] Global array 'accumd' will not be exposed as RTL port.
+@W [RTGEN-101] Global array 'test_data' will not be exposed as RTL port.
+@W [RTGEN-101] Global array 'h' will not be exposed as RTL port.
+@W [RTGEN-101] Global scalar 'xl' will not be exposed as RTL port.
+@W [RTGEN-101] Global scalar 'xh' will not be exposed as RTL port.
+@W [RTGEN-101] Global scalar 'szl' will not be exposed as RTL port.
+@W [RTGEN-101] Global scalar 'spl' will not be exposed as RTL port.
+@W [RTGEN-101] Global scalar 'sl' will not be exposed as RTL port.
+@W [RTGEN-101] Global scalar 'el' will not be exposed as RTL port.
+@W [RTGEN-101] Global array 'decis_levl' will not be exposed as RTL port.
+@W [RTGEN-101] Global array 'quant26bt_pos' will not be exposed as RTL port.
+@W [RTGEN-101] Global array 'quant26bt_neg' will not be exposed as RTL port.
+@W [RTGEN-101] Register 'il' is power-on initialization.
+@W [RTGEN-101] Global scalar 'il' will not be exposed as RTL port.
+@W [RTGEN-101] Global array 'qq4_code4_table' will not be exposed as RTL port.
+@W [RTGEN-101] Global scalar 'dlt' will not be exposed as RTL port.
+@W [RTGEN-101] Global array 'wl_code_table' will not be exposed as RTL port.
+@W [RTGEN-101] Global array 'ilb_table' will not be exposed as RTL port.
+@W [RTGEN-101] Global scalar 'plt' will not be exposed as RTL port.
+@W [RTGEN-101] Global scalar 'rlt' will not be exposed as RTL port.
+@W [RTGEN-101] Global scalar 'szh' will not be exposed as RTL port.
+@W [RTGEN-101] Global scalar 'sph' will not be exposed as RTL port.
+@W [RTGEN-101] Global scalar 'sh' will not be exposed as RTL port.
+@W [RTGEN-101] Global scalar 'eh' will not be exposed as RTL port.
+@W [RTGEN-101] Register 'ih' is power-on initialization.
+@W [RTGEN-101] Global scalar 'ih' will not be exposed as RTL port.
+@W [RTGEN-101] Global scalar 'dh' will not be exposed as RTL port.
+@W [RTGEN-101] Global scalar 'ph' will not be exposed as RTL port.
+@W [RTGEN-101] Global scalar 'yh' will not be exposed as RTL port.
+@W [RTGEN-101] Global array 'compressed' will not be exposed as RTL port.
+@W [RTGEN-101] Global scalar 'ilr' will not be exposed as RTL port.
+@W [RTGEN-101] Global scalar 'dec_szl' will not be exposed as RTL port.
+@W [RTGEN-101] Global scalar 'dec_spl' will not be exposed as RTL port.
+@W [RTGEN-101] Global scalar 'dec_sl' will not be exposed as RTL port.
+@W [RTGEN-101] Global scalar 'dec_dlt' will not be exposed as RTL port.
+@W [RTGEN-101] Global array 'qq6_code6_table' will not be exposed as RTL port.
+@W [RTGEN-101] Global scalar 'dl' will not be exposed as RTL port.
+@W [RTGEN-101] Global scalar 'rl' will not be exposed as RTL port.
+@W [RTGEN-101] Global scalar 'dec_plt' will not be exposed as RTL port.
+@W [RTGEN-101] Global scalar 'dec_rlt' will not be exposed as RTL port.
+@W [RTGEN-101] Global scalar 'dec_szh' will not be exposed as RTL port.
+@W [RTGEN-101] Global scalar 'dec_sph' will not be exposed as RTL port.
+@W [RTGEN-101] Global scalar 'dec_sh' will not be exposed as RTL port.
+@W [RTGEN-101] Global scalar 'dec_dh' will not be exposed as RTL port.
+@W [RTGEN-101] Global scalar 'dec_ph' will not be exposed as RTL port.
+@W [RTGEN-101] Global scalar 'rh' will not be exposed as RTL port.
+@W [RTGEN-101] Global scalar 'xd' will not be exposed as RTL port.
+@W [RTGEN-101] Global scalar 'xs' will not be exposed as RTL port.
+@W [RTGEN-101] Register 'xout1' is power-on initialization.
+@W [RTGEN-101] Global scalar 'xout1' will not be exposed as RTL port.
+@W [RTGEN-101] Register 'xout2' is power-on initialization.
+@W [RTGEN-101] Global scalar 'xout2' will not be exposed as RTL port.
+@W [RTGEN-101] Global array 'result' will not be exposed as RTL port.
+@I [RTGEN-100] Finished creating RTL model for 'adpcm_main'.
+@I [HLS-111] Elapsed time: 0.56 seconds; current memory usage: 0.156 MB.
+@I [RTMG-282] Generating pipelined core: 'adpcm_main_mul_32s_32s_64_6_MulnS_0'
+@I [RTMG-282] Generating pipelined core: 'adpcm_main_mul_32s_32s_47_6_MulnS_1'
+@I [RTMG-279] Implementing memory 'adpcm_main_encode_h_rom' using distributed ROMs.
+@I [RTMG-279] Implementing memory 'adpcm_main_encode_decis_levl_rom' using distributed ROMs.
+@I [RTMG-279] Implementing memory 'adpcm_main_encode_quant26bt_pos_rom' using distributed ROMs.
+@I [RTMG-279] Implementing memory 'adpcm_main_encode_quant26bt_neg_rom' using distributed ROMs.
+@I [RTMG-279] Implementing memory 'adpcm_main_encode_qq4_code4_table_rom' using distributed ROMs.
+@I [RTMG-279] Implementing memory 'adpcm_main_encode_wl_code_table_rom' using distributed ROMs.
+@I [RTMG-279] Implementing memory 'adpcm_main_encode_ilb_table_rom' using distributed ROMs.
+@I [RTMG-279] Implementing memory 'adpcm_main_decode_qq6_code6_table_rom' using auto ROMs.
+@I [RTMG-278] Implementing memory 'adpcm_main_delay_dltx_ram' using block RAMs with power-on initialization.
+@I [RTMG-278] Implementing memory 'adpcm_main_delay_bpl_ram' using distributed RAMs with power-on initialization.
+@I [RTMG-278] Implementing memory 'adpcm_main_tqmf_ram' using block RAMs with power-on initialization.
+@I [RTMG-278] Implementing memory 'adpcm_main_accumc_ram' using distributed RAMs with power-on initialization.
+@I [RTMG-279] Implementing memory 'adpcm_main_test_data_rom' using distributed ROMs.
+@I [RTMG-278] Implementing memory 'adpcm_main_compressed_ram' using block RAMs with power-on initialization.
+@I [RTMG-278] Implementing memory 'adpcm_main_result_ram' using block RAMs with power-on initialization.
+@I [HLS-10] Finished generating all RTL models.
+@I [WSYSC-301] Generating RTL SystemC for 'adpcm_main'.
+@I [WVHDL-304] Generating RTL VHDL for 'adpcm_main'.
+@I [WVLOG-307] Generating RTL Verilog for 'adpcm_main'.
+@I [HLS-112] Total elapsed time: 10.628 seconds; peak memory usage: 0.156 MB.
+@I [LIC-101] Checked in feature [HLS]
