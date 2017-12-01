@@ -1,0 +1,47 @@
+#ifndef __MEMBLADE_H__
+#define __MEMBLADE_H__
+
+#define MB_REQ_ETH_TYPE 0x0408
+#define MB_RESP_ETH_TYPE 0x0508
+#define MB_DRAFT_VERSION 1
+
+#define MB_OC_PAGE_READ 0
+#define MB_OC_PAGE_WRITE 1
+#define MB_OC_WORD_READ 2
+#define MB_OC_WORD_WRITE 3
+#define MB_OC_ATOMIC_ADD 4
+#define MB_OC_COMP_SWAP 5
+
+#define MB_RC_PAGE_OK 0x80
+#define MB_RC_NODATA_OK 0x81
+#define MB_RC_WORD_OK 0x82
+#define MB_RC_ERROR 0x83
+
+struct memblade_request {
+	uint8_t version;
+	uint8_t opcode;
+	uint8_t part_id;
+	uint8_t reserved;
+	uint32_t xact_id;
+	uint64_t pageno;
+};
+
+struct memblade_response {
+	uint8_t version;
+	uint8_t resp_code;
+	uint8_t part_id;
+	uint8_t reserved;
+	uint32_t xact_id;
+};
+
+struct combined_request {
+	struct ethernet_header eth;
+	struct memblade_request mbreq;
+};
+
+struct combined_response {
+	struct ethernet_header eth;
+	struct memblade_response mbresp;
+};
+
+#endif
