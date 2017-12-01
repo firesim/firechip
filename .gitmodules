@@ -13,3 +13,6 @@
 [submodule "riscv-tools"]
 	path = riscv-tools
 	url = https://github.com/firesim/riscv-tools.git
+[submodule "memory-blade"]
+	path = memory-blade
+	url = git@github.com:firesim/memory-blade.git

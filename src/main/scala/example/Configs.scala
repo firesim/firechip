@@ -6,6 +6,7 @@ import freechips.rocketchip.coreplex.{WithRoccExample, WithNMemoryChannels, With
 import freechips.rocketchip.diplomacy.LazyModule
 import testchipip._
 import icenet._
+import memblade._
 
 class WithExampleTop extends Config((site, here, up) => {
   case BuildTop => (clock: Clock, reset: Bool, p: Parameters) =>
@@ -51,6 +52,14 @@ class WithSimNetwork extends Config((site, here, up) => {
   }
 })
 
+class WithLoopbackMemBlade extends Config((site, here, up) => {
+  case BuildTop => (clock: Clock, reset: Bool, p: Parameters) => {
+    val top = Module(LazyModule(new ExampleTopWithMemBlade()(p)).module)
+    top.connectNicLoopback()
+    top
+  }
+})
+
 class BaseExampleConfig extends Config(
   new freechips.rocketchip.system.DefaultConfig)
 
@@ -73,6 +82,9 @@ class LoopbackNICConfig extends Config(
 
 class SimNetworkConfig extends Config(
   new WithSimNetwork ++ new BaseExampleConfig)
+
+class LoopbackMemBladeConfig extends Config(
+  new WithMemBlade ++ new WithLoopbackMemBlade ++ new BaseExampleConfig)
 
 class WithTwoTrackers extends WithNBlockDeviceTrackers(2)
 class WithFourTrackers extends WithNBlockDeviceTrackers(4)

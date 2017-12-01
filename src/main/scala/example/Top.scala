@@ -6,6 +6,7 @@ import freechips.rocketchip.config.Parameters
 import freechips.rocketchip.devices.tilelink._
 import testchipip._
 import icenet._
+import memblade._
 
 class ExampleTop(implicit p: Parameters) extends RocketCoreplex
     with HasMasterAXI4MemPort
@@ -48,3 +49,12 @@ class ExampleTopWithIceNIC(implicit p: Parameters) extends ExampleTop
 class ExampleTopWithIceNICModule(outer: ExampleTopWithIceNIC)
   extends ExampleTopModule(outer)
   with HasPeripheryIceNICModuleImp
+
+class ExampleTopWithMemBlade(implicit p: Parameters) extends ExampleTop
+    with HasPeripheryMemBlade {
+  override lazy val module = new ExampleTopWithMemBladeModule(this)
+}
+
+class ExampleTopWithMemBladeModule(outer: ExampleTopWithMemBlade)
+  extends ExampleTopModule(outer)
+  with HasPeripheryMemBladeModuleImp
