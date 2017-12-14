@@ -1,7 +1,7 @@
 lib_dir=$(base_dir)/lib
 
 ROCKETCHIP_DIR=$(base_dir)/rocket-chip
-EXTRA_PACKAGES=testchipip icenet sifive-blocks
+EXTRA_PACKAGES=testchipip icenet sifive-blocks memory-blade
 SCALA_VERSION=2.11.7
 
 rocketchip_stamp=$(base_dir)/lib/rocketchip.stamp
