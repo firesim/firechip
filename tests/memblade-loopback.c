@@ -8,12 +8,27 @@
 uint64_t page_data[512];
 uint64_t resp_buffer[174];
 
+static inline void send_word_req(
+		struct combined_request *head,
+		uint64_t *extdata, int n)
+{
+	while (nic_send_req_avail() < 2);
+	asm volatile ("fence");
+	nic_post_send(head, sizeof(struct combined_request), 1);
+	nic_post_send(extdata, n * sizeof(uint64_t), 0);
+	while (nic_send_comp_avail() < 2);
+	nic_complete_send();
+	nic_complete_send();
+}
+
 int main(void)
 {
 	struct combined_request creq;
 	struct combined_response *cresp = (struct combined_response *) resp_buffer;
 	int start = 0, len;
 	uint64_t mymac;
+	uint64_t extdata[3];
+	uint64_t exp_resp_data[4] = {0, 0xBE, 1, 0xDEADB00FL};
 
 	for (int i = 0; i < 512; i++)
 		page_data[i] = i;
@@ -116,6 +131,69 @@ int main(void)
 			printf("Page data at %d not correct: got %d\n",
 					i, page_data[i]);
 	}
+
+	printf("Sending word-sized requests\n");
+
+	creq.mbreq.pageno = 5;
+	creq.mbreq.opcode = MB_OC_WORD_WRITE;
+	creq.mbreq.xact_id = 0;
+	extdata[0] = memblade_make_exthead(8, 2);
+	extdata[1] = 0xDEADBEEFL;
+	send_word_req(&creq, extdata, 2);
+
+	creq.mbreq.opcode = MB_OC_ATOMIC_ADD;
+	creq.mbreq.xact_id = 1;
+	extdata[0] = memblade_make_exthead(9, 0);
+	extdata[1] = 5;
+	send_word_req(&creq, extdata, 2);
+
+	creq.mbreq.opcode = MB_OC_COMP_SWAP;
+	creq.mbreq.xact_id = 2;
+	extdata[0] = memblade_make_exthead(8, 1);
+	extdata[1] = 0xB00F;
+	extdata[2] = 0xC3EF;
+	send_word_req(&creq, extdata, 3);
+
+	creq.mbreq.opcode = MB_OC_WORD_READ;
+	creq.mbreq.xact_id = 3;
+	extdata[0] = memblade_make_exthead(8, 2);
+	send_word_req(&creq, extdata, 1);
+
+	printf("Receiving word-sized responses\n");
+
+	for (int i = 0; i < 4; i++) {
+		int n = (i == 0) ? 0 : 1;
+		int exp_resp_code = (i == 0) ? MB_RC_NODATA_OK : MB_RC_WORD_OK;
+
+		len = nic_recv(resp_buffer);
+
+		if (len != 24 + n * sizeof(uint64_t)) {
+			printf("Response packet has wrong size %d\n", len);
+			return 1;
+		}
+		if (cresp->eth.ethtype != MB_RESP_ETH_TYPE) {
+			printf("Word response not an MB response\n");
+			return 1;
+		}
+		if (cresp->mbresp.resp_code != exp_resp_code) {
+			printf("Word response has wrong type %d\n",
+					cresp->mbresp.resp_code);
+			return 1;
+		}
+		if (cresp->mbresp.xact_id != i) {
+			printf("Word response has wrong xact_id %d\n",
+					cresp->mbresp.xact_id);
+			return 1;
+		}
+
+		if (i > 0 && resp_buffer[3] != exp_resp_data[i]) {
+			printf("Word response has wrong data %lx\n",
+					resp_buffer[3]);
+			return 1;
+		}
+	}
+
+	printf("All tests completed successfully\n");
 
 	return 0;
 }

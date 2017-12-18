@@ -44,4 +44,9 @@ struct combined_response {
 	struct memblade_response mbresp;
 };
 
+static inline uint64_t memblade_make_exthead(int offset, int size)
+{
+	return ((offset & 0xfff) << 4) | (size & 0x3);
+}
+
 #endif
