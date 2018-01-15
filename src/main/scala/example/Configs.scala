@@ -3,13 +3,19 @@ package example
 import chisel3._
 import freechips.rocketchip.config.{Parameters, Config}
 import freechips.rocketchip.coreplex.{WithRoccExample, WithNMemoryChannels, WithNBigCores}
-import freechips.rocketchip.diplomacy.LazyModule
+import freechips.rocketchip.diplomacy.{LazyModule, ValName}
 import testchipip._
 import icenet._
 
+object ConfigValName {
+  implicit val valName = ValName("TestHarness")
+}
+import ConfigValName._
+
 class WithExampleTop extends Config((site, here, up) => {
-  case BuildTop => (clock: Clock, reset: Bool, p: Parameters) =>
+  case BuildTop => (clock: Clock, reset: Bool, p: Parameters) => {
     Module(LazyModule(new ExampleTop()(p)).module)
+  }
 })
 
 class WithPWM extends Config((site, here, up) => {
