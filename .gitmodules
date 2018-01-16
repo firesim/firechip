@@ -13,3 +13,6 @@
 [submodule "riscv-tools"]
 	path = riscv-tools
 	url = https://github.com/firesim/riscv-tools.git
+[submodule "boom"]
+	path = boom
+	url = https://github.com/ucb-bar/riscv-boom.git
