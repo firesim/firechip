@@ -26,3 +26,21 @@ class BoomExampleTopModule[+L <: BoomExampleTop](l: L) extends BoomCoreplexModul
     with HasNoDebugModuleImp
     with HasPeripherySerialModuleImp
     with DontTouch
+
+class BoomExampleTopWithBlockDevice(implicit p: Parameters) extends BoomExampleTop
+    with HasPeripheryBlockDevice {
+  override lazy val module = new BoomExampleTopWithBlockDeviceModule(this)
+}
+
+class BoomExampleTopWithBlockDeviceModule(l: BoomExampleTopWithBlockDevice)
+  extends BoomExampleTopModule(l)
+  with HasPeripheryBlockDeviceModuleImp
+
+class BoomExampleTopWithIceNIC(implicit p: Parameters) extends BoomExampleTop
+    with HasPeripheryIceNIC {
+  override lazy val module = new BoomExampleTopWithIceNICModule(this)
+}
+
+class BoomExampleTopWithIceNICModule(outer: BoomExampleTopWithIceNIC)
+  extends BoomExampleTopModule(outer)
+  with HasPeripheryIceNICModuleImp
