@@ -6,7 +6,7 @@
 #include "nic.h"
 #include "encoding.h"
 
-#define NPACKETS 10
+#define NPACKETS 20
 #define TEST_OFFSET 3
 #define TEST_LEN 356
 #define ARRAY_LEN 360
@@ -79,6 +79,9 @@ void run_test(void)
 int main(void)
 {
 	int i, j;
+
+	printf("Set interrupt mask\n");
+	atomic_set32(SIMPLENIC_INTMASK, 0x3);
 
 	for (i = 0; i < NPACKETS; i++) {
 		for (j = 0; j < ARRAY_LEN; j++)

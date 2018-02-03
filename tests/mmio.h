@@ -51,4 +51,48 @@ static inline uint64_t reg_read64(unsigned long addr)
 	return *ptr;
 }
 
+static inline uint64_t atomic_set64(unsigned long dst, uint64_t val)
+{
+	uint64_t oldval;
+
+	asm volatile ("amoor.d %[oldval], %[val], (%[dst])"
+			: [oldval] "=r" (oldval)
+			: [dst] "r" (dst), [val] "r" (val));
+
+	return oldval;
+}
+
+static inline uint32_t atomic_set32(unsigned long dst, uint32_t val)
+{
+	uint32_t oldval;
+
+	asm volatile ("amoor.w %[oldval], %[val], (%[dst])"
+			: [oldval] "=r" (oldval)
+			: [dst] "r" (dst), [val] "r" (val));
+
+	return oldval;
+}
+
+static inline uint64_t atomic_clear64(unsigned long dst, uint64_t val)
+{
+	uint64_t oldval;
+
+	asm volatile ("amoand.d %[oldval], %[val], (%[dst])"
+			: [oldval] "=r" (oldval)
+			: [dst] "r" (dst), [val] "r" (~val));
+
+	return oldval;
+}
+
+static inline uint32_t atomic_clear32(unsigned long dst, uint32_t val)
+{
+	uint32_t oldval;
+
+	asm volatile ("amoand.w %[oldval], %[val], (%[dst])"
+			: [oldval] "=r" (oldval)
+			: [dst] "r" (dst), [val] "r" (~val));
+
+	return oldval;
+}
+
 #endif
