@@ -23,4 +23,5 @@ class TestHarness(implicit val p: Parameters) extends Module {
 object Generator extends GeneratorApp {
   val longName = names.topModuleProject + "." + names.topModuleClass + "." + names.configs
   generateFirrtl
+  generateAnno
 }
