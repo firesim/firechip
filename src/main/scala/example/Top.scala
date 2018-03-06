@@ -1,24 +1,24 @@
 package example
 
 import chisel3._
-import freechips.rocketchip.coreplex._
+import freechips.rocketchip.subsystem._
 import freechips.rocketchip.config.Parameters
 import freechips.rocketchip.devices.tilelink._
 import freechips.rocketchip.util.DontTouch
 import testchipip._
 import icenet._
 
-class ExampleTop(implicit p: Parameters) extends RocketCoreplex
+class ExampleTop(implicit p: Parameters) extends RocketSubsystem
     with HasMasterAXI4MemPort
     with HasPeripheryBootROM
     with HasSystemErrorSlave
     with HasSyncExtInterrupts
     with HasNoDebug
     with HasPeripherySerial {
-  override lazy val module = new ExampleTopModule(this)
+  override lazy val module = new ExampleTopModuleImp(this)
 }
 
-class ExampleTopModule[+L <: ExampleTop](l: L) extends RocketCoreplexModule(l)
+class ExampleTopModuleImp[+L <: ExampleTop](l: L) extends RocketSubsystemModuleImp(l)
     with HasRTCModuleImp
     with HasMasterAXI4MemPortModuleImp
     with HasPeripheryBootROMModuleImp
@@ -33,7 +33,7 @@ class ExampleTopWithPWM(implicit p: Parameters) extends ExampleTop
 }
 
 class ExampleTopWithPWMModule(l: ExampleTopWithPWM)
-  extends ExampleTopModule(l) with HasPeripheryPWMModuleImp
+  extends ExampleTopModuleImp(l) with HasPeripheryPWMModuleImp
 
 class ExampleTopWithBlockDevice(implicit p: Parameters) extends ExampleTop
     with HasPeripheryBlockDevice {
@@ -41,7 +41,7 @@ class ExampleTopWithBlockDevice(implicit p: Parameters) extends ExampleTop
 }
 
 class ExampleTopWithBlockDeviceModule(l: ExampleTopWithBlockDevice)
-  extends ExampleTopModule(l)
+  extends ExampleTopModuleImp(l)
   with HasPeripheryBlockDeviceModuleImp
 
 class ExampleTopWithIceNIC(implicit p: Parameters) extends ExampleTop
@@ -50,5 +50,5 @@ class ExampleTopWithIceNIC(implicit p: Parameters) extends ExampleTop
 }
 
 class ExampleTopWithIceNICModule(outer: ExampleTopWithIceNIC)
-  extends ExampleTopModule(outer)
+  extends ExampleTopModuleImp(outer)
   with HasPeripheryIceNICModuleImp
