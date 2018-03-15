@@ -61,12 +61,12 @@ int main(void)
 	unsigned int nsectors = blkdev_nsectors();
 	unsigned int stride = nsectors / TEST_SECTORS;
 
-	//printf("Writing %u of %u sectors\n", TEST_SECTORS, nsectors);
+	printf("Writing %u of %u sectors\n", TEST_SECTORS, nsectors);
 
-	//for (int i = 0; i < TEST_SECTORS; i++) {
-	//	int sector = i * stride;
-	//	write_sector(sector);
-	//}
+	for (int i = 0; i < TEST_SECTORS; i++) {
+		int sector = i * stride;
+		write_sector(sector);
+	}
 
 	printf("Checking sectors\n", nsectors);
 
