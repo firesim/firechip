@@ -5,7 +5,7 @@ import freechips.rocketchip.diplomacy.LazyModule
 import freechips.rocketchip.config.{Field, Parameters}
 import testchipip.GeneratorApp
 
-case object BuildTop extends Field[(Clock, Bool, Parameters) => ExampleTopModule[ExampleTop]]
+case object BuildTop extends Field[(Clock, Bool, Parameters) => ExampleTopModuleImp[ExampleTop]]
 
 class TestHarness(implicit val p: Parameters) extends Module {
   val io = IO(new Bundle {
