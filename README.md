@@ -60,7 +60,7 @@ follows.
 
 ## Using the block device
 
-The default example project just provides the Rocket coreplex, memory, and
+The default example project just provides the Rocket subsystem, memory, and
 serial line. But testchipip also provides a simulated block device that can
 be used for non-volatile storage. You can build a simulator including the
 block device using the blkdev package.
