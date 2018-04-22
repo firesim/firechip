@@ -1,5 +1,6 @@
 #include "mmio.h"
 #include "nic.h"
+#include "util.h"
 
 #include <stdio.h>
 #include <stdint.h>
@@ -28,14 +29,12 @@ uint16_t request_checksum(void *data, int size)
 
 	request |= (length << 48);
 
-	printf("Sending request\n");
 	do {
 		avail = reg_read16(SIMPLENIC_CKSUM_COUNTS) & 0xff;
 	} while (avail <= 0);
 
 	reg_write64(SIMPLENIC_CKSUM_REQ, request);
 
-	printf("Getting response\n");
 	do {
 		avail = (reg_read16(SIMPLENIC_CKSUM_COUNTS) >> 8) & 0xff;
 	} while (avail <= 0);
@@ -47,15 +46,17 @@ int main(void)
 {
 	uint16_t data[DATA_SIZE];
 	uint16_t expected, actual;
+	int nbytes = (DATA_SIZE-1) * sizeof(uint16_t);
+	int cid = 0;
 
 	for (int i = 0; i < DATA_SIZE; i++)
 		data[i] = i;
 
 	printf("Calculating expected checksum\n");
-	expected = calc_checksum(&data[1], DATA_SIZE-1);
+	stats(expected = calc_checksum(&data[1], DATA_SIZE-1), DATA_SIZE-1);
 
 	printf("Getting checksum from accelerator\n");
-	actual = request_checksum(&data[1], (DATA_SIZE-1) * sizeof(uint16_t));
+	stats(actual = request_checksum(&data[1], nbytes), DATA_SIZE-1);
 
 	if (expected != actual) {
 		printf("Incorrect result expected: %04x, actual: %04x\n",
