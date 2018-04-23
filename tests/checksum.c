@@ -46,25 +46,25 @@ int main(void)
 {
 	uint16_t data[DATA_SIZE];
 	uint16_t expected, actual;
-	int nbytes = (DATA_SIZE-1) * sizeof(uint16_t);
+	int offset = 1;
+	int len = DATA_SIZE-2;
+	int nbytes = len * sizeof(uint16_t);
 	int cid = 0;
 
 	for (int i = 0; i < DATA_SIZE; i++)
 		data[i] = i;
 
-	printf("Calculating expected checksum\n");
-	stats(expected = calc_checksum(&data[1], DATA_SIZE-1), DATA_SIZE-1);
+	printf("Calculating expected checksum");
+	stats(expected = calc_checksum(&data[offset], len), len);
 
-	printf("Getting checksum from accelerator\n");
-	stats(actual = request_checksum(&data[1], nbytes), DATA_SIZE-1);
+	printf("Getting checksum from accelerator");
+	stats(actual = request_checksum(&data[offset], nbytes), len);
 
 	if (expected != actual) {
 		printf("Incorrect result expected: %04x, actual: %04x\n",
 				expected, actual);
 		return 1;
 	}
-
-	printf("Done\n");
 
 	return 0;
 }
