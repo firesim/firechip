@@ -60,5 +60,5 @@ class ExampleTopWithMemBlade(implicit p: Parameters) extends ExampleTop
 }
 
 class ExampleTopWithMemBladeModule(outer: ExampleTopWithMemBlade)
-  extends ExampleTopModule(outer)
+  extends ExampleTopModuleImp(outer)
   with HasPeripheryMemBladeModuleImp
