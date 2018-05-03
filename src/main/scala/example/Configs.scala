@@ -2,15 +2,28 @@ package example
 
 import chisel3._
 import freechips.rocketchip.config.{Parameters, Config}
-import freechips.rocketchip.coreplex.{WithRoccExample, WithNMemoryChannels, WithNBigCores}
-import freechips.rocketchip.diplomacy.LazyModule
+import freechips.rocketchip.subsystem.{WithRoccExample, WithNMemoryChannels, WithNBigCores, WithRV32}
+import freechips.rocketchip.devices.tilelink.BootROMParams
+import freechips.rocketchip.diplomacy.{LazyModule, ValName}
+import freechips.rocketchip.tile.XLen
 import testchipip._
 import icenet._
 import memblade._
 
+object ConfigValName {
+  implicit val valName = ValName("TestHarness")
+}
+import ConfigValName._
+
+class WithBootROM extends Config((site, here, up) => {
+  case BootROMParams => BootROMParams(
+    contentFileName = s"./bootrom/bootrom.rv${site(XLen)}.img")
+})
+
 class WithExampleTop extends Config((site, here, up) => {
-  case BuildTop => (clock: Clock, reset: Bool, p: Parameters) =>
+  case BuildTop => (clock: Clock, reset: Bool, p: Parameters) => {
     Module(LazyModule(new ExampleTop()(p)).module)
+  }
 })
 
 class WithPWM extends Config((site, here, up) => {
@@ -61,6 +74,7 @@ class WithLoopbackMemBlade extends Config((site, here, up) => {
 })
 
 class BaseExampleConfig extends Config(
+  new WithBootROM ++
   new freechips.rocketchip.system.DefaultConfig)
 
 class DefaultExampleConfig extends Config(
@@ -95,3 +109,6 @@ class WithFourMemChannels extends WithNMemoryChannels(4)
 class DualCoreConfig extends Config(
   // Core gets tacked onto existing list
   new WithNBigCores(1) ++ new DefaultExampleConfig)
+
+class RV32ExampleConfig extends Config(
+  new WithRV32 ++ new DefaultExampleConfig)

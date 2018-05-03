@@ -1,45 +1,29 @@
-lib_dir=$(base_dir)/lib
-
 ROCKETCHIP_DIR=$(base_dir)/rocket-chip
-EXTRA_PACKAGES=testchipip icenet sifive-blocks memory-blade
-SCALA_VERSION=2.11.7
 
-rocketchip_stamp=$(base_dir)/lib/rocketchip.stamp
 SBT ?= java -Xmx2G -Xss8M -XX:MaxPermSize=256M -jar $(ROCKETCHIP_DIR)/sbt-launch.jar
-extra_stamps = $(addprefix $(lib_dir)/,$(addsuffix .stamp,$(EXTRA_PACKAGES)))
 
 lookup_scala_srcs = $(shell find $(1)/ -iname "*.scala" 2> /dev/null)
 
-libs: $(rocketchip_stamp) $(extra_stamps)
+PACKAGES=rocket-chip testchipip icenet sifive-blocks
+SCALA_SOURCES=$(foreach pkg,$(PACKAGES),$(call lookup_scala_srcs,$(base_dir)/$(pkg)/src/main/scala)) $(call lookup_scala_srcs,$(base_dir)/src/main/scala)
 
-FIRRTL_JAR ?= $(ROCKETCHIP_DIR)/firrtl/utils/bin/firrtl.jar
+FIRRTL_JAR ?= $(ROCKETCHIP_DIR)/lib/firrtl.jar
 FIRRTL ?= java -Xmx2G -Xss8M -XX:MaxPermSize=256M -cp $(FIRRTL_JAR) firrtl.Driver
-
-$(rocketchip_stamp): $(call lookup_scala_srcs, $(ROCKETCHIP_DIR)) $(FIRRTL_JAR)
-	cd $(ROCKETCHIP_DIR) && $(SBT) pack
-	mkdir -p $(lib_dir)
-	cp $(ROCKETCHIP_DIR)/target/pack/lib/*.jar $(lib_dir)
-	touch $(rocketchip_stamp)
-
--include $(base_dir)/Makefrag.pkgs
-
-$(base_dir)/Makefrag.pkgs: $(base_dir)/generate-pkg-mk.sh
-	bash $(base_dir)/generate-pkg-mk.sh $(EXTRA_PACKAGES) > $@
 
 $(FIRRTL_JAR): $(call lookup_scala_srcs, $(ROCKETCHIP_DIR)/firrtl/src/main/scala)
 	$(MAKE) -C $(ROCKETCHIP_DIR)/firrtl SBT="$(SBT)" root_dir=$(ROCKETCHIP_DIR)/firrtl build-scala
 	mkdir -p $(ROCKETCHIP_DIR)/lib
-	cp -p $(FIRRTL_JAR) $(ROCKETCHIP_DIR)/lib
+	cp -p $(ROCKETCHIP_DIR)/firrtl/utils/bin/firrtl.jar $(FIRRTL_JAR)
 
 build_dir=$(sim_dir)/generated-src
 
-bootrom_img = $(base_dir)/bootrom/bootrom.img
+bootrom_img = $(base_dir)/bootrom/bootrom.rv64.img $(base_dir)/bootrom/bootrom.rv32.img
 
 CHISEL_ARGS ?=
 
-$(build_dir)/$(PROJECT).$(MODEL).$(CONFIG).fir: $(rocketchip_stamp) $(extra_stamps) $(call lookup_scala_srcs,$(base_dir)/src/main/scala) $(bootrom_img)
+$(build_dir)/$(PROJECT).$(MODEL).$(CONFIG).fir: $(SCALA_SOURCES) $(bootrom_img) $(FIRRTL_JAR)
 	mkdir -p $(build_dir)
-	cd $(base_dir) && $(SBT) "run-main $(PROJECT).Generator $(CHISEL_ARGS) $(build_dir) $(PROJECT) $(MODEL) $(CFG_PROJECT) $(CONFIG)"
+	cd $(base_dir) && $(SBT) "runMain $(PROJECT).Generator $(CHISEL_ARGS) $(build_dir) $(PROJECT) $(MODEL) $(CFG_PROJECT) $(CONFIG)"
 
 $(build_dir)/$(PROJECT).$(MODEL).$(CONFIG).v: $(build_dir)/$(PROJECT).$(MODEL).$(CONFIG).fir $(FIRRTL_JAR)
 	$(FIRRTL) -i $< -o $@ -X verilog

@@ -16,3 +16,6 @@
 [submodule "memory-blade"]
 	path = memory-blade
 	url = git@github.com:firesim/memory-blade.git
+[submodule "boom"]
+	path = boom
+	url = https://github.com/ucb-bar/riscv-boom.git
