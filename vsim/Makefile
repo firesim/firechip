@@ -16,12 +16,14 @@ debug: $(simv_debug)
 
 include $(base_dir)/Makefrag
 
+rocketchip_vsrc_dir = $(ROCKETCHIP_DIR)/src/main/resources/vsrc
+
 sim_vsrcs = \
 	$(build_dir)/$(PROJECT).$(MODEL).$(CONFIG).v \
 	$(base_dir)/icenet/vsrc/SimNetwork.v \
-	$(base_dir)/rocket-chip/vsrc/TestDriver.v \
-	$(base_dir)/rocket-chip/vsrc/AsyncResetReg.v \
-	$(base_dir)/rocket-chip/vsrc/plusarg_reader.v \
+	$(rocketchip_vsrc_dir)/TestDriver.v \
+	$(rocketchip_vsrc_dir)/AsyncResetReg.v \
+	$(rocketchip_vsrc_dir)/plusarg_reader.v \
 	$(base_dir)/testchipip/vsrc/SimSerial.v \
 	$(base_dir)/testchipip/vsrc/SimBlockDevice.v \
 

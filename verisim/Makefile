@@ -22,12 +22,13 @@ LDFLAGS := $(LDFLAGS) $(foreach libdir,$(LIBDIRS),-L$(libdir) -Wl,-rpath,$(libdi
 include $(base_dir)/Makefrag
 include $(sim_dir)/Makefrag-verilator
 
+
 long_name = $(PROJECT).$(MODEL).$(CONFIG)
 
 sim_vsrcs = \
 	$(build_dir)/$(long_name).v \
 	$(base_dir)/icenet/vsrc/SimNetwork.v \
-	$(base_dir)/rocket-chip/vsrc/AsyncResetReg.v \
+	$(rocketchip_vsrc_dir)/AsyncResetReg.v \
 	$(base_dir)/testchipip/vsrc/SimSerial.v \
 	$(base_dir)/testchipip/vsrc/SimBlockDevice.v \
 
