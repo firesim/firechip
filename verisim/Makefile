@@ -14,10 +14,10 @@ default: $(sim)
 
 debug: $(sim_debug)
 
-LIBDIRS := $(RISCV)/lib $(base_dir)/icenet/build
+LIBDIRS := $(RISCV)/lib
 CXXFLAGS := $(CXXFLAGS) -O1 -std=c++11 -I$(RISCV)/include -D__STDC_FORMAT_MACROS
 LDFLAGS := $(LDFLAGS) $(foreach libdir,$(LIBDIRS),-L$(libdir) -Wl,-rpath,$(libdir)) \
-	   -lfesvr -licenet -lpthread
+	   -lfesvr -lpthread
 
 include $(base_dir)/Makefrag
 include $(sim_dir)/Makefrag-verilator
@@ -27,17 +27,12 @@ long_name = $(PROJECT).$(MODEL).$(CONFIG)
 
 sim_vsrcs = \
 	$(build_dir)/$(long_name).v \
-	$(base_dir)/icenet/vsrc/SimNetwork.v \
 	$(rocketchip_vsrc_dir)/AsyncResetReg.v \
-	$(base_dir)/testchipip/vsrc/SimSerial.v \
-	$(base_dir)/testchipip/vsrc/SimBlockDevice.v \
+	$(icenet_vsrcs) $(testchip_vsrcs)
 
 sim_csrcs = \
-	$(base_dir)/icenet/csrc/SimNetwork.cc \
-	$(base_dir)/testchipip/csrc/SimSerial.cc \
-	$(base_dir)/testchipip/csrc/SimBlockDevice.cc \
-	$(base_dir)/testchipip/csrc/blkdev.cc \
-	$(base_dir)/testchipip/csrc/verilator-harness.cc \
+	$(sim_dir)/csrc/verilator-harness.cc \
+	$(icenet_csrcs) $(testchip_csrcs)
 
 model_dir = $(build_dir)/$(long_name)
 model_dir_debug = $(build_dir)/$(long_name).debug
