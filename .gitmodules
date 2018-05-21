@@ -6,7 +6,7 @@
 	url = https://github.com/ucb-bar/testchipip.git
 [submodule "icenet"]
 	path = icenet
-	url = git@github.com:firesim/icenet.git
+	url = https://github.com/firesim/icenet.git
 [submodule "sifive-blocks"]
 	path = sifive-blocks
 	url = https://github.com/firesim/sifive-blocks.git
