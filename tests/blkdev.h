@@ -33,5 +33,6 @@ static inline unsigned int blkdev_send_request(
 		reg_write32(BLKDEV_LEN, len);
 		reg_write8(BLKDEV_WRITE, write);
 
+		asm volatile ("fence");
 		return reg_read8(BLKDEV_REQUEST);
 }

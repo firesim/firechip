@@ -24,6 +24,9 @@ verilator/verilator-$(VERILATOR_VERSION).tar.gz:
 	mkdir -p $(dir $@)
 	wget http://www.veripool.org/ftp/verilator-$(VERILATOR_VERSION).tgz -O $@
 
+rocketchip_vsrc_dir = $(ROCKETCHIP_DIR)/src/main/resources/vsrc
+rocketchip_csrc_dir = $(ROCKETCHIP_DIR)/src/main/resources/csrc
+
 # Run Verilator to produce a fast binary to emulate this circuit.
 VERILATOR := $(INSTALLED_VERILATOR) --cc --exe
 VERILATOR_FLAGS := --top-module $(MODEL) \
@@ -33,5 +36,5 @@ VERILATOR_FLAGS := --top-module $(MODEL) \
 	-Wno-STMTDLY --x-assign unique \
   -I$(base_dir)/icenet/vsrc \
   -I$(base_dir)/testchipip/vsrc \
-  -I$(base_dir)/rocket-chip/vsrc \
-  -O3 -CFLAGS "$(CXXFLAGS) -DVERILATOR -include $(base_dir)/rocket-chip/csrc/verilator.h"
+  -I$(rocketchip_vsrc_dir) \
+  -O3 -CFLAGS "$(CXXFLAGS) -DVERILATOR -include $(rocketchip_csrc_dir)/verilator.h"
