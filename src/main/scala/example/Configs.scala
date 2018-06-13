@@ -16,7 +16,7 @@ import ConfigValName._
 
 class WithBootROM extends Config((site, here, up) => {
   case BootROMParams => BootROMParams(
-    contentFileName = s"./bootrom/bootrom.rv${site(XLen)}.img")
+    contentFileName = s"./testchipip/bootrom/bootrom.rv${site(XLen)}.img")
 })
 
 class WithExampleTop extends Config((site, here, up) => {

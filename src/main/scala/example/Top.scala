@@ -9,7 +9,7 @@ import testchipip._
 import icenet._
 
 class ExampleTop(implicit p: Parameters) extends RocketSubsystem
-    with HasMasterAXI4MemPort
+    with CanHaveMasterAXI4MemPort
     with HasPeripheryBootROM
     with HasSystemErrorSlave
     with HasSyncExtInterrupts
@@ -20,7 +20,7 @@ class ExampleTop(implicit p: Parameters) extends RocketSubsystem
 
 class ExampleTopModuleImp[+L <: ExampleTop](l: L) extends RocketSubsystemModuleImp(l)
     with HasRTCModuleImp
-    with HasMasterAXI4MemPortModuleImp
+    with CanHaveMasterAXI4MemPortModuleImp
     with HasPeripheryBootROMModuleImp
     with HasExtInterruptsModuleImp
     with HasNoDebugModuleImp
