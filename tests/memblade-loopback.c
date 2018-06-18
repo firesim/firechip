@@ -6,125 +6,71 @@
 #include "memblade.h"
 
 uint64_t page_data[512];
-uint64_t resp_buffer[174];
 
-static inline void send_word_req(
-		struct combined_request *head,
-		uint64_t *extdata, int n)
+static inline int send_rmem_request(
+		void *src_addr, void *dst_addr,
+		uint64_t dstmac, int opcode, uint64_t pageno)
 {
-	while (nic_send_req_avail() < 2);
+	reg_write64(RMEM_CLIENT_SRC_ADDR, (unsigned long) src_addr);
+	reg_write64(RMEM_CLIENT_DST_ADDR, (unsigned long) dst_addr);
+	reg_write64(RMEM_CLIENT_DSTMAC,   dstmac);
+	reg_write8 (RMEM_CLIENT_OPCODE,   opcode);
+	reg_write64(RMEM_CLIENT_PAGENO,   pageno);
+
+	while (reg_read32(RMEM_CLIENT_NREQ) == 0) {}
 	asm volatile ("fence");
-	nic_post_send(head, sizeof(struct combined_request), 1);
-	nic_post_send(extdata, n * sizeof(uint64_t), 0);
-	while (nic_send_comp_avail() < 2);
-	nic_complete_send();
-	nic_complete_send();
+	return reg_read32(RMEM_CLIENT_REQ);
+}
+
+static inline void wait_response(int xact_id)
+{
+	for (;;) {
+		while (reg_read32(RMEM_CLIENT_NRESP) == 0) {}
+
+		if (reg_read32(RMEM_CLIENT_RESP) == xact_id)
+			return;
+	}
 }
 
 int main(void)
 {
-	struct combined_request creq;
-	struct combined_response *cresp = (struct combined_response *) resp_buffer;
 	int start = 0, len;
 	uint64_t mymac;
-	uint64_t extdata[3];
-	uint64_t exp_resp_data[4] = {0, 0xBE, 1, 0xDEADB00FL};
+	uint64_t extdata[8];
+	uint64_t word_results[3];
+	uint64_t exp_results[3] = {0xBE, 1, 0xDEADB00FL};
+	uint64_t pageno = 4;
+	int xact_ids[4];
 
 	for (int i = 0; i < 512; i++)
 		page_data[i] = i;
 
 	mymac = nic_macaddr();
-	memcpy(creq.eth.dstmac, &mymac, 6);
-	memcpy(creq.eth.srcmac, &mymac, 6);
-	creq.eth.ethtype = MB_REQ_ETH_TYPE;
-	creq.mbreq.version = MB_DRAFT_VERSION;
-	creq.mbreq.opcode = MB_OC_PAGE_WRITE;
-	creq.mbreq.xact_id = 1;
-	creq.mbreq.pageno = 4;
 
 	printf("Sending write request\n");
 
-	for (int i = 0; i < 3; i++) {
-		int n = (i == 2) ? 170 : 171;
-		creq.mbreq.part_id = i;
-
-		while (nic_send_req_avail() < 2);
-		asm volatile ("fence");
-		nic_post_send(&creq, sizeof(creq), 1);
-		nic_post_send(&page_data[start], sizeof(uint64_t) * n, 0);
-
-		while (nic_send_comp_avail() < 2);
-		nic_complete_send();
-		nic_complete_send();
-
-		start += n;
-	}
+	xact_ids[0] = send_rmem_request(
+			page_data, NULL, mymac, MB_OC_PAGE_WRITE, pageno);
 
 	printf("Receiving write response\n");
 
-	len = nic_recv(resp_buffer);
-
-	if (len != 24) {
-		printf("Write response wrong size\n");
-		return 1;
-	}
-	if (cresp->eth.ethtype != MB_RESP_ETH_TYPE) {
-		printf("Write response not an MB response\n");
-		return 1;
-	}
-	if (cresp->mbresp.resp_code != MB_RC_NODATA_OK) {
-		printf("Write response has wrong type %d\n",
-				cresp->mbresp.resp_code);
-		return 1;
-	}
-	if (cresp->mbresp.xact_id != 1) {
-		printf("Write response has wrong xact id %d\n",
-				cresp->mbresp.xact_id);
-		return 1;
-	}
-
-	printf("Sending read request\n");
-
-	creq.mbreq.opcode = MB_OC_PAGE_READ;
-	creq.mbreq.part_id = 0;
-	while (nic_send_req_avail() == 0);
-	asm volatile ("fence");
-	nic_post_send(&creq, sizeof(creq), 0);
-	while (nic_send_comp_avail() == 0);
-	nic_complete_send();
-
-	printf("Receiving read response\n");
+	wait_response(xact_ids[0]);
 
 	start = 0;
 	for (int i = 0; i < 512; i++)
 		page_data[i] = 0;
 
-	for (int i = 0; i < 3; i++) {
-		int n = (i == 2) ? 170 : 171;
+	printf("Sending read request\n");
 
-		len = nic_recv(resp_buffer);
-		if (len != 24 + n * sizeof(uint64_t)) {
-			printf("Read packet has wrong size %d\n", len);
-			return 1;
-		}
-		if (cresp->eth.ethtype != MB_RESP_ETH_TYPE) {
-			printf("Read response not an MB response\n");
-			return 1;
-		}
-		if (cresp->mbresp.resp_code != MB_RC_PAGE_OK) {
-			printf("Read response has wrong type %d\n",
-					cresp->mbresp.resp_code);
-			return 1;
-		}
-		if (cresp->mbresp.xact_id != 1) {
-			printf("Read response has wrong xact_id %d\n",
-					cresp->mbresp.xact_id);
-			return 1;
-		}
+	xact_ids[0] = send_rmem_request(
+			NULL, page_data, mymac, MB_OC_PAGE_READ, pageno);
 
-		memcpy(&page_data[start], &resp_buffer[3], n * sizeof(uint64_t));
-		start += n;
-	}
+	printf("Receiving read response\n");
+
+	wait_response(xact_ids[0]);
+	asm volatile ("fence");
+
+	printf("Checking read response\n");
 
 	for (int i = 0; i < 512; i++) {
 		if (page_data[i] != i)
@@ -134,63 +80,39 @@ int main(void)
 
 	printf("Sending word-sized requests\n");
 
-	creq.mbreq.pageno = 5;
-	creq.mbreq.opcode = MB_OC_WORD_WRITE;
-	creq.mbreq.xact_id = 0;
+	pageno = 5;
 	extdata[0] = memblade_make_exthead(8, 2);
 	extdata[1] = 0xDEADBEEFL;
-	send_word_req(&creq, extdata, 2);
+	xact_ids[0] = send_rmem_request(
+			&extdata[0], NULL, mymac, MB_OC_WORD_WRITE, pageno);
 
-	creq.mbreq.opcode = MB_OC_ATOMIC_ADD;
-	creq.mbreq.xact_id = 1;
-	extdata[0] = memblade_make_exthead(9, 0);
-	extdata[1] = 5;
-	send_word_req(&creq, extdata, 2);
+	extdata[2] = memblade_make_exthead(9, 0);
+	extdata[3] = 5;
+	xact_ids[1] = send_rmem_request(
+			&extdata[2], &word_results[0], mymac,
+			MB_OC_ATOMIC_ADD, pageno);
 
-	creq.mbreq.opcode = MB_OC_COMP_SWAP;
-	creq.mbreq.xact_id = 2;
-	extdata[0] = memblade_make_exthead(8, 1);
-	extdata[1] = 0xB00F;
-	extdata[2] = 0xC3EF;
-	send_word_req(&creq, extdata, 3);
+	extdata[4] = memblade_make_exthead(8, 1);
+	extdata[5] = 0xB00F;
+	extdata[6] = 0xC3EF;
+	xact_ids[2] = send_rmem_request(
+			&extdata[4], &word_results[1], mymac,
+			MB_OC_COMP_SWAP, pageno);
 
-	creq.mbreq.opcode = MB_OC_WORD_READ;
-	creq.mbreq.xact_id = 3;
-	extdata[0] = memblade_make_exthead(8, 2);
-	send_word_req(&creq, extdata, 1);
+	extdata[7] = memblade_make_exthead(8, 2);
+	xact_ids[3] = send_rmem_request(
+			&extdata[7], &word_results[2], mymac,
+			MB_OC_WORD_READ, pageno);
 
 	printf("Receiving word-sized responses\n");
 
-	for (int i = 0; i < 4; i++) {
-		int n = (i == 0) ? 0 : 1;
-		int exp_resp_code = (i == 0) ? MB_RC_NODATA_OK : MB_RC_WORD_OK;
+	for (int i = 0; i < 4; i++)
+		wait_response(xact_ids[i]);
 
-		len = nic_recv(resp_buffer);
-
-		if (len != 24 + n * sizeof(uint64_t)) {
-			printf("Response packet has wrong size %d\n", len);
-			return 1;
-		}
-		if (cresp->eth.ethtype != MB_RESP_ETH_TYPE) {
-			printf("Word response not an MB response\n");
-			return 1;
-		}
-		if (cresp->mbresp.resp_code != exp_resp_code) {
-			printf("Word response has wrong type %d\n",
-					cresp->mbresp.resp_code);
-			return 1;
-		}
-		if (cresp->mbresp.xact_id != i) {
-			printf("Word response has wrong xact_id %d\n",
-					cresp->mbresp.xact_id);
-			return 1;
-		}
-
-		if (i > 0 && resp_buffer[3] != exp_resp_data[i]) {
-			printf("Word response has wrong data %lx\n",
-					resp_buffer[3]);
-			return 1;
-		}
+	for (int i = 0; i < 3; i++) {
+		if (word_results[i] != exp_results[i])
+			printf("Word result %d incorrect: got %lx\n",
+					i, word_results[i]);
 	}
 
 	printf("All tests completed successfully\n");

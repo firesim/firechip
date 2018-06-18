@@ -17,6 +17,17 @@
 #define MB_RC_WORD_OK 0x82
 #define MB_RC_ERROR 0x83
 
+#define RMEM_CLIENT_BASE   0x10017000L
+#define RMEM_CLIENT_SRC_ADDR   (RMEM_CLIENT_BASE + 0x00)
+#define RMEM_CLIENT_DST_ADDR   (RMEM_CLIENT_BASE + 0x08)
+#define RMEM_CLIENT_DSTMAC     (RMEM_CLIENT_BASE + 0x10)
+#define RMEM_CLIENT_OPCODE     (RMEM_CLIENT_BASE + 0x16)
+#define RMEM_CLIENT_PAGENO     (RMEM_CLIENT_BASE + 0x18)
+#define RMEM_CLIENT_REQ        (RMEM_CLIENT_BASE + 0x20)
+#define RMEM_CLIENT_RESP       (RMEM_CLIENT_BASE + 0x24)
+#define RMEM_CLIENT_NREQ       (RMEM_CLIENT_BASE + 0x28)
+#define RMEM_CLIENT_NRESP      (RMEM_CLIENT_BASE + 0x2C)
+
 struct memblade_request {
 	uint8_t version;
 	uint8_t opcode;
