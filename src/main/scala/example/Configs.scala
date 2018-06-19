@@ -68,7 +68,7 @@ class WithSimNetwork extends Config((site, here, up) => {
 class WithLoopbackMemBlade extends Config((site, here, up) => {
   case MemBladeKey => MemBladeParams()
   case RemoteMemClientKey => RemoteMemClientConfig()
-  case NICKey => NICConfig(inBufPackets = 10)
+  case NICKey => NICConfig(inBufPackets = 48)
   case BuildTop => (clock: Clock, reset: Bool, p: Parameters) => {
     val top = Module(LazyModule(new ExampleTopWithMemBlade()(p)).module)
     top.connectNicLoopback()

@@ -6,10 +6,9 @@
 #include "memblade.h"
 #include "encoding.h"
 
-#define NREQUESTS 128
+#define NREQUESTS 8
 #define PAGE_WORDS 512
-#define START_PAGE 4
-#define NTAGS 12
+#define START_PAGE 128
 
 struct req_tracker {
 	uint64_t page_data[PAGE_WORDS];
@@ -18,11 +17,9 @@ struct req_tracker {
 };
 
 struct req_tracker write_trackers[NREQUESTS];
-int write_id_table[NTAGS];
 int write_head = 0, write_tail = 0;
 
 struct req_tracker read_trackers[NREQUESTS];
-int read_id_table[NTAGS];
 int read_head = 0, read_tail = 0;
 
 void setup_write_trackers(void)
@@ -34,9 +31,6 @@ void setup_write_trackers(void)
 		}
 		write_trackers[tag].complete = 0;
 	}
-
-	for (int tag = 0; tag < NTAGS; tag++)
-		write_id_table[tag] = -1;
 }
 
 void send_page_writes(uint64_t dstmac)
@@ -55,13 +49,20 @@ void send_page_writes(uint64_t dstmac)
 		asm volatile ("fence");
 		tag = reg_read32(RMEM_CLIENT_REQ);
 		write_trackers[write_head].tag = tag;
-		write_id_table[tag] = write_head;
-
-		printf("write send: %d -> %d\n", write_head, tag);
 
 		write_head++;
 		req_avail--;
 	}
+}
+
+struct req_tracker *find_tracker(struct req_tracker *trackers, int tag)
+{
+	for (int i = 0; i < NREQUESTS; i++) {
+		if (!trackers[i].complete && trackers[i].tag == tag)
+			return &trackers[i];
+	}
+
+	return NULL;
 }
 
 void complete_page_writes()
@@ -69,15 +70,15 @@ void complete_page_writes()
 	int resp_avail = reg_read32(RMEM_CLIENT_NRESP);
 
 	while (resp_avail > 0 && write_tail < NREQUESTS) {
+		struct req_tracker *tracker;
 		int tag = reg_read32(RMEM_CLIENT_RESP);
-		int idx = write_id_table[tag];
 
-		printf("write recv: %d -> %d\n", tag, idx);
+		tracker = find_tracker(write_trackers, tag);
 
-		if (idx == -1)
+		if (tracker == NULL)
 			printf("Received unexpected write response %d\n", tag);
-
-		write_trackers[idx].complete = 1;
+		else
+			tracker->complete = 1;
 
 		write_tail++;
 		resp_avail--;
@@ -103,9 +104,6 @@ void setup_read_trackers(void)
 {
 	for (int tag = 0; tag < NREQUESTS; tag++)
 		read_trackers[tag].complete = 0;
-
-	for (int tag = 0; tag < NTAGS; tag++)
-		read_id_table[tag] = -1;
 }
 
 void send_page_reads(uint64_t dstmac)
@@ -123,7 +121,6 @@ void send_page_reads(uint64_t dstmac)
 		reg_write64(RMEM_CLIENT_PAGENO, START_PAGE + read_head);
 		tag = reg_read32(RMEM_CLIENT_REQ);
 		read_trackers[read_head].tag = tag;
-		read_id_table[tag] = read_head;
 
 		read_head++;
 		req_avail--;
@@ -135,13 +132,15 @@ void complete_page_reads(void)
 	int resp_avail = reg_read32(RMEM_CLIENT_NRESP);
 
 	while (resp_avail > 0 && read_tail < NREQUESTS) {
+		struct req_tracker *tracker;
 		int tag = reg_read32(RMEM_CLIENT_RESP);
-		int idx = read_id_table[tag];
 
-		if (idx == -1)
+		tracker = find_tracker(read_trackers, tag);
+
+		if (tracker == NULL)
 			printf("Received unexpected read response %d\n", tag);
-
-		read_trackers[idx].complete = 1;
+		else
+			tracker->complete = 1;
 
 		read_tail++;
 		resp_avail--;
