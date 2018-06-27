@@ -68,7 +68,7 @@ int main(void)
 		write_sector(sector);
 	}
 
-	printf("Checking sectors\n", nsectors);
+	printf("Checking %u sectors\n", nsectors);
 
 	for (int i = 0; i < TEST_SECTORS; i++) {
 		int sector = i * stride;

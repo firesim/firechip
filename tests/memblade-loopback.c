@@ -34,7 +34,6 @@ static inline void wait_response(int xact_id)
 
 int main(void)
 {
-	int start = 0, len;
 	uint64_t mymac;
 	uint64_t extdata[8];
 	uint64_t word_results[3];
@@ -56,7 +55,6 @@ int main(void)
 
 	wait_response(xact_ids[0]);
 
-	start = 0;
 	for (int i = 0; i < 512; i++)
 		page_data[i] = 0;
 
@@ -74,7 +72,7 @@ int main(void)
 
 	for (int i = 0; i < 512; i++) {
 		if (page_data[i] != i)
-			printf("Page data at %d not correct: got %d\n",
+			printf("Page data at %d not correct: got %lu\n",
 					i, page_data[i]);
 	}
 

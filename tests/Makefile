@@ -1,6 +1,6 @@
 GCC=riscv64-unknown-elf-gcc
 OBJDUMP=riscv64-unknown-elf-objdump
-CFLAGS=-mcmodel=medany -std=gnu99 -O2 -fno-common -fno-builtin-printf -Wall
+CFLAGS=-mcmodel=medany -std=gnu99 -O2 -fno-common -fno-builtin-printf -Wall -Wno-unused-function
 LDFLAGS=-static -nostdlib -nostartfiles -lgcc
 
 PROGRAMS = pwm blkdev accum charcount nic-loopback pingd big-blkdev checksum memblade-loopback memblade-page-bmark

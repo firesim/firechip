@@ -116,7 +116,7 @@ void _init(int cid, int nc)
   char* pbuf = buf;
   for (int i = 0; i < NUM_COUNTERS; i++)
     if (counters[i])
-      pbuf += sprintf(pbuf, "%s = %d\n", counter_names[i], counters[i]);
+      pbuf += sprintf(pbuf, "%s = %lu\n", counter_names[i], counters[i]);
   if (pbuf != buf)
     printstr(buf);
 
@@ -199,9 +199,9 @@ static void vprintfmt(void (*putch)(int, void**), void **putdat, const char *fmt
 {
   register const char* p;
   const char* last_fmt;
-  register int ch, err;
+  register int ch;
   unsigned long long num;
-  int base, lflag, width, precision, altflag;
+  int base, lflag, width, precision;
   char padc;
 
   while (1) {
@@ -219,7 +219,6 @@ static void vprintfmt(void (*putch)(int, void**), void **putdat, const char *fmt
     width = -1;
     precision = -1;
     lflag = 0;
-    altflag = 0;
   reswitch:
     switch (ch = *(unsigned char *) fmt++) {
 
@@ -261,7 +260,6 @@ static void vprintfmt(void (*putch)(int, void**), void **putdat, const char *fmt
       goto reswitch;
 
     case '#':
-      altflag = 1;
       goto reswitch;
 
     process_precision:

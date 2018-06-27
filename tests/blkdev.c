@@ -6,7 +6,7 @@
 
 void blkdev_read(void *addr, unsigned long offset, size_t nsectors)
 {
-	int req_tag, resp_tag, ntags, i;
+	int resp_tag, ntags, i;
 	size_t nsectors_per_tag;
 
 	ntags = reg_read8(BLKDEV_NREQUEST);
@@ -15,7 +15,7 @@ void blkdev_read(void *addr, unsigned long offset, size_t nsectors)
 	printf("sending %d reads\n", ntags);
 
 	for (i = 0; i < ntags; i++) {
-		req_tag = blkdev_send_request(
+		blkdev_send_request(
 				(unsigned long) addr, offset,
 				nsectors_per_tag, 0);
 		addr += (nsectors_per_tag << BLKDEV_SECTOR_SHIFT);
@@ -32,7 +32,7 @@ void blkdev_read(void *addr, unsigned long offset, size_t nsectors)
 
 void blkdev_write(unsigned long offset, void *addr, size_t nsectors)
 {
-	int req_tag, resp_tag, ntags, i;
+	int resp_tag, ntags, i;
 	size_t nsectors_per_tag;
 
 	ntags = reg_read8(BLKDEV_NREQUEST);
@@ -41,7 +41,7 @@ void blkdev_write(unsigned long offset, void *addr, size_t nsectors)
 	printf("sending %d writes\n", ntags);
 
 	for (i = 0; i < ntags; i++) {
-		req_tag = blkdev_send_request(
+		blkdev_send_request(
 				(unsigned long) addr, offset,
 				nsectors_per_tag, 1);
 		addr += (nsectors_per_tag << BLKDEV_SECTOR_SHIFT);
