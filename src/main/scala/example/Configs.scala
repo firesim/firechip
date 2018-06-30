@@ -66,7 +66,7 @@ class WithSimNetwork extends Config((site, here, up) => {
 })
 
 class WithLoopbackMemBlade extends Config((site, here, up) => {
-  case MemBladeKey => MemBladeParams()
+  case MemBladeKey => MemBladeParams(useSRAM = true)
   case RemoteMemClientKey => RemoteMemClientConfig()
   case NICKey => NICConfig(inBufPackets = 48)
   case BuildTop => (clock: Clock, reset: Bool, p: Parameters) => {
