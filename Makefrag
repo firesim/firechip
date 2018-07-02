@@ -13,7 +13,7 @@ FIRRTL ?= java -Xmx2G -Xss8M -XX:MaxPermSize=256M -cp $(FIRRTL_JAR) firrtl.Drive
 $(FIRRTL_JAR): $(call lookup_scala_srcs, $(ROCKETCHIP_DIR)/firrtl/src/main/scala)
 	$(MAKE) -C $(ROCKETCHIP_DIR)/firrtl SBT="$(SBT)" root_dir=$(ROCKETCHIP_DIR)/firrtl build-scala
 	mkdir -p $(ROCKETCHIP_DIR)/lib
-	cp -p $(ROCKETCHIP_DIR)/firrtl/utils/bin/firrtl.jar $(FIRRTL_JAR)
+	cp $(ROCKETCHIP_DIR)/firrtl/utils/bin/firrtl.jar $(FIRRTL_JAR)
 
 build_dir=$(sim_dir)/generated-src
 testchip_dir = $(base_dir)/testchipip
