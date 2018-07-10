@@ -15,7 +15,7 @@
 	url = https://github.com/firesim/riscv-tools.git
 [submodule "memory-blade"]
 	path = memory-blade
-	url = git@github.com:firesim/memory-blade.git
+	url = git@bitbucket.org:zhemao/memory-blade.git
 [submodule "boom"]
 	path = boom
 	url = https://github.com/ucb-bar/riscv-boom.git
