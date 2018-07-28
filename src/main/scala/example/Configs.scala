@@ -66,6 +66,12 @@ class WithSimNetwork extends Config((site, here, up) => {
   }
 })
 
+class WithMemBench extends Config((site, here, up) => {
+  case MemBenchKey => MemBenchParams()
+  case BuildTop => (clock: Clock, reset: Bool, p: Parameters) =>
+    Module(LazyModule(new ExampleTopWithMemBench()(p)).module)
+})
+
 class WithLoopbackMemBlade extends Config((site, here, up) => {
   case MemBladeKey => MemBladeParams(useSRAM = true)
   case RemoteMemClientKey => RemoteMemClientConfig()
@@ -104,6 +110,9 @@ class LoopbackNICConfig extends Config(
 
 class SimNetworkConfig extends Config(
   new WithSimNetwork ++ new BaseExampleConfig)
+
+class MemBenchConfig extends Config(
+  new WithMemBench ++ new BaseExampleConfig)
 
 class LoopbackMemBladeConfig extends Config(
   new WithLoopbackMemBlade ++ new BaseExampleConfig)

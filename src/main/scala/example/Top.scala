@@ -62,3 +62,11 @@ class ExampleTopWithMemBlade(implicit p: Parameters) extends ExampleTop
 class ExampleTopWithMemBladeModule(outer: ExampleTopWithMemBlade)
   extends ExampleTopModuleImp(outer)
   with HasPeripheryMemBladeModuleImp
+
+class ExampleTopWithMemBench(implicit p: Parameters) extends ExampleTop
+    with HasPeripheryMemBench {
+  override lazy val module = new ExampleTopWithMemBenchModule(this)
+}
+
+class ExampleTopWithMemBenchModule(outer: ExampleTopWithMemBench)
+  extends ExampleTopModuleImp(outer)
