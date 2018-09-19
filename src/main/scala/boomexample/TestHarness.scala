@@ -1,4 +1,4 @@
-package boomexample
+/*package boomexample
 
 import chisel3._
 import freechips.rocketchip.diplomacy.LazyModule
@@ -22,4 +22,4 @@ class TestHarness(implicit val p: Parameters) extends Module {
 
 object Generator extends GeneratorApp {
   generateFirrtl
-}
+}*/
