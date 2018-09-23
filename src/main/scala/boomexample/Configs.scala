@@ -1,4 +1,5 @@
-package boomexample
+
+/*package boomexample
 
 import boom.system.BoomConfig
 import chisel3._
@@ -70,4 +71,4 @@ class LoopbackNICConfig extends Config(
   new WithLoopbackNIC ++ new BaseExampleConfig)
 
 class SimNetworkConfig extends Config(
-  new WithSimNetwork ++ new BaseExampleConfig)
+  new WithSimNetwork ++ new BaseExampleConfig)*/
