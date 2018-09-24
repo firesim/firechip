@@ -1,5 +1,3 @@
-
-/*
 package boomexample
 
 import boom.system.{BoomSubsystem, BoomSubsystemModule}
@@ -46,4 +44,3 @@ class BoomExampleTopWithIceNIC(implicit p: Parameters) extends BoomExampleTop
 class BoomExampleTopWithIceNICModule(outer: BoomExampleTopWithIceNIC)
   extends BoomExampleTopModule(outer)
   with HasPeripheryIceNICModuleImp
-  */
