@@ -79,6 +79,7 @@ void run_test(void)
 int main(void)
 {
 	int i, j;
+	printf("loopback test start");
 
 	for (i = 0; i < NPACKETS; i++) {
 		for (j = 0; j < ARRAY_LEN; j++)
