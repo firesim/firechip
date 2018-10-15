@@ -22,17 +22,21 @@ static inline void send_recv()
 	int ncomps, send_comps_left = NPACKETS, recv_comps_left = NPACKETS;
 	int recv_idx = 0;
 
+    // Send requests to NIC
 	for (int i = 0; i < NPACKETS; i++) {
 		uint64_t pkt_size = TEST_LEN * sizeof(uint32_t);
 		uint64_t src_addr = (uint64_t) &src[i][TEST_OFFSET];
 		send_packet = (pkt_size << 48) | src_addr;
 		recv_addr = (uint64_t) dst[i];
+		printf("send_packet: (pkt_size, src_addr)=(%d, %x)\n", pkt_size, src_addr);
+		printf("recv_addr: (%x)\n", recv_addr);
 		reg_write64(SIMPLENIC_SEND_REQ, send_packet);
+		printf("write to send req q successfull\n");
 		reg_write64(SIMPLENIC_RECV_REQ, recv_addr);
-	}
-
-	while (send_comps_left > 0 || recv_comps_left > 0) {
-		ncomps = nic_send_comp_avail();
+		printf("write to recv req q successfull\n");
+	} 
+	while (send_comps_left > 0 || recv_comps_left > 0) { 
+	    ncomps = nic_send_comp_avail();
 		for (int i = 0; i < ncomps; i++)
 			reg_read16(SIMPLENIC_SEND_COMP);
 		send_comps_left -= ncomps;
@@ -50,7 +54,10 @@ void run_test(void)
 {
 	unsigned long start, end;
 	int i, j;
+	int idx;
+	int k;
 
+    // Clear destination buffer
 	memset(dst, 0, sizeof(dst));
 	asm volatile ("fence");
 
@@ -62,14 +69,17 @@ void run_test(void)
 
 	for (i = 0; i < NPACKETS; i++) {
 		if (lengths[i] != TEST_LEN * sizeof(uint32_t)) {
-			printf("recv got wrong # bytes\n");
+			printf("recv got wrong # bytes. expected %d but got %d on packet %d\n", TEST_LEN *sizeof(uint32_t), lengths[i], i);
 			exit(EXIT_FAILURE);
 		}
 
 		for (j = 0; j < TEST_LEN; j++) {
 			if (dst[i][j] != src[i][j + TEST_OFFSET]) {
-				printf("Data mismatch @ %d, %d: %x != %x\n",
-					i, j, dst[i][j], src[i][j + TEST_OFFSET]);
+			    // Simple data dump
+				printf("Data mismatch @ %d, %d: 0x%x != 0x%x\n", i, j, dst[i][j], src[i][j + TEST_OFFSET]);
+				for(idx = 0; idx < 32; idx++) {
+                    printf("recv[%d] = 0x%x src[%d] = 0x%x\n", idx, dst[i][idx], idx, src[i][idx + TEST_OFFSET]);
+                }
 				exit(EXIT_FAILURE);
 			}
 		}
@@ -79,13 +89,15 @@ void run_test(void)
 int main(void)
 {
 	int i, j;
-	printf("loopback test start");
+	printf("loopback test start:\n");
 
+    // Setup data to be send over the network
 	for (i = 0; i < NPACKETS; i++) {
 		for (j = 0; j < ARRAY_LEN; j++)
 			src[i][j] = i * ARRAY_LEN + j;
 	}
 
+    // Run the trials
 	for (i = 0; i < NTRIALS; i++) {
 		printf("Trial %d\n", i);
 		run_test();
