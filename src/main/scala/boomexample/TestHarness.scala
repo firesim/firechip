@@ -3,7 +3,7 @@ package boomexample
 import chisel3._
 import freechips.rocketchip.diplomacy.LazyModule
 import freechips.rocketchip.config.{Field, Parameters}
-import testchipip.GeneratorApp
+import freechips.rocketchip.util.GeneratorApp
 
 case object BuildBoomTop extends Field[(Clock, Bool, Parameters) => BoomExampleTopModule[BoomExampleTop]]
 
@@ -21,5 +21,6 @@ class TestHarness(implicit val p: Parameters) extends Module {
 }
 
 object Generator extends GeneratorApp {
+  val longName = names.topModuleProject + "." + names.topModuleClass + "." + names.configs
   generateFirrtl
 }
