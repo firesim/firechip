@@ -33,11 +33,13 @@ static inline void send_recv()
 
 	while (send_comps_left > 0 || recv_comps_left > 0) {
 		ncomps = nic_send_comp_avail();
+		asm volatile ("fence");
 		for (int i = 0; i < ncomps; i++)
 			reg_read16(SIMPLENIC_SEND_COMP);
 		send_comps_left -= ncomps;
 
 		ncomps = nic_recv_comp_avail();
+		asm volatile ("fence");
 		for (int i = 0; i < ncomps; i++) {
 			lengths[recv_idx] = reg_read16(SIMPLENIC_RECV_COMP);
 			recv_idx++;

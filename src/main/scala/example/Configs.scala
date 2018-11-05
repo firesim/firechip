@@ -5,7 +5,6 @@ import freechips.rocketchip.config.{Parameters, Config}
 import freechips.rocketchip.subsystem.{WithRoccExample, WithNMemoryChannels, WithNBigCores, WithRV32}
 import freechips.rocketchip.devices.tilelink.BootROMParams
 import freechips.rocketchip.diplomacy.{LazyModule, ValName}
-import freechips.rocketchip.pfa.HasPFA
 import freechips.rocketchip.tile.XLen
 import testchipip._
 import icenet._
@@ -83,10 +82,6 @@ class WithLoopbackMemBlade extends Config((site, here, up) => {
   }
 })
 
-class WithPFA extends Config((site, here, up) => {
-  case HasPFA => true
-})
-
 class BaseExampleConfig extends Config(
   new WithBootROM ++
   new freechips.rocketchip.system.DefaultConfig)
@@ -116,9 +111,6 @@ class MemBenchConfig extends Config(
 
 class LoopbackMemBladeConfig extends Config(
   new WithLoopbackMemBlade ++ new BaseExampleConfig)
-
-class LoopbackMemBladePFAConfig extends Config(
-  new WithPFA ++ new LoopbackMemBladeConfig)
 
 class WithTwoTrackers extends WithNBlockDeviceTrackers(2)
 class WithFourTrackers extends WithNBlockDeviceTrackers(4)
