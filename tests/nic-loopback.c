@@ -38,18 +38,22 @@ static inline void send_recv()
 
 	while (send_comps_left > 0 || recv_comps_left > 0) {
 		ncomps = nic_send_comp_avail();
+		printf("ncomps(%d)\n", ncomps);
 		asm volatile ("fence");
 		for (int i = 0; i < ncomps; i++)
 			reg_read16(SIMPLENIC_SEND_COMP);
 		send_comps_left -= ncomps;
+		printf("sendCompsLeft(%d)\n", send_comps_left);
 
 		ncomps = nic_recv_comp_avail();
+		printf("ncomps(%d)\n", ncomps);
 		asm volatile ("fence");
 		for (int i = 0; i < ncomps; i++) {
 			lengths[recv_idx] = reg_read16(SIMPLENIC_RECV_COMP);
 			recv_idx++;
 		}
 		recv_comps_left -= ncomps;
+		printf("recvCompsLeft(%d)\n", recv_comps_left);
 	}
 }
 
