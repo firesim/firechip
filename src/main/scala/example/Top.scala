@@ -52,3 +52,12 @@ class ExampleTopWithIceNIC(implicit p: Parameters) extends ExampleTop
 class ExampleTopWithIceNICModule(outer: ExampleTopWithIceNIC)
   extends ExampleTopModuleImp(outer)
   with HasPeripheryIceNICModuleImp
+
+class ExampleTopWithInputStream(implicit p: Parameters) extends ExampleTop
+    with HasPeripheryInputStream {
+  override lazy val module = new ExampleTopWithInputStreamModule(this)
+}
+
+class ExampleTopWithInputStreamModule(outer: ExampleTopWithInputStream)
+  extends ExampleTopModuleImp(outer)
+  with HasPeripheryInputStreamModuleImp
