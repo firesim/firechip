@@ -5,14 +5,14 @@
 #define MB_RESP_ETH_TYPE 0x0508
 #define MB_DRAFT_VERSION 1
 
-#define MB_OC_PAGE_READ 0
-#define MB_OC_PAGE_WRITE 1
+#define MB_OC_SPAN_READ 0
+#define MB_OC_SPAN_WRITE 1
 #define MB_OC_WORD_READ 2
 #define MB_OC_WORD_WRITE 3
 #define MB_OC_ATOMIC_ADD 4
 #define MB_OC_COMP_SWAP 5
 
-#define MB_RC_PAGE_OK 0x80
+#define MB_RC_SPAN_OK 0x80
 #define MB_RC_NODATA_OK 0x81
 #define MB_RC_WORD_OK 0x82
 #define MB_RC_ERROR 0x83
@@ -22,7 +22,7 @@
 #define RMEM_CLIENT_DST_ADDR   (RMEM_CLIENT_BASE + 0x08)
 #define RMEM_CLIENT_DSTMAC     (RMEM_CLIENT_BASE + 0x10)
 #define RMEM_CLIENT_OPCODE     (RMEM_CLIENT_BASE + 0x16)
-#define RMEM_CLIENT_PAGENO     (RMEM_CLIENT_BASE + 0x18)
+#define RMEM_CLIENT_SPANID     (RMEM_CLIENT_BASE + 0x18)
 #define RMEM_CLIENT_REQ        (RMEM_CLIENT_BASE + 0x20)
 #define RMEM_CLIENT_RESP       (RMEM_CLIENT_BASE + 0x24)
 #define RMEM_CLIENT_NREQ       (RMEM_CLIENT_BASE + 0x28)
@@ -31,8 +31,7 @@
 struct memblade_request {
 	uint8_t version;
 	uint8_t opcode;
-	uint8_t part_id;
-	uint8_t reserved;
+	uint16_t reserved;
 	uint32_t xact_id;
 	uint64_t pageno;
 };
@@ -40,8 +39,7 @@ struct memblade_request {
 struct memblade_response {
 	uint8_t version;
 	uint8_t resp_code;
-	uint8_t part_id;
-	uint8_t reserved;
+	uint16_t reserved;
 	uint32_t xact_id;
 };
 
