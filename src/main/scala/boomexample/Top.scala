@@ -11,7 +11,7 @@ import icenet._
 class BoomExampleTop(implicit p: Parameters) extends BoomSubsystem
     with CanHaveMasterAXI4MemPort
     with HasPeripheryBootROM
-    with HasSystemErrorSlave
+//    with HasSystemErrorSlave
     with HasAsyncExtInterrupts
     with HasNoDebug
     with HasPeripherySerial {
