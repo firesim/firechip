@@ -6,6 +6,7 @@ import freechips.rocketchip.subsystem.{WithRoccExample, WithNMemoryChannels, Wit
 import freechips.rocketchip.devices.tilelink.BootROMParams
 import freechips.rocketchip.diplomacy.{LazyModule, ValName}
 import freechips.rocketchip.tile.XLen
+import freechips.rocketchip.pfa.HasPFA
 import testchipip._
 import icenet._
 import memblade._
@@ -72,6 +73,7 @@ class WithMemBench extends Config((site, here, up) => {
 })
 
 class WithLoopbackMemBlade extends Config((site, here, up) => {
+  case HasPFA => true
   case MemBladeKey => MemBladeParams(useSRAM = true)
   case RemoteMemClientKey => RemoteMemClientConfig()
   case NICKey => NICConfig(inBufPackets = 48)
