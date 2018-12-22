@@ -80,7 +80,9 @@ class WithTestMemBlade extends Config((site, here, up) => {
   case HasPFA => true
   case MemBladeKey => MemBladeParams()
   case RemoteMemClientKey => RemoteMemClientConfig()
-  case NICKey => NICConfig(inBufPackets = 48)
+  case NICKey => NICConfig(
+    inBufPackets = 48,
+    creditTracker = Some(CreditTrackerParams()))
   case BuildTop => (clock: Clock, reset: Bool, p: Parameters) => {
     val top = Module(LazyModule(new ExampleTopWithRemoteMemClient()(p)).module)
     top.connectTestMemBlade()
@@ -91,7 +93,7 @@ class WithTestMemBlade extends Config((site, here, up) => {
 class WithDRAMCache extends Config((site, here, up) => {
   case NICKey => NICConfig(
     inBufPackets = 32,
-    /*creditTracker = Some(CreditTrackerParams())*/)
+    creditTracker = Some(CreditTrackerParams()))
   case MemBladeKey => MemBladeParams(
     spanQueue = MemBladeQueueParams(reqHeadDepth = 32))
   case DRAMCacheKey => DRAMCacheConfig(
