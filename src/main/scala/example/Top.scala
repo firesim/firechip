@@ -7,7 +7,8 @@ import freechips.rocketchip.devices.tilelink._
 import freechips.rocketchip.util.DontTouch
 import testchipip._
 import icenet._
-import memblade._
+import memblade.client.{HasPeripheryRemoteMemClient, HasPeripheryRemoteMemClientModuleImp}
+import memblade.cache.{HasPeripheryDRAMCache, HasPeripheryDRAMCacheModuleImp}
 
 class ExampleTop(implicit p: Parameters) extends RocketSubsystem
     with CanHaveMasterAXI4MemPort
@@ -54,14 +55,14 @@ class ExampleTopWithIceNICModule(outer: ExampleTopWithIceNIC)
   extends ExampleTopModuleImp(outer)
   with HasPeripheryIceNICModuleImp
 
-class ExampleTopWithMemBlade(implicit p: Parameters) extends ExampleTop
-    with HasPeripheryMemBlade {
-  override lazy val module = new ExampleTopWithMemBladeModule(this)
+class ExampleTopWithRemoteMemClient(implicit p: Parameters) extends ExampleTop
+    with HasPeripheryRemoteMemClient {
+  override lazy val module = new ExampleTopWithRemoteMemClientModule(this)
 }
 
-class ExampleTopWithMemBladeModule(outer: ExampleTopWithMemBlade)
+class ExampleTopWithRemoteMemClientModule(outer: ExampleTopWithRemoteMemClient)
   extends ExampleTopModuleImp(outer)
-  with HasPeripheryMemBladeModuleImp
+  with HasPeripheryRemoteMemClientModuleImp
 
 class ExampleTopWithMemBench(implicit p: Parameters) extends ExampleTop
     with HasPeripheryMemBench {
@@ -70,3 +71,12 @@ class ExampleTopWithMemBench(implicit p: Parameters) extends ExampleTop
 
 class ExampleTopWithMemBenchModule(outer: ExampleTopWithMemBench)
   extends ExampleTopModuleImp(outer)
+
+class ExampleTopWithDRAMCache(implicit p: Parameters) extends ExampleTop
+    with HasPeripheryDRAMCache {
+  override lazy val module = new ExampleTopWithDRAMCacheModule(this)
+}
+
+class ExampleTopWithDRAMCacheModule(outer: ExampleTopWithDRAMCache)
+    extends ExampleTopModuleImp(outer)
+    with HasPeripheryDRAMCacheModuleImp

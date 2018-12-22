@@ -9,7 +9,9 @@ import freechips.rocketchip.tile.XLen
 import freechips.rocketchip.pfa.HasPFA
 import testchipip._
 import icenet._
-import memblade._
+import memblade.manager._
+import memblade.client._
+import memblade.cache._
 
 object ConfigValName {
   implicit val valName = ValName("TestHarness")
@@ -74,14 +76,34 @@ class WithMemBench extends Config((site, here, up) => {
     Module(LazyModule(new ExampleTopWithMemBench()(p)).module)
 })
 
-class WithLoopbackMemBlade extends Config((site, here, up) => {
+class WithTestMemBlade extends Config((site, here, up) => {
   case HasPFA => true
-  case MemBladeKey => MemBladeParams(useSRAM = true)
+  case MemBladeKey => MemBladeParams()
   case RemoteMemClientKey => RemoteMemClientConfig()
   case NICKey => NICConfig(inBufPackets = 48)
   case BuildTop => (clock: Clock, reset: Bool, p: Parameters) => {
-    val top = Module(LazyModule(new ExampleTopWithMemBlade()(p)).module)
-    top.connectNicLoopback()
+    val top = Module(LazyModule(new ExampleTopWithRemoteMemClient()(p)).module)
+    top.connectTestMemBlade()
+    top
+  }
+})
+
+class WithDRAMCache extends Config((site, here, up) => {
+  case NICKey => NICConfig(
+    inBufPackets = 32,
+    /*creditTracker = Some(CreditTrackerParams())*/)
+  case MemBladeKey => MemBladeParams(
+    spanQueue = MemBladeQueueParams(reqHeadDepth = 32))
+  case DRAMCacheKey => DRAMCacheConfig(
+    nSets = 256,
+    nWays = 7,
+    baseAddr = 1L << 32,
+    extentBytes = 1 << 20,
+    logAddrBits = 28)
+  case BuildTop => (clock: Clock, reset: Bool, p: Parameters) => {
+    val top = Module(LazyModule(new ExampleTopWithDRAMCache()(p)).module)
+    top.connectTestMemBlade()
+    top.connectSimAXICacheMem()
     top
   }
 })
@@ -113,8 +135,8 @@ class SimNetworkConfig extends Config(
 class MemBenchConfig extends Config(
   new WithMemBench ++ new BaseExampleConfig)
 
-class LoopbackMemBladeConfig extends Config(
-  new WithLoopbackMemBlade ++ new BaseExampleConfig)
+class TestMemBladeConfig extends Config(
+  new WithTestMemBlade ++ new BaseExampleConfig)
 
 class WithTwoTrackers extends WithNBlockDeviceTrackers(2)
 class WithFourTrackers extends WithNBlockDeviceTrackers(4)
@@ -128,3 +150,6 @@ class DualCoreConfig extends Config(
 
 class RV32ExampleConfig extends Config(
   new WithRV32 ++ new DefaultExampleConfig)
+
+class DRAMCacheConfig extends Config(
+  new WithDRAMCache ++ new DefaultExampleConfig)
