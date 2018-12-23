@@ -11,6 +11,7 @@ class TestHarness(implicit val p: Parameters) extends Module {
   })
 
   val dut = Module(LazyModule(new DRAMCacheGroundTestTop).module)
+  dut.connectSimAXIMem()
   dut.connectSimAXICacheMem()
   dut.connectTestMemBlade()
   io.success := dut.success
