@@ -8,6 +8,7 @@
 #define SET_RANGE (1L << 16)
 #define SPAN_BYTES 256
 #define NWAYS 7
+#define NBANKS 4
 
 static inline void write_span(unsigned long base, long prefix)
 {
@@ -38,12 +39,20 @@ int main(void)
 	set_extent_mapping(0, 0, 3);
 
 	printf("Performing writes\n");
-	for (long off = 0; off < (NWAYS+1); off++)
-		write_span(CACHE_START + off * SET_RANGE, (off << 16));
+	for (long way = 0; way < (NWAYS+1); way++) {
+		for (long span; span < NBANKS; span++) {
+			long offset = way * SET_RANGE + span * SPAN_BYTES;
+			write_span(CACHE_START + offset, offset);
+		}
+	}
 
 	printf("Performing reads\n");
-	for (long off = 0; off < (NWAYS+1); off++)
-		check_span(CACHE_START + off * SET_RANGE, (off << 16));
+	for (long way = 0; way < (NWAYS+1); way++) {
+		for (long span; span < NBANKS; span++) {
+			long offset = way * SET_RANGE + span * SPAN_BYTES;
+			check_span(CACHE_START + offset, offset);
+		}
+	}
 
 	printf("Finished\n");
 

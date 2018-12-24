@@ -19,11 +19,17 @@ class WithDRAMCacheTraceGen extends Config((site, here, up) => {
         val nWays = site(DRAMCacheKey).nWays
         val spanBytes = site(DRAMCacheKey).spanBytes
         val chunkBytes = site(DRAMCacheKey).chunkBytes
-        val nChunks = spanBytes / chunkBytes
+        val nChunks = 2
+        val nSpans = site(DRAMCacheKey).nBanks
         List.tabulate(nWays + 1) { i =>
-          Seq.tabulate(nChunks) {
-            j => BigInt((j * chunkBytes) + (i * nSets * spanBytes))
-          }
+          Seq.tabulate(nChunks) { j =>
+            Seq.tabulate(nSpans) { k =>
+              BigInt(
+                (k * spanBytes) +
+                (j * chunkBytes) +
+                (i * nSets * spanBytes))
+            }
+          }.flatten
         }.flatten
       },
       maxRequests = 8192,
