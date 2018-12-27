@@ -79,10 +79,12 @@ class WithMemBench extends Config((site, here, up) => {
 class WithTestMemBlade extends Config((site, here, up) => {
   case HasPFA => true
   case MemBladeKey => MemBladeParams()
-  case RemoteMemClientKey => RemoteMemClientConfig()
+  case RemoteMemClientKey => RemoteMemClientConfig(
+    reqTimeout = Some(511))
   case NICKey => NICConfig(
     inBufPackets = 48,
-    creditTracker = Some(CreditTrackerParams()))
+    creditTracker = Some(CreditTrackerParams(
+      outTimeout = Some(511))))
   case BuildTop => (clock: Clock, reset: Bool, p: Parameters) => {
     val top = Module(LazyModule(new ExampleTopWithRemoteMemClient()(p)).module)
     top.connectTestMemBlade()
