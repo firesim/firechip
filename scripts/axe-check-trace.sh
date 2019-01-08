@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 BASEDIR=$(dirname $(dirname $0))
 TOAXE=${BASEDIR}/rocket-chip/scripts/toaxe.py
 AXE=${BASEDIR}/../axe/src/axe
