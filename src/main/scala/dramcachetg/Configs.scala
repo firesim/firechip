@@ -20,23 +20,30 @@ class WithDRAMCacheTraceGen extends Config((site, here, up) => {
         val spanBytes = site(DRAMCacheKey).spanBytes
         val chunkBytes = site(DRAMCacheKey).chunkBytes
         val nChunks = 2
-        val nSpans = site(DRAMCacheKey).nBanks
+        val nBanks = site(DRAMCacheKey).nBanks
         List.tabulate(nWays + 1) { i =>
           Seq.tabulate(nChunks) { j =>
-            Seq.tabulate(nSpans) { k =>
+            Seq.tabulate(nBanks) { k =>
               BigInt(
                 (k * spanBytes) +
                 (j * chunkBytes) +
-                (i * nSets * spanBytes))
+                (i * nBanks * nSets * spanBytes))
             }
           }.flatten
         }.flatten
       },
-      maxRequests = 8192,
+      maxRequests = 2048,
       memStart = site(DRAMCacheKey).baseAddr,
       numGens = 2)
   }
-  case DRAMCacheKey => up(DRAMCacheKey).copy(extentTableInit = Seq((3, 0)))
+  case DRAMCacheKey => {
+    val cacheKey = up(DRAMCacheKey)
+    val nSpans = cacheKey.nBanks * cacheKey.nSets * (cacheKey.nWays + 1)
+    val memSize = nSpans * cacheKey.spanBytes
+    val nExtents = (memSize - 1) / cacheKey.extentBytes + 1
+    cacheKey.copy(
+      extentTableInit = Seq.tabulate(nExtents)(i => (3, i)))
+  }
 })
 
 class DRAMCacheTraceGenConfig extends Config(
