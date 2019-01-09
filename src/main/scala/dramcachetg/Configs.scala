@@ -27,7 +27,7 @@ class WithDRAMCacheTraceGen extends Config((site, here, up) => {
               BigInt(
                 (k * spanBytes) +
                 (j * chunkBytes) +
-                (i * nBanks * nSets * spanBytes))
+                (i * nSets * spanBytes))
             }
           }.flatten
         }.flatten
@@ -38,7 +38,7 @@ class WithDRAMCacheTraceGen extends Config((site, here, up) => {
   }
   case DRAMCacheKey => {
     val cacheKey = up(DRAMCacheKey)
-    val nSpans = cacheKey.nBanks * cacheKey.nSets * (cacheKey.nWays + 1)
+    val nSpans = cacheKey.nSets * (cacheKey.nWays + 1)
     val memSize = nSpans * cacheKey.spanBytes
     val nExtents = (memSize - 1) / cacheKey.extentBytes + 1
     cacheKey.copy(
