@@ -40,7 +40,7 @@ int main(void)
 
 	printf("Performing writes\n");
 	for (long way = 0; way < (NWAYS+1); way++) {
-		for (long span; span < NBANKS; span++) {
+		for (long span = 0; span < NBANKS; span++) {
 			long offset = way * SET_RANGE + span * SPAN_BYTES;
 			write_span(CACHE_START + offset, offset);
 		}
@@ -48,7 +48,7 @@ int main(void)
 
 	printf("Performing reads\n");
 	for (long way = 0; way < (NWAYS+1); way++) {
-		for (long span; span < NBANKS; span++) {
+		for (long span = 0; span < NBANKS; span++) {
 			long offset = way * SET_RANGE + span * SPAN_BYTES;
 			check_span(CACHE_START + offset, offset);
 		}
