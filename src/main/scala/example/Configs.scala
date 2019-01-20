@@ -5,13 +5,14 @@ import freechips.rocketchip.config.{Parameters, Config}
 import freechips.rocketchip.subsystem.{WithRoccExample, WithNMemoryChannels, WithNBigCores, WithRV32}
 import freechips.rocketchip.devices.tilelink.BootROMParams
 import freechips.rocketchip.diplomacy.{LazyModule, ValName}
-import freechips.rocketchip.tile.XLen
+import freechips.rocketchip.tile.{XLen, BuildRoCC, OpcodeSet}
 import freechips.rocketchip.pfa.HasPFA
 import testchipip._
 import icenet._
 import memblade.manager._
 import memblade.client._
 import memblade.cache._
+import memblade.prefetcher.PrefetchRoCC
 
 object ConfigValName {
   implicit val valName = ValName("TestHarness")
@@ -104,6 +105,8 @@ class WithDRAMCache extends Config((site, here, up) => {
     baseAddr = 1L << 32,
     extentBytes = 1 << 20,
     logAddrBits = 28)
+  case BuildRoCC => Seq((p: Parameters) =>
+    LazyModule(new PrefetchRoCC(OpcodeSet.custom2)(p)))
   case BuildTop => (clock: Clock, reset: Bool, p: Parameters) => {
     val top = Module(LazyModule(new ExampleTopWithDRAMCache()(p)).module)
     top.connectTestMemBlade()
