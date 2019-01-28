@@ -6,7 +6,7 @@ import freechips.rocketchip.subsystem.{WithRoccExample, WithNMemoryChannels, Wit
 import freechips.rocketchip.devices.tilelink.BootROMParams
 import freechips.rocketchip.diplomacy.{LazyModule, ValName}
 import freechips.rocketchip.tile.{XLen, BuildRoCC, OpcodeSet}
-import freechips.rocketchip.pfa.HasPFA
+//import freechips.rocketchip.pfa.HasPFA
 import testchipip._
 import icenet._
 import memblade.manager._
@@ -78,7 +78,7 @@ class WithMemBench extends Config((site, here, up) => {
 })
 
 class WithTestMemBlade extends Config((site, here, up) => {
-  case HasPFA => true
+  //case HasPFA => true
   case MemBladeKey => MemBladeParams()
   case RemoteMemClientKey => RemoteMemClientConfig(
     reqTimeout = Some(511))
