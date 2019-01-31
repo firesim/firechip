@@ -53,6 +53,7 @@ int main(void)
 		if (prefetch(addr) != 0)
 			printf("Prefetch failed\n");
 	}
+	asm volatile ("fence");
 
 	printf("Performing reads\n");
 	for (long span = 0; span < NBANKS; span++) {
