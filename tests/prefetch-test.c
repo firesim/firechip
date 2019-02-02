@@ -49,9 +49,7 @@ int main(void)
 	printf("Prefetching back first way\n");
 	for (long span = 0; span < NBANKS; span++) {
 		long addr = CACHE_START + span * SPAN_BYTES;
-
-		if (prefetch(addr) != 0)
-			printf("Prefetch failed\n");
+		prefetch(addr);
 	}
 	asm volatile ("fence");
 
