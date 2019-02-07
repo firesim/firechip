@@ -6,11 +6,10 @@
 #define MEM_BENCH_ADDR     (MEM_BENCH_BASE + 0x00)
 #define MEM_BENCH_LEN      (MEM_BENCH_BASE + 0x08)
 #define MEM_BENCH_NPASSES  (MEM_BENCH_BASE + 0x0C)
-#define MEM_BENCH_STRIDE   (MEM_BENCH_BASE + 0x0E)
-#define MEM_BENCH_SIZE     (MEM_BENCH_BASE + 0x0F)
+#define MEM_BENCH_STRIDESZ (MEM_BENCH_BASE + 0x0E)
 #define MEM_BENCH_INFLIGHT (MEM_BENCH_BASE + 0x10)
-#define MEM_BENCH_WRITE    (MEM_BENCH_BASE + 0x11)
-#define MEM_BENCH_WORKER   (MEM_BENCH_BASE + 0x12)
+#define MEM_BENCH_WRITE    (MEM_BENCH_BASE + 0x12)
+#define MEM_BENCH_WORKER   (MEM_BENCH_BASE + 0x13)
 #define MEM_BENCH_NRESP    (MEM_BENCH_BASE + 0x14)
 #define MEM_BENCH_RESP     (MEM_BENCH_BASE + 0x18)
 
@@ -48,9 +47,8 @@ int main(void)
 	reg_write64(MEM_BENCH_ADDR, START_ADDR);
 	reg_write32(MEM_BENCH_LEN, NPAGES * PAGE_SIZE);
 	reg_write16(MEM_BENCH_NPASSES, 1);
-	reg_write8(MEM_BENCH_STRIDE, BLOCK_STRIDE);
-	reg_write8(MEM_BENCH_SIZE, BLOCK_SIZE);
-	reg_write8(MEM_BENCH_INFLIGHT, MAX_INFLIGHT);
+	reg_write16(MEM_BENCH_STRIDESZ, (BLOCK_SIZE << 12) | BLOCK_STRIDE);
+	reg_write16(MEM_BENCH_INFLIGHT, MAX_INFLIGHT);
 	reg_write8(MEM_BENCH_WRITE, 1);
 
 	printf("cycles: %ld\n", perform_request(1));
@@ -77,8 +75,10 @@ int main(void)
 
 	printf("Write Beats Single Pass\n");
 
-	reg_write8(MEM_BENCH_SIZE, BEAT_SIZE);
-	reg_write8(MEM_BENCH_INFLIGHT, 1);
+	reg_write32(MEM_BENCH_LEN, PAGE_SIZE * NPAGES);
+	reg_write16(MEM_BENCH_NPASSES, 1);
+	reg_write16(MEM_BENCH_STRIDESZ, (BEAT_SIZE << 12) | BLOCK_STRIDE);
+	reg_write16(MEM_BENCH_INFLIGHT, 1);
 	reg_write8(MEM_BENCH_WRITE, 1);
 
 	printf("cycles: %ld\n", perform_request(1));
