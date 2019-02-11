@@ -94,6 +94,7 @@ class WithTestMemBlade extends Config((site, here, up) => {
 })
 
 class WithDRAMCache extends Config((site, here, up) => {
+  case MemBenchKey => MemBenchParams(nXacts = 256)
   case NICKey => NICConfig(
     inBufPackets = 32,
     creditTracker = Some(CreditTrackerParams()))

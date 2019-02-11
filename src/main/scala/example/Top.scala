@@ -73,7 +73,8 @@ class ExampleTopWithMemBenchModule(outer: ExampleTopWithMemBench)
   extends ExampleTopModuleImp(outer)
 
 class ExampleTopWithDRAMCache(implicit p: Parameters) extends ExampleTop
-    with HasPeripheryDRAMCache {
+    with HasPeripheryDRAMCache
+    with HasPeripheryMemBench {
   override lazy val module = new ExampleTopWithDRAMCacheModule(this)
 }
 
