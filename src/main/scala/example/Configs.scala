@@ -2,7 +2,7 @@ package example
 
 import chisel3._
 import freechips.rocketchip.config.{Parameters, Config}
-import freechips.rocketchip.subsystem.{WithRoccExample, WithNMemoryChannels, WithNBigCores, WithRV32}
+import freechips.rocketchip.subsystem._
 import freechips.rocketchip.devices.tilelink.BootROMParams
 import freechips.rocketchip.diplomacy.{LazyModule, ValName}
 import freechips.rocketchip.tile.{XLen, BuildRoCC, OpcodeSet}
@@ -160,4 +160,8 @@ class RV32ExampleConfig extends Config(
   new WithRV32 ++ new DefaultExampleConfig)
 
 class DRAMCacheConfig extends Config(
+  new WithL2Size(128) ++
+  new WithNBanksPerMemChannel(8) ++
+  new WithL2Latency(121) ++
+  new WithFederationL2Cache ++
   new WithDRAMCache ++ new DefaultExampleConfig)

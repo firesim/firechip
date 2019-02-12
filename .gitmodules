@@ -19,3 +19,6 @@
 [submodule "boom"]
 	path = boom
 	url = https://github.com/ucb-bar/riscv-boom.git
+[submodule "experimental-blocks"]
+	path = experimental-blocks
+	url = git@github.com:sifive/experimental-blocks.git
