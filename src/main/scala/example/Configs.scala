@@ -105,7 +105,8 @@ class WithDRAMCache extends Config((site, here, up) => {
     nWays = 7,
     baseAddr = 1L << 32,
     extentBytes = 1 << 20,
-    logAddrBits = 28)
+    logAddrBits = 28,
+    zeroMetadata = true)
   case BuildRoCC => Seq((p: Parameters) =>
     LazyModule(new PrefetchRoCC(OpcodeSet.custom2)(p)))
   case BuildTop => (clock: Clock, reset: Bool, p: Parameters) => {
