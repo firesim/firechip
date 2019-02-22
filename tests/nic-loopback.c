@@ -26,18 +26,23 @@ static inline void send_recv()
 		uint64_t pkt_size = TEST_LEN * sizeof(uint32_t);
 		uint64_t src_addr = (uint64_t) &src[i][TEST_OFFSET];
 		send_packet = (pkt_size << 48) | src_addr;
-		recv_addr = (uint64_t) dst[i];
 		reg_write64(SIMPLENIC_SEND_REQ, send_packet);
-		reg_write64(SIMPLENIC_RECV_REQ, recv_addr);
 	}
 
-	while (send_comps_left > 0 || recv_comps_left > 0) {
+	while (send_comps_left > 0) {
 		ncomps = nic_send_comp_avail();
 		asm volatile ("fence");
 		for (int i = 0; i < ncomps; i++)
 			reg_read16(SIMPLENIC_SEND_COMP);
 		send_comps_left -= ncomps;
+	}
 
+	for (int i = 0; i < NPACKETS; i++) {
+		recv_addr = (uint64_t) dst[i];
+		reg_write64(SIMPLENIC_RECV_REQ, recv_addr);
+	}
+
+	while (recv_comps_left > 0) {
 		ncomps = nic_recv_comp_avail();
 		asm volatile ("fence");
 		for (int i = 0; i < ncomps; i++) {

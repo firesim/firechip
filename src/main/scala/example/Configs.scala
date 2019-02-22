@@ -48,17 +48,18 @@ class WithSimBlockDevice extends Config((site, here, up) => {
 
 class WithLoopbackNIC extends Config((site, here, up) => {
   case NICKey => NICConfig(
-    inBufPackets = 10,
-    creditTracker = Some(CreditTrackerParams()))
+    inBufFlits = 1096,
+    usePauser = true
+    /*creditTracker = Some(CreditTrackerParams())*/)
   case BuildTop => (clock: Clock, reset: Bool, p: Parameters) => {
     val top = Module(LazyModule(new ExampleTopWithIceNIC()(p)).module)
-    top.connectNicLoopback()
+    top.connectNicLoopback(qDepth = 1096)
     top
   }
 })
 
 class WithSimNetwork extends Config((site, here, up) => {
-  case NICKey => NICConfig(inBufPackets = 10)
+  case NICKey => NICConfig(inBufFlits = 1800)
   case BuildTop => (clock: Clock, reset: Bool, p: Parameters) => {
     val top = Module(LazyModule(new ExampleTopWithIceNIC()(p)).module)
     top.connectSimNetwork(clock, reset)
