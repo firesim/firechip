@@ -16,3 +16,6 @@
 [submodule "boom"]
 	path = boom
 	url = https://github.com/ucb-bar/riscv-boom.git
+[submodule "dma"]
+	path = dma
+	url = git@github.com:zhemao/riscv-dma3.git

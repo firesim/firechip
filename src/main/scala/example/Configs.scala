@@ -2,12 +2,14 @@ package example
 
 import chisel3._
 import freechips.rocketchip.config.{Parameters, Config}
-import freechips.rocketchip.subsystem.{WithRoccExample, WithNMemoryChannels, WithNBigCores, WithRV32}
 import freechips.rocketchip.devices.tilelink.BootROMParams
 import freechips.rocketchip.diplomacy.{LazyModule, ValName}
+import freechips.rocketchip.subsystem._
+import freechips.rocketchip.tilelink._
 import freechips.rocketchip.tile.XLen
 import testchipip._
 import icenet._
+import dma.WithDma
 
 object ConfigValName {
   implicit val valName = ValName("TestHarness")
@@ -100,3 +102,19 @@ class DualCoreConfig extends Config(
 
 class RV32ExampleConfig extends Config(
   new WithRV32 ++ new DefaultExampleConfig)
+
+class WithHintHandlerBroadcastHub extends Config((site, here, up) => {
+  case BankedL2Key => up(BankedL2Key, site).copy(
+    coherenceManager = { subsystem =>
+      implicit val p = subsystem.p
+      val BroadcastParams(nTrackers, bufferless) = site(BroadcastKey)
+      val bh = LazyModule(new TLBroadcast(subsystem.memBusBlockBytes, nTrackers, bufferless))
+      val ww = LazyModule(new TLWidthWidget(subsystem.sbus.beatBytes))
+      val hh = LazyModule(new TLHintHandler)
+      ww.node :*= hh.node :*= bh.node
+      (bh.node, ww.node, () => None)
+    })
+})
+
+class DmaConfig extends Config(
+  new WithDma ++ new WithHintHandlerBroadcastHub ++ new DefaultExampleConfig)

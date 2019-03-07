@@ -23,4 +23,6 @@ lazy val icenet = project.settings(commonSettings).dependsOn(rocketchip, testchi
 
 lazy val boom = project.settings(commonSettings).dependsOn(rocketchip)
 
-lazy val example = (project in file(".")).settings(commonSettings).dependsOn(boom, icenet, testchipip, sifive_blocks)
+lazy val dma = project.settings(commonSettings).dependsOn(rocketchip, testchipip)
+
+lazy val example = (project in file(".")).settings(commonSettings).dependsOn(boom, icenet, testchipip, sifive_blocks, dma)
