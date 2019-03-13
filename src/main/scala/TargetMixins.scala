@@ -9,7 +9,8 @@ import freechips.rocketchip.amba.axi4._
 import freechips.rocketchip.util._
 import freechips.rocketchip.rocket.TracedInstruction
 import boom.system.BoomSubsystem
-
+import midas.targetutils.ExcludeInstanceAsserts
+// TODO: FIX THIS
 //import midas.models.AXI4BundleWithEdge
 
 
@@ -17,8 +18,6 @@ class TraceOutputTop(val numTraces: Int)(implicit val p: Parameters) extends Bun
   val traces = Vec(numTraces, new TracedInstruction)
 }
 
-
-/*
 /** Adds a port to the system intended to master an AXI4 DRAM controller. */
 trait CanHaveMisalignedMasterAXI4MemPort { this: BaseSubsystem =>
   val module: CanHaveMisalignedMasterAXI4MemPortModuleImp
@@ -52,13 +51,14 @@ trait CanHaveMisalignedMasterAXI4MemPort { this: BaseSubsystem =>
     }
   }
 }
-*/
+
 /** Actually generates the corresponding IO in the concrete Module */
-/*
 trait CanHaveMisalignedMasterAXI4MemPortModuleImp extends LazyModuleImp {
   val outer: CanHaveMisalignedMasterAXI4MemPort
 
-  val mem_axi4 = IO(new HeterogeneousBag(outer.memAXI4Node.in map AXI4BundleWithEdge.apply))
+  // TODO: Resolve this dependency chain: RC (AXI4B) -> MIDAS (AXI4BWEdge) -> FC
+  //val mem_axi4 = IO(new HeterogeneousBag(outer.memAXI4Node.in map AXI4BundleWithEdge.apply))
+  val mem_axi4 = IO(HeterogeneousBag.fromNode(outer.memAXI4Node.in))
   (mem_axi4 zip outer.memAXI4Node.in).foreach { case (io, (bundle, _)) => io <> bundle }
 
   def connectSimAXIMem() {
@@ -68,7 +68,6 @@ trait CanHaveMisalignedMasterAXI4MemPortModuleImp extends LazyModuleImp {
     }
   }
 }
-*/
 
 trait CanHaveRocketTraceIO extends LazyModuleImp {
   val outer: RocketSubsystem
@@ -91,3 +90,9 @@ trait CanHaveBoomTraceIO extends LazyModuleImp {
 
   println(s"N tile traces: ${tile_traces.size}")
 }
+
+// Prevent MIDAS from synthesizing assertions in the dummy TLB included in BOOM
+trait ExcludeInvalidBoomAssertions extends LazyModuleImp {
+  ExcludeInstanceAsserts(("NonBlockingDCache", "dtlb"))
+}
+
