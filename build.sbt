@@ -14,14 +14,14 @@ lazy val commonSettings = Seq(
     Resolver.sonatypeRepo("releases"),
     Resolver.mavenLocal))
 
-//lazy val rocketchip = RootProject(file("rocket-chip"))
-//lazy val rocketchip = ProjectRef(file("rocket-chip"), "rocketchip")
-
 val rocketChipDir = file("rocket-chip")
 
-lazy val midasTargetUtilsDir = settingKey[Option[File]]("Location of MIDAS target annotations")
-ThisBuild / midasTargetUtilsDir := Some(baseDirectory.value / "../../sim/midas/targetutils")
-
+lazy val firesimAsLibrary = sys.env.get("FIRESIM_IS_TOP") == None
+lazy val firesimDir = if (firesimAsLibrary) {
+  file("firesim/sim/")
+} else {
+  file("../../sim/")
+}
 
 // Subproject definitions begin
 // NB: FIRRTL dependency is unmanaged (and dropped in sim/lib)
@@ -29,10 +29,8 @@ lazy val chisel  = (project in rocketChipDir / "chisel3")
 
 // Contains annotations & firrtl passes you may wish to use in rocket-chip without
 // introducing a circular dependency between RC and MIDAS
-lazy val midasTargetUtils = (project in file("dummy"))
-  .settings(commonSettings,
-    scalaSource in Compile := (midasTargetUtilsDir).value.get / "src" /  "main" / "scala",
-  ).dependsOn(chisel)
+lazy val midasTargetUtils = (project in firesimDir / "midas/targetutils")
+  .settings(commonSettings).dependsOn(chisel)
 
 // Rocket-chip dependencies (subsumes making RC a RootProject)
 lazy val hardfloat  = (project in rocketChipDir / "hardfloat")
@@ -55,7 +53,7 @@ lazy val rocketchip = (project in rocketChipDir / "src")
                commonSettings,
                scalaSource in Compile := baseDirectory.value / "main" / "scala",
                resourceDirectory in Compile := baseDirectory.value / "main" / "resources")
-             .dependsOn(chisel, hardfloat, macros) 
+             .dependsOn(chisel, hardfloat, macros)
 
 lazy val sifive_blocks = (project in file("sifive-blocks")).settings(commonSettings).dependsOn(rocketchip)
 
@@ -65,4 +63,8 @@ lazy val icenet = project.settings(commonSettings).dependsOn(rocketchip, testchi
 
 lazy val boom = project.settings(commonSettings).dependsOn(rocketchip)
 
-lazy val firechip = (project in file(".")).settings(commonSettings).dependsOn(boom, icenet, testchipip, sifive_blocks, midasTargetUtils)
+lazy val firechip = (project in file("."))
+    .settings(commonSettings)
+    .dependsOn(boom, icenet, testchipip, sifive_blocks, midasTargetUtils)
+
+lazy val firesim = RootProject(file("firesim/sim"))
