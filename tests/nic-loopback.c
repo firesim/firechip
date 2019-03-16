@@ -9,7 +9,7 @@
 #define NPACKETS 10
 #define TEST_OFFSET 3
 #define TEST_LEN 356
-#define ARRAY_LEN 360
+#define ARRAY_LEN 500
 #define NTRIALS 3
 
 uint32_t src[NPACKETS][ARRAY_LEN];
