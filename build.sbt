@@ -63,8 +63,10 @@ lazy val icenet = project.settings(commonSettings).dependsOn(rocketchip, testchi
 
 lazy val boom = project.settings(commonSettings).dependsOn(rocketchip)
 
+// The library components of FireSim
+lazy val firesim = ProjectRef(firesimDir, "common")
+
 lazy val firechip = (project in file("."))
     .settings(commonSettings)
-    .dependsOn(boom, icenet, testchipip, sifive_blocks, midasTargetUtils)
-
-lazy val firesim = RootProject(file("firesim/sim"))
+    .dependsOn(boom, icenet, testchipip, sifive_blocks, midasTargetUtils,
+      firesim % "test->test;compile->compile")

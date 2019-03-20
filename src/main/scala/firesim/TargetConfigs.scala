@@ -1,4 +1,6 @@
-package firechip
+package firesim.firesim
+
+import java.io.File
 
 import freechips.rocketchip.config.{Parameters, Config}
 import freechips.rocketchip.tile._
@@ -11,8 +13,17 @@ import sifive.blocks.devices.uart.{PeripheryUARTKey, UARTParams}
 import icenet._
 
 class WithBootROM extends Config((site, here, up) => {
-  case BootROMParams => BootROMParams(
-    contentFileName = s"./target-rtl/firechip/testchipip/bootrom/bootrom.rv${site(XLen)}.img")
+  case BootROMParams => {
+    val rebarBootROM = new File(s"./testchipip/bootrom/bootrom.rv${site(XLen)}.img")
+    val firesimBootROM = new File(s"./target-rtl/testchipip/bootrom/bootrom.rv${site(XLen)}.img")
+
+    val bootROMPath = if (rebarBootROM.exists()) {
+      rebarBootROM.getAbsolutePath()
+    } else {
+      firesimBootROM.getAbsolutePath()
+    }
+    BootROMParams(contentFileName = bootROMPath)
+  }
 })
 
 class WithPeripheryBusFrequency(freq: BigInt) extends Config((site, here, up) => {

@@ -1,4 +1,4 @@
-package firechip
+package firesim.firesim
 
 import chisel3._
 import freechips.rocketchip._
