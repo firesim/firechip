@@ -17,6 +17,7 @@ import testchipip._
 import testchipip.SerialAdapter.SERIAL_IF_WIDTH
 import sifive.blocks.devices.uart._
 import midas.targetutils.ExcludeInstanceAssertsAnnotation
+import midas.models.AXI4BundleWithEdge
 import java.io.File
 
 case object NumNodes extends Field[Int]
@@ -183,7 +184,7 @@ class FireBoomNoNICModuleImpTraced[+L <: FireBoomNoNIC](l: L) extends FireBoomNo
 class SupernodeIO(
       nNodes: Int,
       serialWidth: Int,
-      bagPrototype: HeterogeneousBag[AXI4Bundle])(implicit p: Parameters)
+      bagPrototype: HeterogeneousBag[AXI4BundleWithEdge])(implicit p: Parameters)
     extends Bundle {
 
     val serial = Vec(nNodes, new SerialIO(serialWidth))

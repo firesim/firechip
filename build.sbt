@@ -29,8 +29,7 @@ lazy val chisel  = (project in rocketChipDir / "chisel3")
 
 // Contains annotations & firrtl passes you may wish to use in rocket-chip without
 // introducing a circular dependency between RC and MIDAS
-lazy val midasTargetUtils = (project in firesimDir / "midas/targetutils")
-  .settings(commonSettings).dependsOn(chisel)
+lazy val midasTargetUtils = ProjectRef(firesimDir, "targetutils")
 
 // Rocket-chip dependencies (subsumes making RC a RootProject)
 lazy val hardfloat  = (project in rocketChipDir / "hardfloat")
@@ -64,9 +63,10 @@ lazy val icenet = project.settings(commonSettings).dependsOn(rocketchip, testchi
 lazy val boom = project.settings(commonSettings).dependsOn(rocketchip)
 
 // The library components of FireSim
+lazy val midas   = ProjectRef(firesimDir, "midas")
 lazy val firesim = ProjectRef(firesimDir, "common")
 
 lazy val firechip = (project in file("."))
     .settings(commonSettings)
-    .dependsOn(boom, icenet, testchipip, sifive_blocks, midasTargetUtils,
+    .dependsOn(boom, icenet, testchipip, sifive_blocks, midasTargetUtils, midas,
       firesim % "test->test;compile->compile")

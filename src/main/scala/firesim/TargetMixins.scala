@@ -10,8 +10,7 @@ import freechips.rocketchip.util._
 import freechips.rocketchip.rocket.TracedInstruction
 import boom.system.BoomSubsystem
 import midas.targetutils.ExcludeInstanceAsserts
-// TODO: FIX THIS
-//import midas.models.AXI4BundleWithEdge
+import midas.models.AXI4BundleWithEdge
 
 
 class TraceOutputTop(val numTraces: Int)(implicit val p: Parameters) extends Bundle {
@@ -56,9 +55,7 @@ trait CanHaveMisalignedMasterAXI4MemPort { this: BaseSubsystem =>
 trait CanHaveMisalignedMasterAXI4MemPortModuleImp extends LazyModuleImp {
   val outer: CanHaveMisalignedMasterAXI4MemPort
 
-  // TODO: Resolve this dependency chain: RC (AXI4B) -> MIDAS (AXI4BWEdge) -> FC
-  //val mem_axi4 = IO(new HeterogeneousBag(outer.memAXI4Node.in map AXI4BundleWithEdge.apply))
-  val mem_axi4 = IO(HeterogeneousBag.fromNode(outer.memAXI4Node.in))
+  val mem_axi4 = IO(new HeterogeneousBag(outer.memAXI4Node.in map AXI4BundleWithEdge.apply))
   (mem_axi4 zip outer.memAXI4Node.in).foreach { case (io, (bundle, _)) => io <> bundle }
 
   def connectSimAXIMem() {
