@@ -16,3 +16,9 @@
 [submodule "boom"]
 	path = boom
 	url = https://github.com/ucb-bar/riscv-boom.git
+[submodule "firesim"]
+	path = firesim
+	url = https://github.com/firesim/firesim.git
+[submodule "tools/firrtl"]
+	path = tools/firrtl
+	url = https://github.com/freechipsproject/firrtl.git
