@@ -12,9 +12,13 @@
 #define ARRAY_LEN 360
 #define NTRIALS 3
 
+#define CSUM_START 4
+#define CSUM_OFFSET 6
+
 uint32_t src[NPACKETS][ARRAY_LEN];
 uint32_t dst[NPACKETS][ARRAY_LEN];
 uint64_t lengths[NPACKETS];
+uint16_t checksums[NPACKETS];
 
 static inline void send_recv()
 {
@@ -29,6 +33,8 @@ static inline void send_recv()
 		recv_addr = (uint64_t) dst[i];
 		reg_write64(SIMPLENIC_SEND_REQ, send_packet);
 		reg_write64(SIMPLENIC_RECV_REQ, recv_addr);
+		nic_txcsum_req(1, CSUM_OFFSET, CSUM_START, 0);
+		nic_rxcsum_req(1, CSUM_START, 0);
 	}
 
 	while (send_comps_left > 0 || recv_comps_left > 0) {
@@ -42,6 +48,7 @@ static inline void send_recv()
 		asm volatile ("fence");
 		for (int i = 0; i < ncomps; i++) {
 			lengths[recv_idx] = reg_read16(SIMPLENIC_RECV_COMP);
+			checksums[recv_idx] = reg_read16(SIMPLENIC_RXCSUM_RES);
 			recv_idx++;
 		}
 		recv_comps_left -= ncomps;
@@ -68,13 +75,18 @@ void run_test(void)
 			exit(EXIT_FAILURE);
 		}
 
-		for (j = 0; j < TEST_LEN; j++) {
-			if (dst[i][j] != src[i][j + TEST_OFFSET]) {
-				printf("Data mismatch @ %d, %d: %x != %x\n",
-					i, j, dst[i][j], src[i][j + TEST_OFFSET]);
-				exit(EXIT_FAILURE);
-			}
+		if (checksums[i] != 0) {
+			printf("recv got wrong checksum %04x\n", checksums[i]);
+			exit(EXIT_FAILURE);
 		}
+
+		//for (j = 0; j < TEST_LEN; j++) {
+		//	if (dst[i][j] != src[i][j + TEST_OFFSET]) {
+		//		printf("Data mismatch @ %d, %d: %x != %x\n",
+		//			i, j, dst[i][j], src[i][j + TEST_OFFSET]);
+		//		exit(EXIT_FAILURE);
+		//	}
+		//}
 	}
 }
 
@@ -83,8 +95,12 @@ int main(void)
 	int i, j;
 
 	for (i = 0; i < NPACKETS; i++) {
+		uint16_t *halfwords = (uint16_t *) &src[i][TEST_OFFSET];
+
 		for (j = 0; j < ARRAY_LEN; j++)
 			src[i][j] = i * ARRAY_LEN + j;
+
+		halfwords[CSUM_OFFSET/2] = 0;
 	}
 
 	for (i = 0; i < NTRIALS; i++) {
