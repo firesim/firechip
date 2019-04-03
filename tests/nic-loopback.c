@@ -12,6 +12,8 @@
 #define ARRAY_LEN 360
 #define NTRIALS 3
 
+#define QNUM 1
+
 uint32_t src[NPACKETS][ARRAY_LEN];
 uint32_t dst[NPACKETS][ARRAY_LEN];
 uint64_t lengths[NPACKETS];
@@ -23,25 +25,22 @@ static inline void send_recv()
 	int recv_idx = 0;
 
 	for (int i = 0; i < NPACKETS; i++) {
-		uint64_t pkt_size = TEST_LEN * sizeof(uint32_t);
-		uint64_t src_addr = (uint64_t) &src[i][TEST_OFFSET];
-		send_packet = (pkt_size << 48) | src_addr;
-		recv_addr = (uint64_t) dst[i];
-		reg_write64(SIMPLENIC_SEND_REQ, send_packet);
-		reg_write64(SIMPLENIC_RECV_REQ, recv_addr);
+		int pkt_size = TEST_LEN * sizeof(uint32_t);
+		nic_post_send(&src[i][TEST_OFFSET], pkt_size, 0, QNUM);
+		nic_post_recv(&dst[i], QNUM);
 	}
 
 	while (send_comps_left > 0 || recv_comps_left > 0) {
-		ncomps = nic_send_comp_avail();
+		ncomps = nic_send_comp_avail(QNUM);
 		asm volatile ("fence");
 		for (int i = 0; i < ncomps; i++)
-			reg_read16(SIMPLENIC_SEND_COMP);
+			nic_complete_send(QNUM);
 		send_comps_left -= ncomps;
 
-		ncomps = nic_recv_comp_avail();
+		ncomps = nic_recv_comp_avail(QNUM);
 		asm volatile ("fence");
 		for (int i = 0; i < ncomps; i++) {
-			lengths[recv_idx] = reg_read16(SIMPLENIC_RECV_COMP);
+			lengths[recv_idx] = nic_complete_recv(QNUM);
 			recv_idx++;
 		}
 		recv_comps_left -= ncomps;

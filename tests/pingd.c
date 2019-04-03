@@ -139,7 +139,7 @@ static int process_arp(void *buf, uint8_t *mac)
 	memcpy(arp->spa, tmp_addr, IP_ADDR_SIZE);
 
 	size = ceil_div(size + NET_IP_ALIGN, 8) * 8;
-	nic_send(buf, size);
+	nic_send(buf, size, 0);
 
 	return 0;
 }
@@ -205,7 +205,7 @@ static int process_icmp(void *buf, uint8_t *mac)
 	size = ntohs(ipv4->length) + ETH_HEADER_SIZE;
 
 	size = ceil_div(size + NET_IP_ALIGN, 8) * 8;
-	nic_send(buf, size);
+	nic_send(buf, size, 0);
 
 	return 0;
 }
@@ -215,7 +215,7 @@ static int process_packet(void *buf, uint8_t *mac)
 	struct eth_header *eth;
 
 	// read the ICMP request
-	nic_recv(buf);
+	nic_recv(buf, 0);
 	eth = buf;
 	printf("Got packet: [ethtype=%04x]\n", ntohs(eth->ethtype));
 	// Check ethernet type
