@@ -27,12 +27,9 @@ long_name = $(PROJECT).$(MODEL).$(CONFIG)
 
 sim_vsrcs = \
 	$(build_dir)/$(long_name).v \
-	$(rocketchip_vsrc_dir)/AsyncResetReg.v \
-	$(icenet_vsrcs) $(testchip_vsrcs)
 
 sim_csrcs = \
 	$(sim_dir)/csrc/verilator-harness.cc \
-	$(icenet_csrcs) $(testchip_csrcs)
 
 model_dir = $(build_dir)/$(long_name)
 model_dir_debug = $(build_dir)/$(long_name).debug
@@ -47,8 +44,8 @@ $(model_mk): $(sim_vsrcs) $(INSTALLED_VERILATOR)
 	rm -rf $(build_dir)/$(long_name)
 	mkdir -p $(build_dir)/$(long_name)
 	$(VERILATOR) $(VERILATOR_FLAGS) -Mdir $(build_dir)/$(long_name) \
-	-o $(sim) $< $(sim_csrcs) -LDFLAGS "$(LDFLAGS)" \
-	-CFLAGS "-I$(build_dir) -include $(model_header)"
+	-o $(sim) $< $(sim_csrcs) -f $(BLACKBOX_FILE) \
+	-LDFLAGS "$(LDFLAGS)" -CFLAGS "-I$(build_dir) -include $(model_header)"
 	touch $@
 
 $(sim): $(model_mk) $(sim_csrcs)
@@ -58,8 +55,8 @@ $(sim): $(model_mk) $(sim_csrcs)
 $(model_mk_debug): $(sim_vsrcs) $(INSTALLED_VERILATOR)
 	mkdir -p $(build_dir)/$(long_name).debug
 	$(VERILATOR) $(VERILATOR_FLAGS) -Mdir $(build_dir)/$(long_name).debug --trace \
-	-o $(sim_debug) $< $(sim_csrcs) -LDFLAGS "$(LDFLAGS)" \
-	-CFLAGS "-I$(build_dir) -include $(model_header_debug)"
+	-o $(sim_debug) $< $(sim_csrcs) -f $(BLACKBOX_FILE) \
+	-LDFLAGS "$(LDFLAGS)" -CFLAGS "-I$(build_dir) -include $(model_header_debug)"
 	touch $@
 
 $(sim_debug): $(model_mk_debug) $(sim_csrcs)

@@ -16,16 +16,10 @@ debug: $(simv_debug)
 
 include $(base_dir)/Makefrag
 
-rocketchip_vsrc_dir = $(ROCKETCHIP_DIR)/src/main/resources/vsrc
-
 sim_vsrcs = \
 	$(build_dir)/$(PROJECT).$(MODEL).$(CONFIG).v \
-	$(rocketchip_vsrc_dir)/TestDriver.v \
-	$(rocketchip_vsrc_dir)/AsyncResetReg.v \
-	$(rocketchip_vsrc_dir)/plusarg_reader.v \
-	$(icenet_vsrcs) $(testchip_vsrcs)
 
-sim_csrcs = $(icenet_csrcs) $(testchip_csrcs)
+sim_csrcs = 
 
 VCS = vcs -full64
 
@@ -45,6 +39,7 @@ VCS_OPTS = -notice -line +lint=all,noVCDE,noONGS,noUI -error=PCWM-L -timescale=1
 	+define+RANDOMIZE_REG_INIT \
 	+define+RANDOMIZE_GARBAGE_ASSIGN \
 	+define+RANDOMIZE_INVALID_ASSIGN \
+	-f $(BLACKBOX_FILE) \
 	+libext+.v \
 
 verilog: $(sim_vsrcs)
