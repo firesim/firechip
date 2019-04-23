@@ -12,7 +12,7 @@ import icenet._
 import memblade.manager._
 import memblade.client._
 import memblade.cache._
-import memblade.prefetcher.PrefetchRoCC
+import memblade.prefetcher.{PrefetchRoCC, PrefetchConfig}
 
 object ConfigValName {
   implicit val valName = ValName("TestHarness")
@@ -88,6 +88,12 @@ class WithTestMemBlade extends Config((site, here, up) => {
   }
 })
 
+class WithPrefetchRoCC extends Config((site, here, up) => {
+  case BuildRoCC => Seq((p: Parameters) =>
+    LazyModule(new PrefetchRoCC(
+      OpcodeSet.custom2, new PrefetchConfig(useGetPut=true))(p)))
+})
+
 class WithDRAMCache extends Config((site, here, up) => {
   case MemBenchKey => MemBenchParams(nXacts = 256)
   case NICKey => NICConfig(inBufFlits = 8640, usePauser = true)
@@ -100,8 +106,6 @@ class WithDRAMCache extends Config((site, here, up) => {
     extentBytes = 1 << 20,
     logAddrBits = 28,
     zeroMetadata = true)
-  case BuildRoCC => Seq((p: Parameters) =>
-    LazyModule(new PrefetchRoCC(OpcodeSet.custom2)(p)))
   case BuildTop => (clock: Clock, reset: Bool, p: Parameters) => {
     val top = Module(LazyModule(new ExampleTopWithDRAMCache()(p)).module)
     top.connectTestMemBlade()
@@ -154,4 +158,7 @@ class RV32ExampleConfig extends Config(
   new WithRV32 ++ new DefaultExampleConfig)
 
 class DRAMCacheConfig extends Config(
-  new WithDRAMCache ++ new DefaultExampleConfig)
+  new WithPrefetchRoCC ++ new WithDRAMCache ++ new DefaultExampleConfig)
+
+class PrefetcherConfig extends Config(
+  new WithPrefetchRoCC ++ new DefaultExampleConfig)

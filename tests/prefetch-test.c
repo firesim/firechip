@@ -4,24 +4,22 @@
 
 #include "dramcache.h"
 
-#define CACHE_START 0x100000000L
 #define SET_RANGE (1L << 16)
 #define SPAN_BYTES 256
+#define SPAN_WORDS (SPAN_BYTES / sizeof(uint64_t))
 #define NWAYS 7
 #define NBANKS 4
 
-static inline void write_span(unsigned long base, long prefix)
-{
-	volatile uint64_t *ptr = (volatile uint64_t *) base;
+uint64_t data[SPAN_WORDS * NBANKS * (NWAYS + 1)];
 
+static inline void write_span(uint64_t *ptr, long prefix)
+{
 	for (int i = 0; i < (SPAN_BYTES/sizeof(uint64_t)); i++)
 		ptr[i] = prefix | i;
 }
 
-static inline void check_span(unsigned long base, long prefix)
+static inline void check_span(uint64_t *ptr, long prefix)
 {
-	volatile uint64_t *ptr = (volatile uint64_t *) base;
-
 	for (int i = 0; i < (SPAN_BYTES/sizeof(uint64_t)); i++) {
 		long expected = prefix | i;
 		long actual = ptr[i];
@@ -34,26 +32,22 @@ static inline void check_span(unsigned long base, long prefix)
 
 int main(void)
 {
-	printf("Set extent mapping\n");
-
-	set_extent_mapping(0, 0, 3);
-
 	printf("Performing writes\n");
 	for (long way = 0; way < (NWAYS+1); way++) {
 		for (long span = 0; span < NBANKS; span++) {
-			long offset = way * SET_RANGE + span * SPAN_BYTES;
-			write_span(CACHE_START + offset, offset);
+			long offset = (way * NBANKS + span) * SPAN_WORDS;
+			write_span(&data[offset], offset);
 		}
 	}
 
 	printf("Prefetching back first way\n");
-	prefetch(CACHE_START, NBANKS * SPAN_BYTES);
+	prefetch(data, NBANKS * SPAN_BYTES);
 	asm volatile ("fence");
 
 	printf("Performing reads\n");
 	for (long span = 0; span < NBANKS; span++) {
-		long offset = span * SPAN_BYTES;
-		check_span(CACHE_START + offset, offset);
+		long offset = span * SPAN_WORDS;
+		check_span(&data[offset], offset);
 	}
 
 	printf("Finished\n");
