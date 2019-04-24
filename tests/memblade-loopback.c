@@ -38,11 +38,11 @@ static inline void wait_response(int xact_id)
 int main(void)
 {
 	uint64_t mymac;
-	uint64_t extdata[8];
-	uint64_t word_results[3];
-	uint64_t exp_results[3] = {0xBE, 1, 0xDEADB00FL};
+	uint64_t extdata[9];
+	uint64_t word_results[4];
+	uint64_t exp_results[4] = {0xBE, 1, 0xDEADB00FL, 4};
 	uint64_t spanid = 4;
-	int xact_ids[4];
+	int xact_ids[5];
 
 	for (int i = 0; i < SPAN_WORDS; i++)
 		span_data[i] = i;
@@ -105,12 +105,18 @@ int main(void)
 			&extdata[7], &word_results[2], mymac,
 			MB_OC_WORD_READ, spanid);
 
+	spanid = 4;
+	extdata[8] = memblade_make_exthead(32, 3);
+	xact_ids[4] = send_rmem_request(
+			&extdata[8], &word_results[3], mymac,
+			MB_OC_WORD_READ, spanid);
+
 	printf("Receiving word-sized responses\n");
 
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < 5; i++)
 		wait_response(xact_ids[i]);
 
-	for (int i = 0; i < 3; i++) {
+	for (int i = 0; i < 4; i++) {
 		if (word_results[i] != exp_results[i])
 			printf("Word result %d incorrect: got %lx\n",
 					i, word_results[i]);
