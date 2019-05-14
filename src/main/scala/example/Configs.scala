@@ -12,7 +12,7 @@ import icenet._
 import memblade.manager._
 import memblade.client._
 import memblade.cache._
-import memblade.prefetcher.PrefetchRoCC
+import memblade.prefetcher.{PrefetchRoCC, PrefetchConfig}
 
 object ConfigValName {
   implicit val valName = ValName("TestHarness")
@@ -52,9 +52,7 @@ class WithSimBlockDevice extends Config((site, here, up) => {
 })
 
 class WithLoopbackNIC extends Config((site, here, up) => {
-  case NICKey => NICConfig(
-    inBufPackets = 10,
-    creditTracker = Some(CreditTrackerParams()))
+  case NICKey => NICConfig(inBufFlits = 1800, usePauser = true)
   case BuildTop => (clock: Clock, reset: Bool, p: Parameters) => {
     val top = Module(LazyModule(new ExampleTopWithIceNIC()(p)).module)
     top.connectNicLoopback()
@@ -63,7 +61,7 @@ class WithLoopbackNIC extends Config((site, here, up) => {
 })
 
 class WithSimNetwork extends Config((site, here, up) => {
-  case NICKey => NICConfig(inBufPackets = 10)
+  case NICKey => NICConfig(inBufFlits = 1800)
   case BuildTop => (clock: Clock, reset: Bool, p: Parameters) => {
     val top = Module(LazyModule(new ExampleTopWithIceNIC()(p)).module)
     top.connectSimNetwork(clock, reset)
@@ -81,11 +79,8 @@ class WithTestMemBlade extends Config((site, here, up) => {
   //case HasPFA => true
   case MemBladeKey => MemBladeParams()
   case RemoteMemClientKey => RemoteMemClientConfig(
-    reqTimeout = Some(511))
-  case NICKey => NICConfig(
-    inBufPackets = 48,
-    creditTracker = Some(CreditTrackerParams(
-      outTimeout = Some(511))))
+    reqTimeout = Some(2047))
+  case NICKey => NICConfig(inBufFlits = 8640, usePauser = true)
   case BuildTop => (clock: Clock, reset: Bool, p: Parameters) => {
     val top = Module(LazyModule(new ExampleTopWithRemoteMemClient()(p)).module)
     top.connectTestMemBlade()
@@ -93,11 +88,15 @@ class WithTestMemBlade extends Config((site, here, up) => {
   }
 })
 
+class WithPrefetchRoCC extends Config((site, here, up) => {
+  case BuildRoCC => Seq((p: Parameters) =>
+    LazyModule(new PrefetchRoCC(
+      OpcodeSet.custom2, new PrefetchConfig(useGetPut=true))(p)))
+})
+
 class WithDRAMCache extends Config((site, here, up) => {
   case MemBenchKey => MemBenchParams(nXacts = 256)
-  case NICKey => NICConfig(
-    inBufPackets = 32,
-    creditTracker = Some(CreditTrackerParams()))
+  case NICKey => NICConfig(inBufFlits = 8640, usePauser = true)
   case MemBladeKey => MemBladeParams(
     spanQueue = MemBladeQueueParams(reqHeadDepth = 32))
   case DRAMCacheKey => DRAMCacheConfig(
@@ -105,9 +104,9 @@ class WithDRAMCache extends Config((site, here, up) => {
     nWays = 7,
     baseAddr = 1L << 32,
     extentBytes = 1 << 20,
-    logAddrBits = 28)
-  case BuildRoCC => Seq((p: Parameters) =>
-    LazyModule(new PrefetchRoCC(OpcodeSet.custom2)(p)))
+    logAddrBits = 28,
+    nSecondaryRequests = 15,
+    zeroMetadata = true)
   case BuildTop => (clock: Clock, reset: Bool, p: Parameters) => {
     val top = Module(LazyModule(new ExampleTopWithDRAMCache()(p)).module)
     top.connectTestMemBlade()
@@ -160,8 +159,13 @@ class RV32ExampleConfig extends Config(
   new WithRV32 ++ new DefaultExampleConfig)
 
 class DRAMCacheConfig extends Config(
-  new WithL2Size(128) ++
+  new WithL2Size(64) ++
   new WithNBanksPerMemChannel(8) ++
   new WithL2Latency(121) ++
   new WithFederationL2Cache ++
-  new WithDRAMCache ++ new DefaultExampleConfig)
+  new WithPrefetchRoCC ++
+  new WithDRAMCache ++
+  new DefaultExampleConfig)
+
+class PrefetcherConfig extends Config(
+  new WithPrefetchRoCC ++ new DefaultExampleConfig)
