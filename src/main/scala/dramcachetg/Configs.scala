@@ -22,14 +22,17 @@ class WithDRAMCacheTraceGen extends Config((site, here, up) => {
         val nChunks = 2
         val nChannels = site(DRAMCacheKey).nChannels
         val nBanks = site(DRAMCacheKey).nBanksPerChannel * nChannels
+        val mcRows = site(DRAMCacheKey).nMetaCacheRows
         List.tabulate(nWays + 1) { i =>
           Seq.tabulate(nChunks) { j =>
             Seq.tabulate(nBanks) { k =>
-              BigInt(
+              val base = BigInt(
                 (k * spanBytes) +
                 (j * chunkBytes) +
                 (i * nSets * spanBytes))
-            }
+              val mcConflict = base + mcRows * nBanks * spanBytes
+              Seq(base, mcConflict)
+            }.flatten
           }.flatten
         }.flatten
       },
