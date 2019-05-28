@@ -102,7 +102,7 @@ class WithDRAMCache extends Config((site, here, up) => {
     spanQueue = MemBladeQueueParams(reqHeadDepth = 32))
   case DRAMCacheKey => DRAMCacheConfig(
     nTrackersPerBank = 2,
-    nBanksPerChannel = 2,
+    nBanksPerChannel = 4,
     nSets = 256,
     nWays = 7,
     baseAddr = 1L << 32,
@@ -114,7 +114,7 @@ class WithDRAMCache extends Config((site, here, up) => {
     zeroMetadata = true,
     remAccessQueue = RemoteAccessDepths(1, 2, 1, 2),
     wbQueue = WritebackDepths(1, 1),
-    memInQueue = MemoryQueueParams(2, 2))
+    memInQueue = MemoryQueueParams(2, 2, 4, 8, 2, 2))
   case BuildTop => (clock: Clock, reset: Bool, p: Parameters) => {
     val top = Module(LazyModule(new ExampleTopWithDRAMCache()(p)).module)
     top.connectTestMemBlade()
