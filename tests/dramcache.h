@@ -12,9 +12,14 @@ static inline void set_extent_mapping(
 	*addr = (macsuffix << 48) | (1L << 47) | physExtent;
 }
 
-static inline void prefetch(unsigned long addr, unsigned long len)
+static inline void prefetch_read(unsigned long addr, unsigned long len)
 {
 	ROCC_INSTRUCTION_SS(2, addr, len, 0);
+}
+
+static inline void prefetch_write(unsigned long addr, unsigned long len)
+{
+	ROCC_INSTRUCTION_SS(2, addr, len, 1);
 }
 
 #endif
