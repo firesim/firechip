@@ -77,8 +77,9 @@ class WithMemBench extends Config((site, here, up) => {
 
 class WithTestMemBlade extends Config((site, here, up) => {
   //case HasPFA => true
-  case MemBladeKey => MemBladeParams()
+  case MemBladeKey => MemBladeParams(spanBytes = site(CacheBlockBytes))
   case RemoteMemClientKey => RemoteMemClientConfig(
+    spanBytes = site(CacheBlockBytes),
     reqTimeout = Some(2047))
   case NICKey => NICConfig(inBufFlits = 8640, usePauser = true)
   case BuildTop => (clock: Clock, reset: Bool, p: Parameters) => {
@@ -98,15 +99,15 @@ class WithDRAMCache extends Config((site, here, up) => {
   case MemBenchKey => MemBenchParams(nXacts = 256)
   case NICKey => NICConfig(inBufFlits = 8640, usePauser = true)
   case MemBladeKey => MemBladeParams(
-    spanBytes = 1024,
+    spanBytes = site(CacheBlockBytes),
     spanQueue = MemBladeQueueParams(reqHeadDepth = 32))
   case DRAMCacheKey => DRAMCacheConfig(
     nTrackersPerBank = 2,
     nBanksPerChannel = 4,
-    nSets = 256,
+    nSets = 512,
     nWays = 7,
     baseAddr = 1L << 32,
-    spanBytes = 1024,
+    spanBytes = site(CacheBlockBytes),
     extentBytes = 1 << 20,
     logAddrBits = 28,
     nSecondaryRequests = 15,

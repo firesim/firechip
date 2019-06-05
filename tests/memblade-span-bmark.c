@@ -7,7 +7,7 @@
 #include "encoding.h"
 
 #define NREQUESTS 8
-#define SPAN_WORDS 32
+#define SPAN_WORDS 8
 #define START_SPAN 128
 
 struct req_tracker {

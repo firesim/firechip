@@ -5,7 +5,7 @@
 #include "nic.h"
 #include "memblade.h"
 
-#define SPAN_BYTES 256
+#define SPAN_BYTES 64
 #define SPAN_WORDS (SPAN_BYTES / sizeof(uint64_t))
 
 uint64_t span_data[SPAN_WORDS];

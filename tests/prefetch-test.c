@@ -41,7 +41,7 @@ int main(void)
 	}
 
 	printf("Prefetching back first way\n");
-	prefetch(data, NBANKS * SPAN_BYTES);
+	prefetch_read(data, NBANKS * SPAN_BYTES);
 	asm volatile ("fence");
 
 	printf("Performing reads\n");
