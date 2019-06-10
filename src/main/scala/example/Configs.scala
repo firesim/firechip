@@ -89,10 +89,10 @@ class WithTestMemBlade extends Config((site, here, up) => {
   }
 })
 
-class WithPrefetchRoCC extends Config((site, here, up) => {
+class WithPrefetchRoCC(nXacts: Int) extends Config((site, here, up) => {
   case BuildRoCC => Seq((p: Parameters) =>
     LazyModule(new PrefetchRoCC(
-      OpcodeSet.custom2, new PrefetchConfig(useGetPut=true))(p)))
+      OpcodeSet.custom2, PrefetchConfig(nMemXacts=nXacts))(p)))
 })
 
 class WithDRAMCache extends Config((site, here, up) => {
@@ -102,8 +102,9 @@ class WithDRAMCache extends Config((site, here, up) => {
     spanBytes = site(CacheBlockBytes),
     spanQueue = MemBladeQueueParams(reqHeadDepth = 32))
   case DRAMCacheKey => DRAMCacheConfig(
-    nTrackersPerBank = 2,
-    nBanksPerChannel = 4,
+    nChannels = 1,
+    nBanksPerChannel = 2,
+    nTrackersPerBank = 4,
     nSets = 512,
     nWays = 7,
     baseAddr = 1L << 32,
@@ -118,7 +119,7 @@ class WithDRAMCache extends Config((site, here, up) => {
     memInQueue = MemoryQueueParams(2, 2, 4, 8, 2, 2))
   case BuildTop => (clock: Clock, reset: Bool, p: Parameters) => {
     val top = Module(LazyModule(new ExampleTopWithDRAMCache()(p)).module)
-    top.connectTestMemBlade()
+    top.connectTestMemBlade(latency=200)
     top.connectSimAXICacheMem()
     top
   }
@@ -169,16 +170,16 @@ class RV32ExampleConfig extends Config(
 
 class DRAMCacheConfig extends Config(
   new WithNTrackersPerBank(7) ++
-  new WithNBanksPerMemChannel(8) ++
-  new WithPrefetchRoCC ++
+  new WithNBanksPerMemChannel(4) ++
+  new WithPrefetchRoCC(28) ++
   new WithDRAMCache ++
   new DefaultExampleConfig)
 
 class DRAMCacheL2Config extends Config(
-  new WithL2Size(16) ++
+  new WithL2Size(4) ++
   new WithL2Latency(121) ++
   new WithFederationL2Cache ++
   new DRAMCacheConfig)
 
 class PrefetcherConfig extends Config(
-  new WithPrefetchRoCC ++ new DefaultExampleConfig)
+  new WithPrefetchRoCC(16) ++ new DefaultExampleConfig)
