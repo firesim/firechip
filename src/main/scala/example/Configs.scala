@@ -116,7 +116,7 @@ class WithDRAMCache extends Config((site, here, up) => {
     zeroMetadata = true,
     remAccessQueue = RemoteAccessDepths(1, 2, 1, 2),
     wbQueue = WritebackDepths(1, 1),
-    memInQueue = MemoryQueueParams(2, 2, 4, 8, 2, 2))
+    memInQueue = MemoryQueueParams(2, 2, 8, 2, 16, 2))
   case BuildTop => (clock: Clock, reset: Bool, p: Parameters) => {
     val top = Module(LazyModule(new ExampleTopWithDRAMCache()(p)).module)
     top.connectTestMemBlade(latency=200)
