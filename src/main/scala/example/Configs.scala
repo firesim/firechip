@@ -114,6 +114,7 @@ class WithDRAMCache extends Config((site, here, up) => {
     nSecondaryRequests = 15,
     nMetaCacheRows = 32,
     zeroMetadata = true,
+    shuffleAddresses = true,
     remAccessQueue = RemoteAccessDepths(1, 2, 1, 2),
     wbQueue = WritebackDepths(1, 1),
     memInQueue = MemoryQueueParams(2, 2, 8, 2, 16, 2))
