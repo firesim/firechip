@@ -1,7 +1,7 @@
 ROCKETCHIP_DIR=$(base_dir)/rocket-chip
 
 SCALA_VERSION := 2.12
-SCALA_PATH := 4
+SCALA_PATCH := 4
 SBT ?= java -Xmx2G -Xss8M -XX:MaxPermSize=256M -jar $(ROCKETCHIP_DIR)/sbt-launch.jar ++$(SCALA_VERSION).$(SCALA_PATCH)
 
 lookup_scala_srcs = $(shell find $(1)/ -iname "*.scala" 2> /dev/null)
