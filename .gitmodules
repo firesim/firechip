@@ -16,3 +16,6 @@
 [submodule "boom"]
 	path = boom
 	url = https://github.com/ucb-bar/riscv-boom.git
+[submodule "block-inclusivecache-sifive"]
+	path = block-inclusivecache-sifive
+	url = https://github.com/sifive/block-inclusivecache-sifive.git

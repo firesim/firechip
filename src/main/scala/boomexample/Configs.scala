@@ -1,6 +1,6 @@
 package boomexample
 
-import boom.system.BoomConfig
+import boom.system.MediumBoomConfig
 import chisel3._
 import example.WithBootROM
 import example.ConfigValName._
@@ -55,7 +55,7 @@ class With64BitSystemBus extends Config((site, here, up) => {
 })
 
 class BaseExampleConfig extends Config(
-  new WithBootROM ++ new With64BitSystemBus ++ new BoomConfig)
+  new WithBootROM ++ new With64BitSystemBus ++ new MediumBoomConfig)
 
 class DefaultExampleConfig extends Config(
   new WithBoomExampleTop ++ new BaseExampleConfig)
