@@ -27,6 +27,7 @@ long_name = $(PROJECT).$(MODEL).$(CONFIG)
 
 sim_vsrcs = \
 	$(build_dir)/$(long_name).v \
+	$(base_dir)/rocket-chip/src/main/resources/vsrc/EICG_wrapper.v \
 
 sim_csrcs = \
 	$(sim_dir)/csrc/verilator-harness.cc \
@@ -40,11 +41,11 @@ model_header_debug = $(model_dir_debug)/V$(MODEL).h
 model_mk = $(model_dir)/V$(MODEL).mk
 model_mk_debug = $(model_dir_debug)/V$(MODEL).mk
 
-$(model_mk): $(sim_vsrcs) $(INSTALLED_VERILATOR)
+$(model_mk): $(sim_vsrcs) $(INSTALLED_VERILATOR) $(BLACKBOX_FILE)
 	rm -rf $(build_dir)/$(long_name)
 	mkdir -p $(build_dir)/$(long_name)
 	$(VERILATOR) $(VERILATOR_FLAGS) -Mdir $(build_dir)/$(long_name) \
-	-o $(sim) $< $(sim_csrcs) -f $(BLACKBOX_FILE) \
+	-o $(sim) $(sim_vsrcs) $(sim_csrcs) -f $(BLACKBOX_FILE) \
 	-LDFLAGS "$(LDFLAGS)" -CFLAGS "-I$(build_dir) -include $(model_header)"
 	touch $@
 
@@ -52,10 +53,10 @@ $(sim): $(model_mk) $(sim_csrcs)
 	$(MAKE) VM_PARALLEL_BUILDS=1 -C $(build_dir)/$(long_name) -f V$(MODEL).mk
 
 
-$(model_mk_debug): $(sim_vsrcs) $(INSTALLED_VERILATOR)
+$(model_mk_debug): $(sim_vsrcs) $(INSTALLED_VERILATOR) $(BLACKBOX_FILE)
 	mkdir -p $(build_dir)/$(long_name).debug
 	$(VERILATOR) $(VERILATOR_FLAGS) -Mdir $(build_dir)/$(long_name).debug --trace \
-	-o $(sim_debug) $< $(sim_csrcs) -f $(BLACKBOX_FILE) \
+	-o $(sim_debug) $(sim_vsrcs) $(sim_csrcs) -f $(BLACKBOX_FILE) \
 	-LDFLAGS "$(LDFLAGS)" -CFLAGS "-I$(build_dir) -include $(model_header_debug)"
 	touch $@
 
