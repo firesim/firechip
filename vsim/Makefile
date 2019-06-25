@@ -17,6 +17,8 @@ debug: $(simv_debug)
 include $(base_dir)/Makefrag
 
 sim_vsrcs = \
+	$(base_dir)/rocket-chip/src/main/resources/vsrc/TestDriver.v \
+	$(base_dir)/rocket-chip/src/main/resources/vsrc/EICG_wrapper.v \
 	$(build_dir)/$(PROJECT).$(MODEL).$(CONFIG).v \
 
 sim_csrcs = 
@@ -44,7 +46,7 @@ VCS_OPTS = -notice -line +lint=all,noVCDE,noONGS,noUI -error=PCWM-L -timescale=1
 
 verilog: $(sim_vsrcs)
 
-$(simv): $(sim_vsrcs) $(sim_csrcs)
+$(simv): $(sim_vsrcs) $(sim_csrcs) $(BLACKBOX_FILE)
 	rm -rf csrc && $(VCS) $(VCS_OPTS) -o $@ \
 	-debug_pp
 
@@ -53,13 +55,13 @@ $(simv_debug) : $(sim_vsrcs) $(sim_csrcs)
 	+define+DEBUG -debug_pp
 
 $(output_dir)/%.out: $(output_dir)/% $(simv)
-	$(simv) +verbose +max-cycles=1000000 $< 3>&1 1>&2 2>&3 | spike-dasm > $@
+	$(simv) +permissive +verbose +max-cycles=1000000 +permissive-off $< 3>&1 1>&2 2>&3 | spike-dasm > $@
 
 $(output_dir)/%.run: $(output_dir)/% $(simv)
-	$(simv) +max-cycles=1000000 $< && touch $@
+	$(simv) +permissive +max-cycles=1000000 +permissive-off $< && touch $@
 
 $(output_dir)/%.vpd: $(output_dir)/% $(simv_debug)
-	$(simv_debug) +vcdplusfile=$@ +max-cycles=1000000 $<
+	$(simv_debug) +permissive +vcdplusfile=$@ +max-cycles=1000000 +permissive-off $<
 
 run-regression-tests: $(addprefix $(output_dir)/,$(addsuffix .out,$(regression-tests)))
 
