@@ -12,10 +12,13 @@
 	url = https://github.com/sifive/sifive-blocks.git
 [submodule "riscv-tools"]
 	path = riscv-tools
-	url = https://github.com/firesim/riscv-tools.git
+	url = https://github.com/riscv/riscv-tools.git
 [submodule "memory-blade"]
 	path = memory-blade
 	url = git@bitbucket.org:zhemao/memory-blade.git
 [submodule "boom"]
 	path = boom
 	url = https://github.com/ucb-bar/riscv-boom.git
+[submodule "block-inclusivecache-sifive"]
+	path = block-inclusivecache-sifive
+	url = https://github.com/sifive/block-inclusivecache-sifive.git

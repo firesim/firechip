@@ -2,7 +2,7 @@ package example
 
 import chisel3._
 import freechips.rocketchip.config.{Parameters, Config}
-import freechips.rocketchip.subsystem.{WithRoccExample, WithNMemoryChannels, WithNBigCores, WithRV32}
+import freechips.rocketchip.subsystem.{WithRoccExample, WithNMemoryChannels, WithNBigCores, WithRV32, WithInclusiveCache}
 import freechips.rocketchip.devices.tilelink.BootROMParams
 import freechips.rocketchip.diplomacy.{LazyModule, ValName}
 import freechips.rocketchip.tile.{XLen, BuildRoCC, OpcodeSet}
@@ -120,6 +120,9 @@ class BaseExampleConfig extends Config(
 
 class DefaultExampleConfig extends Config(
   new WithExampleTop ++ new BaseExampleConfig)
+
+class DefaultExampleL2Config extends Config(
+  new WithInclusiveCache ++ new DefaultExampleConfig)
 
 class RoccExampleConfig extends Config(
   new WithRoccExample ++ new DefaultExampleConfig)

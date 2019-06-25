@@ -17,6 +17,11 @@ lazy val rocketchip = RootProject(file("rocket-chip"))
 
 lazy val sifive_blocks = (project in file("sifive-blocks")).settings(commonSettings).dependsOn(rocketchip)
 
+lazy val sifive_cache = (project in file("block-inclusivecache-sifive")).settings(
+  commonSettings,
+  scalaSource in Compile := baseDirectory.value / "craft"
+).dependsOn(rocketchip)
+
 lazy val testchipip = project.settings(commonSettings).dependsOn(rocketchip)
 
 lazy val icenet = project.settings(commonSettings).dependsOn(rocketchip, testchipip)
@@ -25,4 +30,4 @@ lazy val memblade = (project in file("memory-blade")).settings(commonSettings).d
 
 lazy val boom = project.settings(commonSettings).dependsOn(rocketchip)
 
-lazy val example = (project in file(".")).settings(commonSettings).dependsOn(boom, icenet, testchipip, sifive_blocks, memblade)
+lazy val example = (project in file(".")).settings(commonSettings).dependsOn(boom, icenet, testchipip, sifive_blocks, sifive_cache, memblade)

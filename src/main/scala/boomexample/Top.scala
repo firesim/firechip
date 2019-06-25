@@ -1,6 +1,6 @@
 package boomexample
 
-import boom.system.{BoomSubsystem, BoomSubsystemModule}
+import boom.system.{BoomRocketSubsystem, BoomRocketSubsystemModuleImp}
 import freechips.rocketchip.subsystem._
 import freechips.rocketchip.config.Parameters
 import freechips.rocketchip.devices.tilelink._
@@ -8,7 +8,7 @@ import freechips.rocketchip.util.DontTouch
 import testchipip._
 import icenet._
 
-class BoomExampleTop(implicit p: Parameters) extends BoomSubsystem
+class BoomExampleTop(implicit p: Parameters) extends BoomRocketSubsystem
     with CanHaveMasterAXI4MemPort
     with HasPeripheryBootROM
 //    with HasSystemErrorSlave
@@ -18,7 +18,7 @@ class BoomExampleTop(implicit p: Parameters) extends BoomSubsystem
   override lazy val module = new BoomExampleTopModule(this)
 }
 
-class BoomExampleTopModule[+L <: BoomExampleTop](l: L) extends BoomSubsystemModule(l)
+class BoomExampleTopModule[+L <: BoomExampleTop](l: L) extends BoomRocketSubsystemModuleImp(l)
     with HasRTCModuleImp
     with CanHaveMasterAXI4MemPortModuleImp
     with HasPeripheryBootROMModuleImp
