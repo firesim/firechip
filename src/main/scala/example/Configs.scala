@@ -2,7 +2,7 @@ package example
 
 import chisel3._
 import freechips.rocketchip.config.{Parameters, Config}
-import freechips.rocketchip.subsystem.{WithRoccExample, WithNMemoryChannels, WithNBigCores, WithRV32}
+import freechips.rocketchip.subsystem.{WithRoccExample, WithNMemoryChannels, WithNBigCores, WithRV32, WithInclusiveCache}
 import freechips.rocketchip.devices.tilelink.BootROMParams
 import freechips.rocketchip.diplomacy.{LazyModule, ValName}
 import freechips.rocketchip.tile.XLen
@@ -47,7 +47,8 @@ class WithSimBlockDevice extends Config((site, here, up) => {
 })
 
 class WithLoopbackNIC extends Config((site, here, up) => {
-  case NICKey => NICConfig(inBufPackets = 10, checksumOffload = true)
+  case NICKey => NICConfig(
+    inBufFlits = 1800, usePauser = true, checksumOffload = true)
   case BuildTop => (clock: Clock, reset: Bool, p: Parameters) => {
     val top = Module(LazyModule(new ExampleTopWithIceNIC()(p)).module)
     top.connectNicLoopback()
@@ -56,7 +57,7 @@ class WithLoopbackNIC extends Config((site, here, up) => {
 })
 
 class WithSimNetwork extends Config((site, here, up) => {
-  case NICKey => NICConfig(inBufPackets = 10)
+  case NICKey => NICConfig(inBufFlits = 1800)
   case BuildTop => (clock: Clock, reset: Bool, p: Parameters) => {
     val top = Module(LazyModule(new ExampleTopWithIceNIC()(p)).module)
     top.connectSimNetwork(clock, reset)
@@ -70,6 +71,9 @@ class BaseExampleConfig extends Config(
 
 class DefaultExampleConfig extends Config(
   new WithExampleTop ++ new BaseExampleConfig)
+
+class DefaultExampleL2Config extends Config(
+  new WithInclusiveCache ++ new DefaultExampleConfig)
 
 class RoccExampleConfig extends Config(
   new WithRoccExample ++ new DefaultExampleConfig)

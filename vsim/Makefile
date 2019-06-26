@@ -16,16 +16,12 @@ debug: $(simv_debug)
 
 include $(base_dir)/Makefrag
 
-rocketchip_vsrc_dir = $(ROCKETCHIP_DIR)/src/main/resources/vsrc
-
 sim_vsrcs = \
+	$(base_dir)/rocket-chip/src/main/resources/vsrc/TestDriver.v \
+	$(base_dir)/rocket-chip/src/main/resources/vsrc/EICG_wrapper.v \
 	$(build_dir)/$(PROJECT).$(MODEL).$(CONFIG).v \
-	$(rocketchip_vsrc_dir)/TestDriver.v \
-	$(rocketchip_vsrc_dir)/AsyncResetReg.v \
-	$(rocketchip_vsrc_dir)/plusarg_reader.v \
-	$(icenet_vsrcs) $(testchip_vsrcs)
 
-sim_csrcs = $(icenet_csrcs) $(testchip_csrcs)
+sim_csrcs = 
 
 VCS = vcs -full64
 
@@ -45,11 +41,12 @@ VCS_OPTS = -notice -line +lint=all,noVCDE,noONGS,noUI -error=PCWM-L -timescale=1
 	+define+RANDOMIZE_REG_INIT \
 	+define+RANDOMIZE_GARBAGE_ASSIGN \
 	+define+RANDOMIZE_INVALID_ASSIGN \
+	-f $(BLACKBOX_FILE) \
 	+libext+.v \
 
 verilog: $(sim_vsrcs)
 
-$(simv): $(sim_vsrcs) $(sim_csrcs)
+$(simv): $(sim_vsrcs) $(sim_csrcs) $(BLACKBOX_FILE)
 	rm -rf csrc && $(VCS) $(VCS_OPTS) -o $@ \
 	-debug_pp
 
@@ -58,13 +55,13 @@ $(simv_debug) : $(sim_vsrcs) $(sim_csrcs)
 	+define+DEBUG -debug_pp
 
 $(output_dir)/%.out: $(output_dir)/% $(simv)
-	$(simv) +verbose +max-cycles=1000000 $< 3>&1 1>&2 2>&3 | spike-dasm > $@
+	$(simv) +permissive +verbose +max-cycles=1000000 +permissive-off $< 3>&1 1>&2 2>&3 | spike-dasm > $@
 
 $(output_dir)/%.run: $(output_dir)/% $(simv)
-	$(simv) +max-cycles=1000000 $< && touch $@
+	$(simv) +permissive +max-cycles=1000000 +permissive-off $< && touch $@
 
 $(output_dir)/%.vpd: $(output_dir)/% $(simv_debug)
-	$(simv_debug) +vcdplusfile=$@ +max-cycles=1000000 $<
+	$(simv_debug) +permissive +vcdplusfile=$@ +max-cycles=1000000 +permissive-off $<
 
 run-regression-tests: $(addprefix $(output_dir)/,$(addsuffix .out,$(regression-tests)))
 
