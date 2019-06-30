@@ -6,8 +6,6 @@
 #include "nic.h"
 #include "encoding.h"
 
-#define CHECKSUM
-
 #define NPACKETS 10
 #define TEST_OFFSET 3
 #define TEST_LEN 356
@@ -35,13 +33,7 @@ static inline void send_recv()
 		recv_addr = (uint64_t) dst[i];
 		reg_write64(SIMPLENIC_SEND_REQ, send_packet);
 		reg_write64(SIMPLENIC_RECV_REQ, recv_addr);
-#ifdef CHECKSUM
-		nic_txcsum_req(1, CSUM_OFFSET, CSUM_START, 0);
-		nic_rxcsum_req(1, CSUM_START, 0);
-#else
 		nic_txcsum_req(0, CSUM_OFFSET, CSUM_START, 0);
-		nic_rxcsum_req(0, CSUM_START, 0);
-#endif
 	}
 
 	while (send_comps_left > 0 || recv_comps_left > 0) {
@@ -54,10 +46,12 @@ static inline void send_recv()
 		ncomps = nic_recv_comp_avail();
 		asm volatile ("fence");
 		for (int i = 0; i < ncomps; i++) {
+			int csum_result = reg_read8(SIMPLENIC_RXCSUM_RES);
+			if ((csum_result & 1) != 0) {
+				printf("packet should not have been checked\n");
+				exit(EXIT_FAILURE);
+			}
 			lengths[recv_idx] = reg_read16(SIMPLENIC_RECV_COMP);
-#ifdef CHECKSUM
-			checksums[recv_idx] = reg_read16(SIMPLENIC_RXCSUM_RES);
-#endif
 			recv_idx++;
 		}
 		recv_comps_left -= ncomps;
@@ -84,13 +78,6 @@ void run_test(void)
 			exit(EXIT_FAILURE);
 		}
 
-#ifdef CHECKSUM
-		if (checksums[i] != 0) {
-			printf("recv got wrong checksum %04x\n", checksums[i]);
-			exit(EXIT_FAILURE);
-		}
-#else
-
 		for (j = 0; j < TEST_LEN; j++) {
 			if (dst[i][j] != src[i][j + TEST_OFFSET]) {
 				printf("Data mismatch @ %d, %d: %x != %x\n",
@@ -98,7 +85,6 @@ void run_test(void)
 				exit(EXIT_FAILURE);
 			}
 		}
-#endif
 	}
 }
 
