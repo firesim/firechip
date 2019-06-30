@@ -14,6 +14,7 @@
 
 #define CSUM_START 4
 #define CSUM_OFFSET 6
+#define CHECKSUM
 
 uint32_t src[NPACKETS][ARRAY_LEN];
 uint32_t dst[NPACKETS][ARRAY_LEN];
@@ -33,7 +34,9 @@ static inline void send_recv()
 		recv_addr = (uint64_t) dst[i];
 		reg_write64(SIMPLENIC_SEND_REQ, send_packet);
 		reg_write64(SIMPLENIC_RECV_REQ, recv_addr);
+#ifdef CHECKSUM
 		nic_txcsum_req(0, CSUM_OFFSET, CSUM_START, 0);
+#endif
 	}
 
 	while (send_comps_left > 0 || recv_comps_left > 0) {
@@ -46,11 +49,13 @@ static inline void send_recv()
 		ncomps = nic_recv_comp_avail();
 		asm volatile ("fence");
 		for (int i = 0; i < ncomps; i++) {
+#ifdef CHECKSUM
 			int csum_result = reg_read8(SIMPLENIC_RXCSUM_RES);
 			if ((csum_result & 1) != 0) {
 				printf("packet should not have been checked\n");
 				exit(EXIT_FAILURE);
 			}
+#endif
 			lengths[recv_idx] = reg_read16(SIMPLENIC_RECV_COMP);
 			recv_idx++;
 		}
@@ -100,6 +105,10 @@ int main(void)
 
 		halfwords[CSUM_OFFSET/2] = 0;
 	}
+
+#ifdef CHECKSUM
+	reg_write8(SIMPLENIC_CSUM_ENABLE, 1);
+#endif
 
 	for (i = 0; i < NTRIALS; i++) {
 		printf("Trial %d\n", i);

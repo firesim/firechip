@@ -8,6 +8,7 @@
 #define SIMPLENIC_INTMASK (SIMPLENIC_BASE + 32)
 #define SIMPLENIC_TXCSUM_REQ (SIMPLENIC_BASE + 40)
 #define SIMPLENIC_RXCSUM_RES (SIMPLENIC_BASE + 48)
+#define SIMPLENIC_CSUM_ENABLE (SIMPLENIC_BASE + 49)
 
 static inline int nic_send_req_avail(void)
 {
