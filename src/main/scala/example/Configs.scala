@@ -2,7 +2,7 @@ package example
 
 import chisel3._
 import freechips.rocketchip.config.{Parameters, Config}
-import freechips.rocketchip.subsystem.{WithRoccExample, WithNMemoryChannels, WithNBigCores, WithRV32, WithInclusiveCache}
+import freechips.rocketchip.subsystem.{WithRoccExample, WithNMemoryChannels, WithNBigCores, WithRV32, WithInclusiveCache, CacheBlockBytes}
 import freechips.rocketchip.devices.tilelink.BootROMParams
 import freechips.rocketchip.diplomacy.{LazyModule, ValName}
 import freechips.rocketchip.tile.{XLen, BuildRoCC, OpcodeSet}
@@ -12,7 +12,7 @@ import icenet._
 import memblade.manager._
 import memblade.client._
 import memblade.cache._
-import memblade.prefetcher.{PrefetchRoCC, PrefetchConfig}
+import memblade.prefetcher._
 
 object ConfigValName {
   implicit val valName = ValName("TestHarness")
@@ -91,17 +91,23 @@ class WithTestMemBlade extends Config((site, here, up) => {
 class WithPrefetchRoCC extends Config((site, here, up) => {
   case BuildRoCC => Seq((p: Parameters) =>
     LazyModule(new PrefetchRoCC(
-      OpcodeSet.custom2, new PrefetchConfig(useGetPut=true))(p)))
+      opcodes = OpcodeSet.custom2,
+      soft = Some(new SoftPrefetchConfig(nMemXacts = 32)),
+      auto = Some(new AutoPrefetchConfig(
+        nWays = 4, nBlocks = 8, timeoutPeriod = 750)))(p)))
 })
 
 class WithDRAMCache extends Config((site, here, up) => {
   case MemBenchKey => MemBenchParams(nXacts = 256)
   case NICKey => NICConfig(inBufFlits = 8640, usePauser = true)
   case MemBladeKey => MemBladeParams(
+    nSpanTrackers = 2,
+    spanBytes = site(CacheBlockBytes),
     spanQueue = MemBladeQueueParams(reqHeadDepth = 32))
   case DRAMCacheKey => DRAMCacheConfig(
     nSets = 256,
     nWays = 7,
+    spanBytes = site(CacheBlockBytes),
     baseAddr = 1L << 32,
     extentBytes = 1 << 20,
     logAddrBits = 28,
@@ -122,7 +128,7 @@ class DefaultExampleConfig extends Config(
   new WithExampleTop ++ new BaseExampleConfig)
 
 class DefaultExampleL2Config extends Config(
-  new WithInclusiveCache ++ new DefaultExampleConfig)
+  new WithInclusiveCache(capacityKB = 16) ++ new DefaultExampleConfig)
 
 class RoccExampleConfig extends Config(
   new WithRoccExample ++ new DefaultExampleConfig)
@@ -161,7 +167,7 @@ class RV32ExampleConfig extends Config(
   new WithRV32 ++ new DefaultExampleConfig)
 
 class DRAMCacheConfig extends Config(
-  new WithPrefetchRoCC ++ new WithDRAMCache ++ new DefaultExampleConfig)
+  new WithPrefetchRoCC ++ new WithDRAMCache ++ new DefaultExampleL2Config)
 
 class PrefetcherConfig extends Config(
-  new WithPrefetchRoCC ++ new DefaultExampleConfig)
+  new WithPrefetchRoCC ++ new DefaultExampleL2Config)
