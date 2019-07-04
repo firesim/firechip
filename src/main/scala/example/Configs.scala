@@ -111,6 +111,9 @@ class WithDRAMCache extends Config((site, here, up) => {
     baseAddr = 1L << 32,
     extentBytes = 1 << 20,
     logAddrBits = 28,
+    nWritebackSpans = 4,
+    nTrackersPerBank = 4,
+    nBanksPerChannel = 2,
     zeroMetadata = true)
   case BuildTop => (clock: Clock, reset: Bool, p: Parameters) => {
     val top = Module(LazyModule(new ExampleTopWithDRAMCache()(p)).module)
