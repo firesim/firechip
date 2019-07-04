@@ -2,7 +2,8 @@ ROCKETCHIP_DIR=$(base_dir)/rocket-chip
 
 SCALA_VERSION := 2.12
 SCALA_PATCH := 4
-SBT ?= java -Xmx2G -Xss8M -XX:MaxPermSize=256M $(SBT_FLAGS) -jar $(ROCKETCHIP_DIR)/sbt-launch.jar ++$(SCALA_VERSION).$(SCALA_PATCH)
+JAVA_ARGS ?= -Xmx8G -Xss8M -XX:MaxPermSize=256M
+SBT ?= java $(JAVA_ARGS) -jar $(ROCKETCHIP_DIR)/sbt-launch.jar ++$(SCALA_VERSION).$(SCALA_PATCH)
 
 lookup_scala_srcs = $(shell find $(1)/ -iname "*.scala" 2> /dev/null)
 
@@ -16,7 +17,7 @@ ROCKET_CLASSES=$(foreach pkg_dir,$(ROCKETCHIP_DIR)/chisel3 $(PACKAGE_DIRS),$(pkg
 ROCKET_CLASSPATH=$(subst $(space),:,$(ROCKET_CLASSES))
 
 FIRRTL_JAR ?= $(ROCKETCHIP_DIR)/lib/firrtl.jar
-FIRRTL ?= java -Xmx2G -Xss8M -XX:MaxPermSize=256M -cp $(ROCKET_CLASSPATH):$(FIRRTL_JAR) firrtl.Driver
+FIRRTL ?= java $(JAVA_ARGS) -cp $(ROCKET_CLASSPATH):$(FIRRTL_JAR) firrtl.Driver
 
 $(FIRRTL_JAR): $(call lookup_scala_srcs, $(ROCKETCHIP_DIR)/firrtl/src/main/scala)
 	$(MAKE) -C $(ROCKETCHIP_DIR)/firrtl SBT="$(SBT)" root_dir=$(ROCKETCHIP_DIR)/firrtl build-scala
