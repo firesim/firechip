@@ -5,19 +5,22 @@
 #include "nic.h"
 #include "memblade.h"
 
-#define SPAN_BYTES 256
-#define SPAN_WORDS (SPAN_BYTES / sizeof(uint64_t))
+#define PAGE_BYTES 4096
+#define PAGE_WORDS (PAGE_BYTES / sizeof(uint64_t))
+#define PAGE_SPANS (PAGE_BYTES / 64)
 
-uint64_t span_data[SPAN_WORDS];
+uint64_t page_data[PAGE_WORDS];
 
 static inline int send_rmem_request(
 		void *src_addr, void *dst_addr,
-		uint64_t dstmac, int opcode, uint64_t spanid)
+		uint64_t dstmac, int opcode,
+		uint64_t spanid, int nspans)
 {
 	reg_write64(RMEM_CLIENT_SRC_ADDR, (unsigned long) src_addr);
 	reg_write64(RMEM_CLIENT_DST_ADDR, (unsigned long) dst_addr);
 	reg_write64(RMEM_CLIENT_DSTMAC,   dstmac);
 	reg_write8 (RMEM_CLIENT_OPCODE,   opcode);
+	reg_write8 (RMEM_CLIENT_NSPANS,   nspans-1);
 	reg_write64(RMEM_CLIENT_SPANID,   spanid);
 
 	while (reg_read32(RMEM_CLIENT_NREQ) == 0) {}
@@ -44,27 +47,29 @@ int main(void)
 	uint64_t spanid = 4;
 	int xact_ids[5];
 
-	for (int i = 0; i < SPAN_WORDS; i++)
-		span_data[i] = i;
+	for (int i = 0; i < PAGE_WORDS; i++)
+		page_data[i] = i;
 
 	mymac = nic_macaddr();
 
 	printf("Sending write request\n");
 
 	xact_ids[0] = send_rmem_request(
-			span_data, NULL, mymac, MB_OC_SPAN_WRITE, spanid);
+			page_data, NULL, mymac, MB_OC_SPAN_WRITE,
+			spanid, PAGE_SPANS);
 
 	printf("Receiving write response\n");
 
 	wait_response(xact_ids[0]);
 
-	for (int i = 0; i < SPAN_WORDS; i++)
-		span_data[i] = 0;
+	for (int i = 0; i < PAGE_WORDS; i++)
+		page_data[i] = 0;
 
 	printf("Sending read request\n");
 
 	xact_ids[0] = send_rmem_request(
-			NULL, span_data, mymac, MB_OC_SPAN_READ, spanid);
+			NULL, page_data, mymac, MB_OC_SPAN_READ,
+			spanid, PAGE_SPANS);
 
 	printf("Receiving read response\n");
 
@@ -73,43 +78,43 @@ int main(void)
 
 	printf("Checking read response\n");
 
-	for (int i = 0; i < SPAN_WORDS; i++) {
-		if (span_data[i] != i)
+	for (int i = 0; i < PAGE_WORDS; i++) {
+		if (page_data[i] != i)
 			printf("Page data at %d not correct: got %lu\n",
-					i, span_data[i]);
+					i, page_data[i]);
 	}
 
 	printf("Sending word-sized requests\n");
 
-	spanid = 5;
+	spanid += PAGE_SPANS;
 	extdata[0] = memblade_make_exthead(8, 2);
 	extdata[1] = 0xDEADBEEFL;
 	xact_ids[0] = send_rmem_request(
-			&extdata[0], NULL, mymac, MB_OC_WORD_WRITE, spanid);
+			&extdata[0], NULL, mymac, MB_OC_WORD_WRITE, spanid, 1);
 
 	extdata[2] = memblade_make_exthead(9, 0);
 	extdata[3] = 5;
 	xact_ids[1] = send_rmem_request(
 			&extdata[2], &word_results[0], mymac,
-			MB_OC_ATOMIC_ADD, spanid);
+			MB_OC_ATOMIC_ADD, spanid, 1);
 
 	extdata[4] = memblade_make_exthead(8, 1);
 	extdata[5] = 0xB00F;
 	extdata[6] = 0xC3EF;
 	xact_ids[2] = send_rmem_request(
 			&extdata[4], &word_results[1], mymac,
-			MB_OC_COMP_SWAP, spanid);
+			MB_OC_COMP_SWAP, spanid, 1);
 
 	extdata[7] = memblade_make_exthead(8, 2);
 	xact_ids[3] = send_rmem_request(
 			&extdata[7], &word_results[2], mymac,
-			MB_OC_WORD_READ, spanid);
+			MB_OC_WORD_READ, spanid, 1);
 
 	spanid = 4;
 	extdata[8] = memblade_make_exthead(32, 3);
 	xact_ids[4] = send_rmem_request(
 			&extdata[8], &word_results[3], mymac,
-			MB_OC_WORD_READ, spanid);
+			MB_OC_WORD_READ, spanid, 1);
 
 	printf("Receiving word-sized responses\n");
 

@@ -4,9 +4,11 @@ import chisel3._
 import freechips.rocketchip.config.{Parameters, Config}
 import freechips.rocketchip.groundtest._
 import freechips.rocketchip.rocket.{DCacheParams}
+import freechips.rocketchip.subsystem.CacheBlockBytes
 import example.DRAMCacheConfig
 import memblade.cache.DRAMCacheKey
 import icenet.IceNetConsts.{NET_IF_WIDTH, NET_IF_BYTES}
+import scala.math.min
 
 class WithDRAMCacheTraceGen extends Config((site, here, up) => {
   case GroundTestTilesKey => Seq.fill(2) {
@@ -15,21 +17,25 @@ class WithDRAMCacheTraceGen extends Config((site, here, up) => {
       wordBits = NET_IF_WIDTH,
       addrBits = 40,
       addrBag = {
-        val nSets = site(DRAMCacheKey).nSets
-        val nWays = site(DRAMCacheKey).nWays
-        val spanBytes = site(DRAMCacheKey).spanBytes
-        val chunkBytes = site(DRAMCacheKey).chunkBytes
-        val nChunks = 2
-        val nChannels = site(DRAMCacheKey).nChannels
-        val nBanks = site(DRAMCacheKey).nBanksPerChannel * nChannels
+        val cacheKey = site(DRAMCacheKey)
+        val nSets = cacheKey.nSets
+        val nWays = cacheKey.nWays
+        val spanBytes = cacheKey.spanBytes
+        val blockBytes = site(CacheBlockBytes)
+        val nBlocks = min(spanBytes/blockBytes, 2)
+        val nChannels = cacheKey.nChannels
+        val nBanks = cacheKey.nBanksPerChannel * nChannels
+        val mcRows = cacheKey.nMetaCacheRows
         List.tabulate(nWays + 1) { i =>
-          Seq.tabulate(nChunks) { j =>
+          Seq.tabulate(nBlocks) { j =>
             Seq.tabulate(nBanks) { k =>
-              BigInt(
+              val base = BigInt(
                 (k * spanBytes) +
-                (j * chunkBytes) +
+                (j * blockBytes) +
                 (i * nSets * spanBytes))
-            }
+              val conflict = base + mcRows * nBanks * spanBytes
+              Seq(base, conflict)
+            }.flatten
           }.flatten
         }.flatten
       },
