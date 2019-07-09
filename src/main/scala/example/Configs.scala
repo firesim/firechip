@@ -6,6 +6,7 @@ import freechips.rocketchip.subsystem.{WithRoccExample, WithNMemoryChannels, Wit
 import freechips.rocketchip.devices.tilelink.BootROMParams
 import freechips.rocketchip.diplomacy.{LazyModule, ValName}
 import freechips.rocketchip.tile.{XLen, BuildRoCC, OpcodeSet}
+//import freechips.rocketchip.pfa.HasPFA
 import testchipip._
 import icenet._
 import memblade.manager._
@@ -75,18 +76,14 @@ class WithMemBench extends Config((site, here, up) => {
 })
 
 class WithTestMemBlade extends Config((site, here, up) => {
-  case MemBladeKey => MemBladeParams(
-    spanBytes = site(CacheBlockBytes),
-    nSpanTrackers = 2,
-    spanQueue = MemBladeQueueParams(reqHeadDepth=16, respHeadDepth=16))
+  //case HasPFA => true
+  case MemBladeKey => MemBladeParams()
   case RemoteMemClientKey => RemoteMemClientConfig(
-    spanBytes = site(CacheBlockBytes),
-    nRMemXacts = 32,
-    nSequencers = 8)
+    reqTimeout = Some(2047))
   case NICKey => NICConfig(inBufFlits = 8640, usePauser = true)
   case BuildTop => (clock: Clock, reset: Bool, p: Parameters) => {
     val top = Module(LazyModule(new ExampleTopWithRemoteMemClient()(p)).module)
-    top.connectTestMemBlade(100)
+    top.connectTestMemBlade()
     top
   }
 })
@@ -120,7 +117,7 @@ class WithDRAMCache extends Config((site, here, up) => {
     zeroMetadata = true)
   case BuildTop => (clock: Clock, reset: Bool, p: Parameters) => {
     val top = Module(LazyModule(new ExampleTopWithDRAMCache()(p)).module)
-    top.connectTestMemBlade(100)
+    top.connectTestMemBlade()
     top.connectSimAXICacheMem()
     top
   }

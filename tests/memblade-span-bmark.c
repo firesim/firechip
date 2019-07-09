@@ -7,12 +7,11 @@
 #include "encoding.h"
 
 #define NREQUESTS 8
-#define PAGE_WORDS 512
-#define PAGE_SPANS 64
+#define SPAN_WORDS 32
 #define START_SPAN 128
 
 struct req_tracker {
-	uint64_t page_data[PAGE_WORDS];
+	uint64_t span_data[SPAN_WORDS];
 	int tag;
 	int complete;
 };
@@ -26,9 +25,9 @@ int read_head = 0, read_tail = 0;
 void setup_write_trackers(void)
 {
 	for (int tag = 0; tag < NREQUESTS; tag++) {
-		for (int i = 0; i < PAGE_WORDS; i++) {
+		for (int i = 0; i < SPAN_WORDS; i++) {
 			uint64_t hightag = tag;
-			write_trackers[tag].page_data[i] = (hightag << 32) | i;
+			write_trackers[tag].span_data[i] = (hightag << 32) | i;
 		}
 		write_trackers[tag].complete = 0;
 	}
@@ -40,15 +39,13 @@ void send_page_writes(uint64_t dstmac)
 
 	reg_write64(RMEM_CLIENT_DSTMAC, dstmac);
 	reg_write8(RMEM_CLIENT_OPCODE, MB_OC_SPAN_WRITE);
-	reg_write8(RMEM_CLIENT_NSPANS, PAGE_SPANS-1);
 
 	while (req_avail > 0 && write_head < NREQUESTS) {
-		uint64_t *page_data = write_trackers[write_head].page_data;
-		uint64_t spanid = START_SPAN + write_head * PAGE_SPANS;
+		uint64_t *span_data = write_trackers[write_head].span_data;
 		int tag;
 
-		reg_write64(RMEM_CLIENT_SRC_ADDR, (uint64_t) page_data);
-		reg_write64(RMEM_CLIENT_SPANID, spanid);
+		reg_write64(RMEM_CLIENT_SRC_ADDR, (uint64_t) span_data);
+		reg_write64(RMEM_CLIENT_SPANID, START_SPAN + write_head);
 		asm volatile ("fence");
 		tag = reg_read32(RMEM_CLIENT_REQ);
 		write_trackers[write_head].tag = tag;
@@ -115,15 +112,13 @@ void send_page_reads(uint64_t dstmac)
 
 	reg_write64(RMEM_CLIENT_DSTMAC, dstmac);
 	reg_write8(RMEM_CLIENT_OPCODE, MB_OC_SPAN_READ);
-	reg_write8(RMEM_CLIENT_NSPANS, PAGE_SPANS-1);
 
 	while (req_avail > 0 && read_head < NREQUESTS) {
-		uint64_t *page_data = read_trackers[read_head].page_data;
-		uint64_t spanid = START_SPAN + read_head * PAGE_SPANS;
+		uint64_t *span_data = read_trackers[read_head].span_data;
 		int tag;
 
-		reg_write64(RMEM_CLIENT_DST_ADDR, (uint64_t) page_data);
-		reg_write64(RMEM_CLIENT_SPANID, spanid);
+		reg_write64(RMEM_CLIENT_DST_ADDR, (uint64_t) span_data);
+		reg_write64(RMEM_CLIENT_SPANID, START_SPAN + read_head);
 		tag = reg_read32(RMEM_CLIENT_REQ);
 		read_trackers[read_head].tag = tag;
 
@@ -157,10 +152,10 @@ int verify_page_reads(void)
 	int result = 0;
 
 	for (int i = 0; i < NREQUESTS; i++) {
-		uint64_t *write_data = write_trackers[i].page_data;
-		uint64_t *read_data  = read_trackers[i].page_data;
+		uint64_t *write_data = write_trackers[i].span_data;
+		uint64_t *read_data  = read_trackers[i].span_data;
 
-		for (int j = 0; j < PAGE_WORDS; j++) {
+		for (int j = 0; j < SPAN_WORDS; j++) {
 			if (write_data[j] != read_data[j]) {
 				printf("Read response %d wrong data at %d, %lx != %lx\n",
 						i, j, read_data[j], write_data[j]);
@@ -185,7 +180,7 @@ int main(void)
 	setup_read_trackers();
 	asm volatile ("fence");
 
-	printf("Start page write benchmark\n");
+	printf("Start span write benchmark\n");
 
 	start = rdcycle();
 
@@ -199,14 +194,14 @@ int main(void)
 
 	end = rdcycle();
 
-	printf("Finished page write benchmark\n");
+	printf("Finished span write benchmark\n");
 
 	if (verify_page_writes())
 		return 1;
 
 	printf("Write cycles: %ld\n", end - start);
 
-	printf("Start page read benchmark\n");
+	printf("Start span read benchmark\n");
 
 	start = rdcycle();
 
@@ -220,7 +215,7 @@ int main(void)
 
 	end = rdcycle();
 
-	printf("Finished page read benchmark\n");
+	printf("Finished span read benchmark\n");
 
 	if (verify_page_reads())
 		return 1;
