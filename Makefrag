@@ -9,7 +9,7 @@ lookup_scala_srcs = $(shell find $(1)/ -iname "*.scala" 2> /dev/null)
 space :=
 space +=
 
-PACKAGES=rocket-chip boom testchipip icenet sifive-blocks block-inclusivecache-sifive
+PACKAGES=rocket-chip boom testchipip icenet sifive-blocks block-inclusivecache-sifive dma
 PACKAGE_DIRS=$(addprefix $(base_dir)/,$(PACKAGES))
 SCALA_SOURCES=$(foreach pkg_dir,$(PACKAGE_DIRS),$(call lookup_scala_srcs,$(pkg_dir)/src/main/scala)) $(call lookup_scala_srcs,$(base_dir)/src/main/scala)
 ROCKET_CLASSES=$(foreach pkg_dir,$(ROCKETCHIP_DIR)/chisel3 $(PACKAGE_DIRS),$(pkg_dir)/target/scala-$(SCALA_VERSION)/classes)

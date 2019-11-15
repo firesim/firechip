@@ -8,6 +8,7 @@ import freechips.rocketchip.diplomacy.{LazyModule, ValName}
 import freechips.rocketchip.tile.XLen
 import testchipip._
 import icenet._
+import dma.WithDma
 
 object ConfigValName {
   implicit val valName = ValName("TestHarness")
@@ -76,6 +77,9 @@ class DefaultExampleL2Config extends Config(
 
 class RoccExampleConfig extends Config(
   new WithRoccExample ++ new DefaultExampleConfig)
+
+class DmaExampleL2Config extends Config(
+  new WithDma ++ new DefaultExampleL2Config)
 
 class PWMConfig extends Config(new WithPWM ++ new BaseExampleConfig)
 

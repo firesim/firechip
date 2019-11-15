@@ -19,3 +19,6 @@
 [submodule "block-inclusivecache-sifive"]
 	path = block-inclusivecache-sifive
 	url = https://github.com/sifive/block-inclusivecache-sifive.git
+[submodule "dma"]
+	path = dma
+	url = https://github.com/zhemao/riscv-dma3.git
