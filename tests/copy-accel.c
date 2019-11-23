@@ -14,18 +14,22 @@ int main(void)
 	for (i = 0; i < COPYN; i++)
 		src[i] = (i << 8) | 0xfe;
 
+	dma_sfence();
 	dma_write_cr(SEGMENT_SIZE, sizeof(int16_t) * COPYN);
 	dma_write_cr(NSEGMENTS , 1);
 	dma_transfer(dst, src);
-	dma_sfence();
 	asm volatile ("fence");
 
-	if (dma_read_cr(RESP_STATUS) != NO_ERROR)
+	if (dma_read_cr(RESP_STATUS) != NO_ERROR) {
+		printf("DMA error status\n");
 		return 1;
+	}
 
 	for (i = 0; i < COPYN; i++) {
-		if (dst[i] != src[i])
-			return i + 1;
+		if (dst[i] != src[i]) {
+			printf("Result mismatch @ %d\n", i);
+			return 1;
+		}
 	}
 
 	printf("Test successful\n");

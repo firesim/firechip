@@ -68,7 +68,7 @@ static inline void dma_sfence(void)
 
 static inline void dma_sfence_page(unsigned long addr)
 {
-	ROCC_INSTRUCTION_S(2, addr, 3);
+	ROCC_INSTRUCTION_S(2, addr, 12);
 }
 
 #endif
